@@ -1,5 +1,7 @@
 #pragma once
 #include "chatsession.h"
+#include <mutex>
+#include <unordered_map>
 
 namespace cluster_chat_room
 {
@@ -8,11 +10,14 @@ class ChatServer
 public:
     ChatServer(io_service& ios, short port);
 
-    void Start();
+	void RemoveSession(std::string);
 
 private:
-    awaitable<void> StartAccept();
+	void HandleAccept(std::shared_ptr<ChatSession> session, const boost::system::error_code& ec);
+	void StartAccept();
 
     ip::tcp::acceptor acceptor_;
+    std::mutex mutex_;
+    std::unordered_map<std::string, std::shared_ptr<ChatSession>> sessions_;
 };
 }
