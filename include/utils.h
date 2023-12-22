@@ -1,3 +1,4 @@
+#pragma once
 #include <format>
 
 namespace chatroom

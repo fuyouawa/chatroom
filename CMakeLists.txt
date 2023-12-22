@@ -15,7 +15,8 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/server)
-include_directories(${PROJECT_SOURCE_DIR}/include/server/table)
+include_directories(${PROJECT_SOURCE_DIR}/include/server/base)
+include_directories(${PROJECT_SOURCE_DIR}/include/server/model)
 
 # build11
 add_subdirectory(src)

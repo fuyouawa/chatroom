@@ -1,7 +1,7 @@
 #pragma once
 #include <span>
 #include <vector>
-#include "basic.h"
+#include <stdint.h>
 
 namespace chatroom
 {
