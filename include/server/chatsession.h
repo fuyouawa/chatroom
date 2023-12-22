@@ -2,7 +2,7 @@
 #include <boost/asio.hpp>
 #include <string>
 
-namespace cluster_chat_room
+namespace chatroom
 {
 using namespace boost::asio;
 

@@ -2,7 +2,7 @@
 #include <memory>
 #include <arpa/inet.h>
 
-namespace cluster_chat_room
+namespace chatroom
 {
 MsgNode::MsgNode(uint16_t data_size)
     : total_size_{data_size + Packet::kHeaderSize},

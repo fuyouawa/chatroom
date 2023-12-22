@@ -3,7 +3,7 @@
 #include <mutex>
 #include <unordered_map>
 
-namespace cluster_chat_room
+namespace chatroom
 {
 class ChatServer
 {

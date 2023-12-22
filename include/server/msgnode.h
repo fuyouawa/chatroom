@@ -3,7 +3,7 @@
 #include <vector>
 #include "basic.h"
 
-namespace cluster_chat_room
+namespace chatroom
 {
 struct Packet
 {

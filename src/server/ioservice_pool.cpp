@@ -1,6 +1,6 @@
 #include "ioservice_pool.h"
 
-namespace cluster_chat_room
+namespace chatroom
 {
 IOServicePool::IOServicePool()
     : io_services_(kThreadSize),

@@ -1,6 +1,6 @@
 #include <boost/asio.hpp>
 
-namespace cluster_chat_room
+namespace chatroom
 {
 using namespace boost::asio;
 

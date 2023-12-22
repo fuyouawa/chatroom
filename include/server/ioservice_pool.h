@@ -3,7 +3,7 @@
 #include <thread>
 #include "basic.h"
 
-namespace cluster_chat_room
+namespace chatroom
 {
 class IOServicePool : public Singleton<IOServicePool>
 {

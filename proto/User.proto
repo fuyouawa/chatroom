@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cluster_chat_room.table;
+package chatroom.table;
 
 message User {
     int32 id = 1;

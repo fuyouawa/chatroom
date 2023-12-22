@@ -2,7 +2,7 @@
 #include "ioservice_pool.h"
 #include "chatserver.h"
 
-namespace cluster_chat_room
+namespace chatroom
 {
 ChatServer::ChatServer(io_service& ios, short port)
     : acceptor_{ios, ip::tcp::endpoint{ip::tcp::v4(), port}}
