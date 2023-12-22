@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <format>
 #include <boost/system/error_code.hpp>
+#include "utils.h"
 
 namespace chatroom
 {
@@ -38,6 +38,23 @@ private:
     std::string message_;
     Level lv_;
 };
-
-
 }
+
+#define CHATROOM_LOG_INFO(...) \
+    chatroom::Logger(chatroom::Logger::kInfo, MakeFormat(__VA_ARGS__)).Print();
+#ifdef NDEBUG
+#define CHATROOM_LOG_DEBUG(...)
+#else
+#define CHATROOM_LOG_DEBUG(...) \
+    chatroom::Logger(chatroom::Logger::kDebug, MakeFormat(__VA_ARGS__), __FILE__, __func__, __LINE__).Print();
+#endif
+#define CHATROOM_LOG_WARNING(...) \
+    chatroom::Logger(chatroom::Logger::kWarning, MakeFormat(__VA_ARGS__)).Print();
+#define CHATROOM_LOG_ERROR(...) \
+    chatroom::Logger(chatroom::Logger::kError, MakeFormat(__VA_ARGS__)).Print();
+#define CHATROOM_LOG_SYSERROR(e, ...) \
+    chatroom::Logger(chatroom::Logger::kError, MakeFormat(__VA_ARGS__), e).Print();
+#define CHATROOM_LOG_FATAL(...) \
+    chatroom::Logger(chatroom::Logger::kFatal, MakeFormat(__VA_ARGS__)).Print();
+#define CHATROOM_LOG_SYSFATAL(e, ...) \
+    chatroom::Logger(chatroom::Logger::kFatal, MakeFormat(__VA_ARGS__), e).Print();

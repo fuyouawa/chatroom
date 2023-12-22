@@ -1,6 +1,7 @@
 #include <coroutine>
 #include "ioservice_pool.h"
 #include "chatserver.h"
+#include "../logger.h"
 
 namespace chatroom
 {
@@ -24,7 +25,7 @@ void ChatServer::HandleAccept(std::shared_ptr<ChatSession> session, const boost:
         sessions_.insert({session->uuid(), session});
 	}
 	else {
-        
+        CHATROOM_LOG_SYSERROR(ec, "Session accept failed!");
 	}
 
 	StartAccept();
