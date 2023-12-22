@@ -1,4 +1,5 @@
 #pragma once
+#include <utility>
 #include <boost/asio.hpp>
 #include <string>
 
@@ -10,15 +11,16 @@ class ChatServer;
 class ChatSession : public std::enable_shared_from_this<ChatSession>
 {
 public:
-    ChatSession(io_service& ios, ChatServer* server);
+    ChatSession(ip::tcp::socket&& socket, ChatServer* server);
 
     void Start();
 
-    ip::tcp::socket& socket();
-    std::string uuid();
+    ip::tcp::socket& socket() { return socket_; }
+    std::string uuid() { return uuid_; }
 
 private:
     ip::tcp::socket socket_;
     ChatServer* server_;
+    std::string uuid_;
 };
 }

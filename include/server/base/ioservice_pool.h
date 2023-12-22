@@ -1,4 +1,5 @@
 #pragma once
+#include <utility>
 #include <boost/asio.hpp>
 #include <vector>
 #include <thread>
@@ -9,7 +10,7 @@ namespace chatroom
 class IOServicePool : public Singleton<IOServicePool>
 {
 public:
-    static inline const int kThreadSize = std::thread::hardware_concurrency();
+    static IOServicePool& instance();
 
     void Start();
     void Stop();
@@ -17,7 +18,7 @@ public:
     io_service& NextIOService();
 
 private:
-    IOServicePool();
+    IOServicePool(size_t thread_size);
 
     std::vector<io_service> io_services_;
     std::vector<std::unique_ptr<io_service::work>> works_;

@@ -25,19 +25,6 @@ Logger::Logger(Level lv, std::string_view description, std::string_view filename
     message_ = std::format("[{}] {}", lvstr, description);
 }
 
-Logger::Logger(Level lv, std::string_view description, const boost::system::error_code& ec)
-    : Logger(lv_, description)
-{
-    if (ec)
-        message_ += std::format(" (errmsg:{})", ec.message());
-}
-
-Logger::Logger(Level lv, std::string_view description, const std::exception& ex)
-    : Logger(lv_, description)
-{
-    message_ += std::format(" (errmsg:{})", ex.what());
-}
-
 void Logger::Print() {
     auto [_, outer] = out_manager_[lv_];
     *outer << message_;

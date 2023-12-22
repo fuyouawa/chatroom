@@ -8,13 +8,14 @@ namespace chatroom
 class ChatServer
 {
 public:
-    ChatServer(io_service& ios, short port);
+    ChatServer(io_service& ios, uint16_t port);
+
+    void Start();
 
 	void RemoveSession(std::string);
 
 private:
-	void HandleAccept(std::shared_ptr<ChatSession> session, const boost::system::error_code& ec);
-	void StartAccept();
+	awaitable<void> StartAccept();
 
     ip::tcp::acceptor acceptor_;
     std::mutex mutex_;

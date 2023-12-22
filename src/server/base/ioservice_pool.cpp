@@ -2,11 +2,16 @@
 
 namespace chatroom
 {
-IOServicePool::IOServicePool()
-    : io_services_(kThreadSize),
-    works_(kThreadSize),
+IOServicePool::IOServicePool(size_t thread_size)
+    : io_services_(thread_size),
+    works_(thread_size),
     next_ioservice_index_{0}
 {
+}
+
+IOServicePool& IOServicePool::instance() {
+    static IOServicePool pool{std::thread::hardware_concurrency()};
+    return pool;
 }
 
 void IOServicePool::Start()

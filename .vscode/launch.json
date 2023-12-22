@@ -8,7 +8,7 @@
             "name": "Debug",
             "type": "gdb",
             "request": "launch",
-            "target": "./bin/chat-server",
+            "target": "./bin/chatserver",
             "cwd": "${workspaceRoot}",
             "valuesFormatting": "parseText"
         }
