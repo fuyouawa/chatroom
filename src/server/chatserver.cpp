@@ -17,6 +17,7 @@ void ChatServer::Start() {
 awaitable<void> ChatServer::StartAccept() {
     try
     {
+        CHATROOM_LOG_INFO("Start accept!");
         while (true) {
             auto& ios = IOServicePool::instance().NextIOService();
             auto socket = co_await acceptor_.async_accept(ios, use_awaitable);

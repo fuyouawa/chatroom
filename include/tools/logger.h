@@ -40,16 +40,16 @@ private:
 }
 
 #define CHATROOM_LOG_INFO(...) \
-    chatroom::Logger(chatroom::Logger::kInfo, FormatString(__VA_ARGS__)).Print();
+    chatroom::Logger(chatroom::Logger::kInfo, chatroom::FormatString(__VA_ARGS__)).Print();
 #ifdef NDEBUG
 #define CHATROOM_LOG_DEBUG(...)
 #else
 #define CHATROOM_LOG_DEBUG(...) \
-    chatroom::Logger(chatroom::Logger::kDebug, FormatString(__VA_ARGS__), __FILE__, __func__, __LINE__).Print();
+    chatroom::Logger(chatroom::Logger::kDebug, chatroom::FormatString(__VA_ARGS__), __FILE__, __func__, __LINE__).Print();
 #endif
 #define CHATROOM_LOG_WARNING(...) \
-    chatroom::Logger(chatroom::Logger::kWarning, FormatString(__VA_ARGS__)).Print();
+    chatroom::Logger(chatroom::Logger::kWarning, chatroom::FormatString(__VA_ARGS__)).Print();
 #define CHATROOM_LOG_ERROR(...) \
-    chatroom::Logger(chatroom::Logger::kError, FormatString(__VA_ARGS__)).Print();
+    chatroom::Logger(chatroom::Logger::kError, chatroom::FormatString(__VA_ARGS__)).Print();
 #define CHATROOM_LOG_FATAL(...) \
-    chatroom::Logger(chatroom::Logger::kFatal, FormatString(__VA_ARGS__)).Print();
+    chatroom::Logger(chatroom::Logger::kFatal, chatroom::FormatString(__VA_ARGS__)).Print();
