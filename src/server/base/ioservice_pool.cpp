@@ -17,7 +17,7 @@ IOServicePool& IOServicePool::instance() {
 void IOServicePool::Start()
 {
     for (size_t i = 0; i < works_.size(); i++) {
-        works_[i] = std::make_unique<io_service::work>(io_services_[i]);
+        works_[i] = std::make_unique<IOService::work>(io_services_[i]);
     }
     
     for (size_t i = 0; i < io_services_.size(); i++) {
@@ -36,7 +36,7 @@ void IOServicePool::Stop()
     }
 }
 
-io_service& IOServicePool::NextIOService() {
+IOService& IOServicePool::NextIOService() {
 
 	auto& service = io_services_[next_ioservice_index_++];
 	if (next_ioservice_index_ == io_services_.size()) {

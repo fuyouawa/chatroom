@@ -5,33 +5,36 @@
 
 namespace chatroom
 {
-ChatServer::ChatServer(io_service& ios, uint16_t port)
-    : acceptor_{ios, ip::tcp::endpoint{ip::tcp::v4(), port}}
+ChatServer::ChatServer(IOService& ios, uint16_t port)
+    : acceptor_{ios, {boost::asio::ip::tcp::v4(), port}}
 {
 }
 
 void ChatServer::Start() {
-    co_spawn(acceptor_.get_executor(), [this]()->awaitable<void>{ co_await StartAccept(); }, detached);
+    boost::asio::co_spawn(acceptor_.get_executor(), [this]()->boost::asio::awaitable<void>{ 
+        try
+        {
+            CHATROOM_LOG_INFO("Start accept!");
+            while (true) {
+                auto& ios = IOServicePool::instance().NextIOService();
+                auto socket = co_await acceptor_.async_accept(ios, boost::asio::use_awaitable);
+                CHATROOM_LOG_INFO("New connection from {}", socket.remote_endpoint());
+
+                auto session = std::make_shared<ChatSession>(std::move(socket), this);
+                session->Start();
+                std::lock_guard<std::mutex> lock{mutex_};
+                sessions_.insert({session->uuid(), session});
+            }
+        }
+        catch(const std::exception& e)
+        {
+            CHATROOM_LOG_ERROR("Session accept failed! errmsg:{}", e.what());
+        }
+    }, boost::asio::detached);
 }
 
-awaitable<void> ChatServer::StartAccept() {
-    try
-    {
-        CHATROOM_LOG_INFO("Start accept!");
-        while (true) {
-            auto& ios = IOServicePool::instance().NextIOService();
-            auto socket = co_await acceptor_.async_accept(ios, use_awaitable);
-            CHATROOM_LOG_INFO("New connection from {}", socket.remote_endpoint());
-
-            auto session = std::make_shared<ChatSession>(std::move(socket), this);
-            session->Start();
-            std::lock_guard<std::mutex> lock{mutex_};
-            sessions_.insert({session->uuid(), session});
-        }
-    }
-    catch(const std::exception& e)
-    {
-        CHATROOM_LOG_ERROR("Session accept failed! errmsg:{}", e.what());
-    }
+void ChatServer::RemoveSession(std::string uuid) {
+    std::lock_guard<std::mutex> lock{mutex_};
+    sessions_.erase(uuid);
 }
 }

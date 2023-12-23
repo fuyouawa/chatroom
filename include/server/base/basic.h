@@ -1,10 +1,7 @@
 #pragma once
-#include <boost/asio.hpp>
 
 namespace chatroom
 {
-using namespace boost::asio;
-
 enum UserState
 {
     kOnline,

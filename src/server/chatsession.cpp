@@ -5,7 +5,7 @@
 
 namespace chatroom
 {
-ChatSession::ChatSession(ip::tcp::socket&& socket, ChatServer* server)
+ChatSession::ChatSession(Socket&& socket, ChatServer* server)
     : socket_{std::move(socket)},
     server_{server},
     uuid_{boost::uuids::to_string(boost::uuids::random_generator()())}

@@ -2,25 +2,27 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <string>
+#include "base/basic.h"
+#include "base/usings.h"
 
 namespace chatroom
 {
-using namespace boost::asio;
-
 class ChatServer;
 class ChatSession : public std::enable_shared_from_this<ChatSession>
 {
 public:
-    ChatSession(ip::tcp::socket&& socket, ChatServer* server);
+    ChatSession(Socket&& socket, ChatServer* server);
 
     void Start();
 
-    ip::tcp::socket& socket() { return socket_; }
+    Socket& socket() { return socket_; }
     std::string uuid() { return uuid_; }
 
 private:
-    ip::tcp::socket socket_;
+    Socket socket_;
     ChatServer* server_;
     std::string uuid_;
 };
+
+using ChatSessionPtr = std::shared_ptr<ChatSession>;
 }

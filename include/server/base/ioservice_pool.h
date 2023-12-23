@@ -4,6 +4,7 @@
 #include <vector>
 #include <thread>
 #include "basic.h"
+#include "usings.h"
 
 namespace chatroom
 {
@@ -15,13 +16,13 @@ public:
     void Start();
     void Stop();
 
-    io_service& NextIOService();
+    IOService& NextIOService();
 
 private:
     IOServicePool(size_t thread_size);
 
-    std::vector<io_service> io_services_;
-    std::vector<std::unique_ptr<io_service::work>> works_;
+    std::vector<IOService> io_services_;
+    std::vector<std::unique_ptr<IOService::work>> works_;
     std::vector<std::thread> threads_;
     size_t next_ioservice_index_;
 };
