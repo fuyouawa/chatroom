@@ -11,7 +11,7 @@ Logger::Logger(Level lv, std::string_view description)
     : lv_{lv}
 {
     auto [lvstr, _] = out_manager_[lv];
-    message_ = std::format("[{}] {}\n", lvstr, description);
+    message_ = std::format("[{}] {}", lvstr, description);
 }
 
 Logger::Logger(Level lv, std::string_view description, std::string_view filename, std::string_view func_name, size_t line)
@@ -19,15 +19,15 @@ Logger::Logger(Level lv, std::string_view description, std::string_view filename
 {
     auto [lvstr, _] = out_manager_[lv];
     if (lv == kDebug) {
-        message_ = std::format("[{}] {}:{}({}): {}\n", lvstr, filename, line, func_name, description);
+        message_ = std::format("[{}] {}:{}({}): {}", lvstr, filename, line, func_name, description);
         return;
     }
-    message_ = std::format("[{}] {}\n", lvstr, description);
+    message_ = std::format("[{}] {}", lvstr, description);
 }
 
 void Logger::Print() {
     auto [_, outer] = out_manager_[lv_];
-    *outer << message_;
+    *outer << message_ << std::endl;
     switch (lv_)
     {
     case kFatal:

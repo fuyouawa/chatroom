@@ -6,41 +6,45 @@
 
 namespace chatroom
 {
-class PacketHeader
+
+class Packet
 {
 public:
+    struct Header
+    {
+        uint16_t total_size;
+        uint16_t msg_type;
+    };
     static constexpr int kMaxTotalSize = 4096;
-    static constexpr int kHeaderSize = 4;
 
-    PacketHeader() = default;
-    ~PacketHeader() = default;
+    Packet() = default;
+    ~Packet() = default;
 
     void set_total_size_safety(uint16_t total_size);
     void set_msg_type_safety(uint16_t msg_type);
 
-    uint16_t total_size() const noexcept { return total_size_; }
-    uint16_t msg_type() const noexcept { return msg_type_; }
-    uint16_t data_size() const noexcept { return total_size_ - kHeaderSize; }
+    auto total_size() const noexcept { return header_.total_size; }
+    auto msg_type() const noexcept { return header_.msg_type; }
+    auto data_size() const noexcept { return data_buf_.size(); }
+    auto data() noexcept { return data_buf_.data(); }
+    auto data() const noexcept { return data_buf_.data(); }
 
-protected:
-    uint16_t total_size_;
-    uint16_t msg_type_;
-};
-
-class RecvPacket : public PacketHeader
-{
-public:
     void Clear();
 
-    char* data();
-
 protected:
+    Header header_;
     std::vector<char> data_buf_;
 };
 
-class SendPacket : public RecvPacket
+class RecvPacket : public Packet
 {
 public:
-    std::vector<char> PackToNetworkPacket();
+    void FromNetworkHeader(const Header& header);
+};
+
+class SendPacket : public Packet
+{
+public:
+    std::vector<char> NetworkPack();
 };
 }

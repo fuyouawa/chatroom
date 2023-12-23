@@ -12,10 +12,10 @@ ChatServer::ChatServer(IOService& ios, uint16_t port)
 
 void ChatServer::Start() {
     boost::asio::co_spawn(acceptor_.get_executor(), [this]()->boost::asio::awaitable<void>{ 
-        try
-        {
-            CHATROOM_LOG_INFO("Start accept!");
-            while (true) {
+        CHATROOM_LOG_INFO("Start accept!");
+        while (true) {
+            try
+            {
                 auto& ios = IOServicePool::instance().NextIOService();
                 auto socket = co_await acceptor_.async_accept(ios, boost::asio::use_awaitable);
                 CHATROOM_LOG_INFO("New connection from {}", socket.remote_endpoint());
@@ -25,10 +25,10 @@ void ChatServer::Start() {
                 std::lock_guard<std::mutex> lock{mutex_};
                 sessions_.insert({session->uuid(), session});
             }
-        }
-        catch(const std::exception& e)
-        {
-            CHATROOM_LOG_ERROR("Session accept failed! errmsg:{}", e.what());
+            catch(const boost::system::system_error& e)
+            {
+                CHATROOM_LOG_ERROR("Session accept failed! errmsg:{}", e.what());
+            }
         }
     }, boost::asio::detached);
 }
