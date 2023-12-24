@@ -3,7 +3,7 @@
 
 namespace chatroom
 {
-class LogicService : public Singleton<LogicService>
+class ChatService : public Singleton<ChatService>
 {
 public:
     

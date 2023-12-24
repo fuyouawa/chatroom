@@ -11,7 +11,7 @@ namespace chatroom
 class IOServicePool : public Singleton<IOServicePool>
 {
 public:
-    static IOServicePool& instance();
+    static inline const size_t kThreadSize = std::thread::hardware_concurrency();
 
     void Start();
     void Stop();
@@ -19,9 +19,7 @@ public:
     IOService& NextIOService();
 
 private:
-    IOServicePool(size_t thread_size);
-
-    std::vector<IOService> io_services_;
+    std::vector<std::unique_ptr<IOService>> io_services_;
     std::vector<std::unique_ptr<IOService::work>> works_;
     std::vector<std::thread> threads_;
     size_t next_ioservice_index_;

@@ -28,4 +28,25 @@ public:
 protected:
     Singleton() = default;
 };
+
+template<class T>
+class ThreadSingleton
+{
+public:
+    static T& instance()
+    {
+        thread_local static T inst;
+        return inst;
+    }
+
+    ~ThreadSingleton() = default;
+
+    ThreadSingleton(const ThreadSingleton&) = delete;
+    ThreadSingleton(ThreadSingleton&&) = delete;
+    ThreadSingleton& operator=(const ThreadSingleton&) = delete;
+    ThreadSingleton& operator=(ThreadSingleton&&) = delete;
+
+protected:
+    ThreadSingleton() = default;
+};
 }

@@ -15,6 +15,8 @@ public:
 	void RemoveSession(const std::string& uuid);
 
 private:
+    void HandleNewSession(ChatSessionPtr session);
+
     Acceptor acceptor_;
     std::mutex mutex_;
     std::unordered_map<std::string, ChatSessionPtr> sessions_;

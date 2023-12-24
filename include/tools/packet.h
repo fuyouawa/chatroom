@@ -22,6 +22,7 @@ public:
 
     auto& data_buf() noexcept { return data_buf_; }
     auto total_size() const noexcept { return header_.total_size; }
+    auto data_size() const noexcept { return data_buf_.size(); }
     auto msg_type() const noexcept { return header_.msg_type; }
 
 private:
@@ -37,7 +38,7 @@ class SendPacket
 public:
     SendPacket(uint16_t msg_type, std::span<char> data);
 
-    auto& packed_buf() const noexcept { return packed_buf_; }
+    auto packed_buf() const noexcept { return packed_buf_; }
 
 private:
     std::vector<char> packed_buf_;
