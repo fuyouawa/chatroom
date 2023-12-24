@@ -15,22 +15,22 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 namespace chatroom {
-namespace table {
+namespace model {
 class UserDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<User> _instance;
 } _User_default_instance_;
-}  // namespace table
+}  // namespace model
 }  // namespace chatroom
 static void InitDefaultsscc_info_User_User_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::chatroom::table::_User_default_instance_;
-    new (ptr) ::chatroom::table::User();
+    void* ptr = &::chatroom::model::_User_default_instance_;
+    new (ptr) ::chatroom::model::User();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::chatroom::table::User::InitAsDefaultInstance();
+  ::chatroom::model::User::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_User_User_2eproto =
@@ -42,25 +42,25 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_s
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_User_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::chatroom::table::User, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::model::User, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::chatroom::table::User, id_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::table::User, name_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::table::User, password_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::table::User, state_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::model::User, id_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::model::User, name_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::model::User, password_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::model::User, state_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::chatroom::table::User)},
+  { 0, -1, sizeof(::chatroom::model::User)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::table::_User_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::model::_User_default_instance_),
 };
 
 const char descriptor_table_protodef_User_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nUser.proto\022\016chatroom.table\"A\n\004User\022\n\n\002"
+  "\n\nUser.proto\022\016chatroom.model\"A\n\004User\022\n\n\002"
   "id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\020\n\010password\030\003 \001(\t"
   "\022\r\n\005state\030\004 \001(\005b\006proto3"
   ;
@@ -80,7 +80,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_User_2
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_User_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_User_2eproto)), true);
 namespace chatroom {
-namespace table {
+namespace model {
 
 // ===================================================================
 
@@ -94,7 +94,7 @@ User::User(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:chatroom.table.User)
+  // @@protoc_insertion_point(arena_constructor:chatroom.model.User)
 }
 User::User(const User& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -112,7 +112,7 @@ User::User(const User& from)
   ::memcpy(&id_, &from.id_,
     static_cast<size_t>(reinterpret_cast<char*>(&state_) -
     reinterpret_cast<char*>(&id_)) + sizeof(state_));
-  // @@protoc_insertion_point(copy_constructor:chatroom.table.User)
+  // @@protoc_insertion_point(copy_constructor:chatroom.model.User)
 }
 
 void User::SharedCtor() {
@@ -125,7 +125,7 @@ void User::SharedCtor() {
 }
 
 User::~User() {
-  // @@protoc_insertion_point(destructor:chatroom.table.User)
+  // @@protoc_insertion_point(destructor:chatroom.model.User)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -152,7 +152,7 @@ const User& User::default_instance() {
 
 
 void User::Clear() {
-// @@protoc_insertion_point(message_clear_start:chatroom.table.User)
+// @@protoc_insertion_point(message_clear_start:chatroom.model.User)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -185,7 +185,7 @@ const char* User::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_name();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.table.User.name"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.model.User.name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -194,7 +194,7 @@ const char* User::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inter
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           auto str = _internal_mutable_password();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.table.User.password"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.model.User.password"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -229,7 +229,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* User::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:chatroom.table.User)
+  // @@protoc_insertion_point(serialize_to_array_start:chatroom.model.User)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -244,7 +244,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "chatroom.table.User.name");
+      "chatroom.model.User.name");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_name(), target);
   }
@@ -254,7 +254,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_password().data(), static_cast<int>(this->_internal_password().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "chatroom.table.User.password");
+      "chatroom.model.User.password");
     target = stream->WriteStringMaybeAliased(
         3, this->_internal_password(), target);
   }
@@ -269,12 +269,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:chatroom.table.User)
+  // @@protoc_insertion_point(serialize_to_array_end:chatroom.model.User)
   return target;
 }
 
 size_t User::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:chatroom.table.User)
+// @@protoc_insertion_point(message_byte_size_start:chatroom.model.User)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -319,22 +319,22 @@ size_t User::ByteSizeLong() const {
 }
 
 void User::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chatroom.table.User)
+// @@protoc_insertion_point(generalized_merge_from_start:chatroom.model.User)
   GOOGLE_DCHECK_NE(&from, this);
   const User* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<User>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.table.User)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.model.User)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.table.User)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.model.User)
     MergeFrom(*source);
   }
 }
 
 void User::MergeFrom(const User& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.table.User)
+// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.model.User)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -355,14 +355,14 @@ void User::MergeFrom(const User& from) {
 }
 
 void User::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chatroom.table.User)
+// @@protoc_insertion_point(generalized_copy_from_start:chatroom.model.User)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void User::CopyFrom(const User& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.table.User)
+// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.model.User)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -391,11 +391,11 @@ void User::InternalSwap(User* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace table
+}  // namespace model
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::chatroom::table::User* Arena::CreateMaybeMessage< ::chatroom::table::User >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::chatroom::table::User >(arena);
+template<> PROTOBUF_NOINLINE ::chatroom::model::User* Arena::CreateMaybeMessage< ::chatroom::model::User >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::chatroom::model::User >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

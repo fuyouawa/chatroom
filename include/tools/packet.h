@@ -21,6 +21,7 @@ public:
     RecvPacket(const PacketHeader& network_header);
 
     auto& data_buf() noexcept { return data_buf_; }
+    auto& data_buf() const noexcept { return data_buf_; }
     auto total_size() const noexcept { return header_.total_size; }
     auto data_size() const noexcept { return data_buf_.size(); }
     auto msg_type() const noexcept { return header_.msg_type; }
