@@ -8,6 +8,16 @@
 
 namespace chatroom
 {
+void HandleSessionError(ChatSessionPtr session, const std::exception& e) {
+    CHATROOM_LOG_ERROR("error occur in session({}): {}", session->socket().remote_endpoint(), e.what());
+    session->Close();
+}
+void HandleSessionEofError(ChatSessionPtr session) {
+    CHATROOM_LOG_INFO("session({}) closed connection!", session->socket().remote_endpoint());
+    session->Close();
+}
+
+
 ChatSession::ChatSession(Socket&& socket, ChatServer* server)
     : is_closed_{false},
     socket_{std::move(socket)},
@@ -26,36 +36,37 @@ void ChatSession::Start() {
     boost::asio::co_spawn(socket_.get_executor(), [self = shared_from_this()]()->boost::asio::awaitable<void>{
         try
         {
-            Packet::Header packet_header;
+            PacketHeader network_header;
             while (!self->is_closed_) {
                 co_await boost::asio::async_read(
                     self->socket_,
-                    boost::asio::buffer(&packet_header, sizeof(packet_header)),
+                    boost::asio::buffer(&network_header, sizeof(network_header)),
                     boost::asio::use_awaitable);
-                self->recv_packet_->FromNetworkHeader(packet_header);
+                RecvPacket recv_packet{network_header};
 
-                self->recv_packet_->Clear();
                 co_await boost::asio::async_read(
                     self->socket_,
-                    boost::asio::buffer(self->recv_packet_->data(), self->recv_packet_->data_size()),
+                    boost::asio::buffer(recv_packet.data_buf()),
                     boost::asio::use_awaitable);
+                //TODO
             }
             co_return;
         }
         catch(const boost::system::system_error& e) {
             if (e.code() == boost::asio::error::eof) {
-                CHATROOM_LOG_INFO("session({}) closed connection!", self->socket_.remote_endpoint());
-                self->Close();
+                HandleSessionEofError(self);
             }
             else {
-                CHATROOM_LOG_ERROR("error occur in session({}): {}", self->socket_.remote_endpoint(), e.what());
-                self->Close();
+                HandleSessionError(self, e);
             }
         }
         catch(const std::exception& e) {
-            CHATROOM_LOG_ERROR("error occur in session({}): {}", self->socket_.remote_endpoint(), e.what());
-            self->Close();
+            HandleSessionError(self, e);
         }
     }, boost::asio::detached);
+}
+
+void ChatSession::Send(uint16_t msg_type, std::span<char> data) {
+
 }
 }

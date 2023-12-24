@@ -33,7 +33,7 @@ void ChatServer::Start() {
     }, boost::asio::detached);
 }
 
-void ChatServer::RemoveSession(std::string uuid) {
+void ChatServer::RemoveSession(const std::string& uuid) {
     std::lock_guard<std::mutex> lock{mutex_};
     sessions_.erase(uuid);
 }

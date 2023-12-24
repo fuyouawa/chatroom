@@ -12,7 +12,7 @@ public:
 
     void Start();
 
-	void RemoveSession(std::string uuid);
+	void RemoveSession(const std::string& uuid);
 
 private:
     Acceptor acceptor_;

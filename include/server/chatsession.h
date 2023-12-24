@@ -17,6 +17,8 @@ public:
     void Start();
     void Close();
 
+    void Send(uint16_t msg_type, std::span<char> data);
+
     Socket& socket() { return socket_; }
     std::string uuid() { return uuid_; }
 
@@ -25,7 +27,6 @@ private:
     Socket socket_;
     ChatServer* server_;
     std::string uuid_;
-    std::shared_ptr<RecvPacket> recv_packet_;
 };
 
 using ChatSessionPtr = std::shared_ptr<ChatSession>;
