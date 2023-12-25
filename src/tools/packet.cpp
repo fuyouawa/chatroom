@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <format>
 #include "public.h"
+#include "tools/utils.h"
 
 namespace chatroom
 {
@@ -36,5 +37,10 @@ SendPacket::SendPacket(uint16_t msg_type, std::span<char> data) {
     header->msg_type = htons(msg_type);
 
     std::memcpy(header + 1, data.data(), data.size());
+}
+
+SendPacket SendPacket::FromModel(uint16_t msg_type, const google::protobuf::Message& model) {
+    auto data = Serialize(model);
+    return SendPacket(msg_type, data);
 }
 }

@@ -3,6 +3,8 @@
 #include <vector>
 #include <stdint.h>
 #include <numeric>
+#include <google/protobuf/message.h>
+#include <tools/utils.h>
 
 namespace chatroom
 {
@@ -26,6 +28,11 @@ public:
     auto data_size() const noexcept { return data_buf_.size(); }
     auto msg_type() const noexcept { return header_.msg_type; }
 
+    template<ConvertiableToMessage T>
+    T DeserializeData() const {
+        return Deserialize<T>(data_buf_);
+    }
+
 private:
     void set_total_size_safety(uint16_t total_size);
     void set_msg_type_safety(uint16_t msg_type);
@@ -37,6 +44,8 @@ private:
 class SendPacket
 {
 public:
+    static SendPacket FromModel(uint16_t msg_type, const google::protobuf::Message& model);
+
     SendPacket(uint16_t msg_type, std::span<char> data);
 
     auto packed_buf() const noexcept { return packed_buf_; }

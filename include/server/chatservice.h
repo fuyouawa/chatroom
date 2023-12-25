@@ -11,6 +11,6 @@ public:
     void HandleRecvPacket(ChatSessionPtr session, const RecvPacket& packet);
 
 private:
-    void Login(ChatSessionPtr session, const model::User& data);
+    void Login(ChatSessionPtr session, const model::User& user);
 };
 }

@@ -2,6 +2,7 @@
 #include <csignal>
 #include "server/base/ioservice_pool.h"
 #include "server/chatserver.h"
+#include "public.h"
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
         boost::asio::io_service ios;
         auto& pool = chatroom::IOServicePool::instance();
         pool.Start();
-        chatroom::ChatServer server{ios, 8888};
+        chatroom::ChatServer server{ios, chatroom::kPort};
         server.Start();
 
 		boost::asio::signal_set signals(ios, SIGINT, SIGTERM);

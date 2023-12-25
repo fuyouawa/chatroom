@@ -1,6 +1,7 @@
 #include <coroutine>
 #include "ioservice_pool.h"
 #include "chatserver.h"
+#include "chatservice.h"
 #include "tools/logger.h"
 
 namespace chatroom
@@ -44,6 +45,9 @@ void ChatServer::HandleNewSession(ChatSessionPtr session) {
     session->set_close_callback([](auto session) {
         CHATROOM_LOG_INFO("session({}) closed connection!", session->socket().remote_endpoint());
         session->Close();
+    });
+    session->set_read_callback([](auto session, auto packet) {
+        ChatService::instance().HandleRecvPacket(session, packet);
     });
     session->Start();
 }
