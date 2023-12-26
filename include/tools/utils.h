@@ -10,13 +10,13 @@ concept ConvertiableToMessage = std::is_convertible_v<T*, google::protobuf::Mess
 template<ConvertiableToMessage T>
 T Deserialize(const std::vector<char>& data) {
     T tmp;
-    tmp.ParseFromArray(data.data(), data.size()); // SerializeToArray()
+    tmp.ParseFromArray(data.data(), data.size());
     return tmp;
 }
 
-inline std::vector<char> Serialize(const google::protobuf::Message& data) {
-    std::vector<char> tmp(data.ByteSizeLong());
-    data.SerializeToArray(tmp.data(), tmp.size());
+inline std::vector<char> Serialize(const google::protobuf::Message& model) {
+    std::vector<char> tmp(model.ByteSizeLong());
+    model.SerializeToArray(tmp.data(), tmp.size());
     return tmp;
 }
 }

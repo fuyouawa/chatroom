@@ -3,7 +3,6 @@
 #include <boost/asio.hpp>
 #include "public.h"
 #include "model/User.pb.h"
-#include "tools/utils.h"
 #include "tools/packet.h"
 
 using namespace boost::asio::ip;
@@ -30,7 +29,7 @@ int main() {
         model::User user;
         user.set_name("测试名称");
         user.set_password("测试密码");
-		boost::asio::write(sock, boost::asio::buffer(SendPacket::FromModel(kLoginMsg, user).packed_buf()));
+		boost::asio::write(sock, boost::asio::buffer(SendPacket(kLoginMsg, user).Pack()));
 
 		getchar();
 	}

@@ -27,7 +27,7 @@ public:
     void Start();
     void Close();
 
-    void Send(uint16_t msg_type, std::span<char> data);
+    void Send(uint16_t msg_type, const google::protobuf::Message& data);
 
     auto& socket() { return socket_; }
     auto uuid() { return uuid_; }

@@ -14,43 +14,49 @@ struct PacketHeader
     uint16_t msg_type;
 };
 
+struct Packet : public PacketHeader
+{
+    char data[1];
+};
+
 static constexpr int kMaxTotalSize = 4096;
 
 class RecvPacket
 {
 public:
-
     RecvPacket(const PacketHeader& network_header);
+    ~RecvPacket();
 
-    auto& data_buf() noexcept { return data_buf_; }
-    auto& data_buf() const noexcept { return data_buf_; }
-    auto total_size() const noexcept { return header_.total_size; }
-    auto data_size() const noexcept { return data_buf_.size(); }
-    auto msg_type() const noexcept { return header_.msg_type; }
+    auto total_size() const noexcept { return packet_->total_size; }
+    auto data_size() const noexcept { return packet_->total_size - sizeof(PacketHeader); }
+    auto data() const noexcept { return packet_->data; }
+    auto data() noexcept { return packet_->data; }
+    auto msg_type() const noexcept { return packet_->msg_type; }
 
     template<ConvertiableToMessage T>
     T DeserializeData() const {
-        return Deserialize<T>(data_buf_);
+        T tmp;
+        tmp.ParseFromArray(data(), data_size());
+        return tmp;
     }
 
 private:
     void set_total_size_safety(uint16_t total_size);
     void set_msg_type_safety(uint16_t msg_type);
 
-    PacketHeader header_;
-    std::vector<char> data_buf_;
+    Packet* packet_;
 };
 
 class SendPacket
 {
 public:
-    static SendPacket FromModel(uint16_t msg_type, const google::protobuf::Message& model);
+    SendPacket(uint16_t msg_type, std::vector<char>&& data) noexcept;
+    SendPacket(uint16_t msg_type, const google::protobuf::Message& model);
 
-    SendPacket(uint16_t msg_type, std::span<char> data);
-
-    auto packed_buf() const noexcept { return packed_buf_; }
+    std::vector<char> Pack();
 
 private:
-    std::vector<char> packed_buf_;
+    uint16_t msg_type_;
+    std::vector<char> data_;
 };
 }

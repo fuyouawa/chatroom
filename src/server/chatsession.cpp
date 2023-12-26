@@ -37,13 +37,17 @@ void ChatSession::Start() {
                     socket_,
                     boost::asio::buffer(&network_header, sizeof(network_header)),
                     boost::asio::use_awaitable);
+                if (n == 0)
+                    throw boost::system::system_error(boost::asio::error::eof);
                 assert(n == sizeof(network_header));
                 RecvPacket recv_packet{network_header};
 
                 n = co_await boost::asio::async_read(
                     socket_,
-                    boost::asio::buffer(recv_packet.data_buf()),
+                    boost::asio::buffer(recv_packet.data(), recv_packet.data_size()),
                     boost::asio::use_awaitable);
+                if (n == 0)
+                    throw boost::system::system_error(boost::asio::error::eof);
                 assert(n == recv_packet.data_size());
 
                 if (read_callback_)
@@ -66,7 +70,9 @@ void ChatSession::Start() {
     }, boost::asio::detached);
 }
 
-void ChatSession::Send(uint16_t msg_type, std::span<char> data) {
+void ChatSession::Send(uint16_t msg_type, const google::protobuf::Message& data) {
+    auto send_packet = std::make_shared<SendPacket>(msg_type, data);
+
     std::unique_lock<std::mutex> lock{mutex_};
     auto old_queue_size = send_queue_.size();
     if (old_queue_size >= kMaxSendQueue) {
@@ -74,15 +80,15 @@ void ChatSession::Send(uint16_t msg_type, std::span<char> data) {
         Close();
         return;
     }
-    auto packet = std::make_shared<SendPacket>(msg_type, data);
+    send_queue_.push(send_packet);
     if (old_queue_size > 0) {
-        send_queue_.push(packet);
         return;
     }
+    auto packet = send_queue_.front();
     lock.unlock();
 
     boost::asio::async_write(socket_,
-        boost::asio::buffer(packet->packed_buf()),
+        boost::asio::buffer(packet->Pack()),
         [self=shared_from_this()](auto ec, auto){ self->HandleWrited(ec); });
 }
 
@@ -92,13 +98,13 @@ void ChatSession::HandleWrited(const boost::system::error_code& ec) {
     {
         if (!ec) {
             std::unique_lock<std::mutex> lock{mutex_};
+            send_queue_.pop();
             if (!send_queue_.empty()) {
                 auto packet = send_queue_.front();
-                send_queue_.pop();
                 lock.unlock();
 
                 boost::asio::async_write(socket_,
-                    boost::asio::buffer(packet->packed_buf()),
+                    boost::asio::buffer(packet->Pack()),
                     [self=shared_from_this()](auto ec, auto){ self->HandleWrited(ec); });
             }
         }
