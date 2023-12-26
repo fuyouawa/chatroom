@@ -2,7 +2,7 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include "public.h"
-#include "model/User.pb.h"
+#include "message/login.pb.h"
 #include "tools/packet.h"
 
 using namespace boost::asio::ip;
@@ -26,10 +26,10 @@ int main() {
         std::cout << "连接成功, 是否开始发送" << std::endl;
         getchar();
         
-        model::User user;
-        user.set_name("测试名称");
-        user.set_password("测试密码");
-		boost::asio::write(sock, boost::asio::buffer(SendPacket(kLoginMsg, user).Pack()));
+        message::Login login;
+        login.set_name("测试名称");
+        login.set_password("测试密码");
+		boost::asio::write(sock, boost::asio::buffer(SendPacket(kLoginMsg, login).Pack()));
 
 		getchar();
 	}

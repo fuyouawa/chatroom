@@ -1,1 +1,1 @@
-protoc *.proto --cpp_out=../include/model/
+protoc *.proto --cpp_out=../include/message/

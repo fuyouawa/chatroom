@@ -1,7 +1,7 @@
 #pragma once
 #include "base/basic.h"
 #include "chatsession.h"
-#include "model/User.pb.h"
+#include "message/login.pb.h"
 
 namespace chatroom
 {
@@ -11,6 +11,6 @@ public:
     void HandleRecvPacket(ChatSessionPtr session, const RecvPacket& packet);
 
 private:
-    void Login(ChatSessionPtr session, const model::User& user);
+    void Login(ChatSessionPtr session, const message::Login& msg);
 };
 }

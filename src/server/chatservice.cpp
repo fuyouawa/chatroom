@@ -8,14 +8,14 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
     switch (packet.msg_type())
     {
     case kLoginMsg:
-        Login(session, packet.DeserializeData<model::User>());
+        Login(session, packet.DeserializeData<message::Login>());
         break;
     default:
         break;
     }
 }
 
-void ChatService::Login(ChatSessionPtr session, const model::User& user) {
-    CHATROOM_LOG_INFO("name:{} password:{}", user.name(), user.password());
+void ChatService::Login(ChatSessionPtr session, const message::Login& msg) {
+    CHATROOM_LOG_INFO("name:{} password:{}", msg.name(), msg.password());
 }
 }
