@@ -2,21 +2,21 @@
 
 namespace chatroom
 {
-void IOServicePool::Start()
+IOServicePool::IOServicePool()
+    : io_services_(kThreadSize),
+    next_ioservice_index_{0}
 {
-    next_ioservice_index_ = 0;
-
     for (size_t i = 0; i < kThreadSize; i++) {
-        io_services_.push_back(std::make_unique<IOService>());
-    }
-    
-    for (size_t i = 0; i < kThreadSize; i++) {
-        works_.push_back(std::make_unique<IOService::work>(*io_services_[i]));
+        works_.push_back(std::make_unique<IOService::work>(io_services_[i]));
     }
     
     for (size_t i = 0; i < io_services_.size(); i++) {
-        threads_.emplace_back([this, i](){ io_services_[i]->run(); });
+        threads_.emplace_back([this, i](){ io_services_[i].run(); });
     }
+}
+
+IOServicePool::~IOServicePool() {
+    Stop();
 }
 
 void IOServicePool::Stop()
@@ -36,6 +36,6 @@ IOService& IOServicePool::NextIOService() {
 	if (next_ioservice_index_ == io_services_.size()) {
 		next_ioservice_index_ = 0;
 	}
-	return *service;
+	return service;
 }
 }

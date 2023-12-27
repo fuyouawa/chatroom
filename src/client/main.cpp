@@ -1,6 +1,7 @@
 #include <iostream>
 #include <utility>
 #include <boost/asio.hpp>
+#include "config.h"
 #include "public.h"
 #include "message/login.pb.h"
 #include "tools/packet.h"
@@ -13,11 +14,9 @@ int main() {
 	try {
 		//创建上下文服务
 		boost::asio::io_context   ioc;
-		//构造endpoint
-		tcp::endpoint remote_ep(address::from_string(kServerIp), kPort);
 		tcp::socket sock(ioc);
 		boost::system::error_code error = boost::asio::error::host_not_found;
-		sock.connect(remote_ep, error);
+		sock.connect(kRemoteEndpoint, error);
 		if (error) {
 			std::cout << "connect failed, code is " << error.value() << " error msg is " << error.message();
 			return 0;

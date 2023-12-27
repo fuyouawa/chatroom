@@ -80,6 +80,7 @@ void ChatSession::Send(uint16_t msg_type, const google::protobuf::Message& data)
         Close();
         return;
     }
+    assert(!is_closed_);
     send_queue_.push(send_packet);
     if (old_queue_size > 0) {
         return;
