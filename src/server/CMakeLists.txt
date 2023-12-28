@@ -8,4 +8,4 @@ aux_source_directory(../tools SRC_LIST)
 
 add_executable(chat-server ${SRC_LIST})
 
-target_link_libraries(chat-server protobuf mysqlcppconn mysqlclient)
+target_link_libraries(chat-server protobuf mysqlcppconn)

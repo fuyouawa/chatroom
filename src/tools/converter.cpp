@@ -1,5 +1,5 @@
 #include "converter.h"
-#include <strstream>
+#include <sstream>
 #include <iomanip>
 #include <time.h>
 
