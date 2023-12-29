@@ -42,9 +42,9 @@ public:
         return detail::MySql::instance().Update(sql);
     }
 
-    static int GetLastInsertId();
+    static int64_t GetLastInsertId();
 
     static std::string ToString(const std::chrono::system_clock::time_point& tp);
-    static std::chrono::system_clock::time_point StringToTimepoint(std::string_view str);
+    static std::chrono::system_clock::time_point TimepointCast(std::string_view str);
 };
 }

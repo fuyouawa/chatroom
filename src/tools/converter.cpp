@@ -11,11 +11,17 @@ std::string Converter::ToString(const std::chrono::system_clock::time_point& tp,
     ss << std::put_time(std::localtime(&time), fmt.data());
     return ss.str();
 }
-std::chrono::system_clock::time_point Converter::StringToTimepoint(std::string_view str, std::string_view fmt) {
+std::chrono::system_clock::time_point Converter::TimepointCast(std::string_view str, std::string_view fmt) {
     std::stringstream ss;
     ss << str;
     std::tm parsed_time;
     ss >> std::get_time(&parsed_time, fmt.data());
     return std::chrono::system_clock::from_time_t(std::mktime(&parsed_time));
+}
+
+std::chrono::system_clock::time_point Converter::TimepointCast(const google::protobuf::Timestamp& timestamp) {
+    std::chrono::seconds seconds(timestamp.seconds());
+    std::chrono::nanoseconds nanos(timestamp.nanos());
+    return std::chrono::system_clock::time_point(seconds + nanos);
 }
 }

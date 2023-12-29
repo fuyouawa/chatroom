@@ -3,6 +3,7 @@ syntax = "proto3";
 package chatroom.message;
 
 message Login {
+    int32 id = 1;
     string name = 2;
     string password = 3;
 }
