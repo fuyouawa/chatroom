@@ -14,8 +14,8 @@ namespace chatroom
 class ChatSession;
 class ChatServer;
 using ChatSessionPtr = std::shared_ptr<ChatSession>;
-using CloseCallback = std::function<void(ChatSessionPtr)>;
-using ReadCallback = std::function<void(ChatSessionPtr, RecvPacket)>;
+using CloseCallback = std::move_only_function<void(ChatSessionPtr)>;
+using ReadCallback = std::move_only_function<void(ChatSessionPtr, const RecvPacket&)>;
 
 class ChatSession : public std::enable_shared_from_this<ChatSession>
 {
@@ -31,8 +31,8 @@ public:
 
     auto& socket() { return socket_; }
     auto uuid() { return uuid_; }
-    void set_close_callback(const CloseCallback& cb) { close_callback_ = cb; }
-    void set_read_callback(const ReadCallback& cb) { read_callback_ = cb; }
+    void set_close_callback(CloseCallback cb) { close_callback_ = std::move(cb); }
+    void set_read_callback(ReadCallback cb) { read_callback_ = std::move(cb); }
 
 private:
     void HandleWrited(const boost::system::error_code& ec);

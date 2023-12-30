@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <format>
 #include "public.h"
-#include "tools/utils.h"
 
 namespace chatroom
 {

@@ -5,6 +5,7 @@
 #include "tools/logger.h"
 #include "tools/packet.h"
 #include "server/chatserver.h"
+#include "server/chatservice.h"
 
 namespace chatroom
 {
@@ -51,7 +52,7 @@ void ChatSession::Start() {
                 assert(n == recv_packet.data_size());
 
                 if (read_callback_)
-                    read_callback_(self, std::move(recv_packet));
+                    read_callback_(self, recv_packet);
             }
             co_return;
         }

@@ -46,7 +46,7 @@ void ChatServer::HandleNewSession(ChatSessionPtr session) {
         CHATROOM_LOG_INFO("session({}) closed connection!", session->socket().remote_endpoint());
         session->Close();
     });
-    session->set_read_callback([](auto session, auto packet) {
+    session->set_read_callback([](auto session, auto& packet) {
         ChatService::instance().HandleRecvPacket(session, packet);
     });
     session->Start();

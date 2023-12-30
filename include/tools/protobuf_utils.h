@@ -14,9 +14,5 @@ T Deserialize(const std::vector<char>& data) {
     return tmp;
 }
 
-inline std::vector<char> Serialize(const google::protobuf::Message& model) {
-    std::vector<char> tmp(model.ByteSizeLong());
-    model.SerializeToArray(tmp.data(), tmp.size());
-    return tmp;
-}
+std::vector<char> Serialize(const google::protobuf::Message& model);
 }

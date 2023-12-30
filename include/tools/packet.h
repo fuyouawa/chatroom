@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <numeric>
 #include <google/protobuf/message.h>
-#include <tools/utils.h>
+#include "tools/protobuf_utils.h"
 
 namespace chatroom
 {
@@ -26,6 +26,8 @@ class RecvPacket
 public:
     RecvPacket(const PacketHeader& network_header);
     ~RecvPacket();
+
+    RecvPacket(const RecvPacket&) = delete;
 
     auto total_size() const noexcept { return packet_->total_size; }
     auto data_size() const noexcept { return packet_->total_size - sizeof(PacketHeader); }

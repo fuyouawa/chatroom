@@ -4,8 +4,8 @@ namespace chatroom
 {
 enum UserState
 {
+    kOffline,
     kOnline,
-    kOffline
 };
 
 template<class T>

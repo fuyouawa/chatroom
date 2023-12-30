@@ -4,7 +4,10 @@
 #include "config.h"
 #include "public.h"
 #include "message/login.pb.h"
+#include "message/register.pb.h"
+#include "message/register_ack.pb.h"
 #include "tools/packet.h"
+#include "tools/converter.h"
 
 using namespace boost::asio::ip;
 using namespace chatroom;
@@ -25,11 +28,19 @@ int main() {
         std::cout << "连接成功, 是否开始发送" << std::endl;
         getchar();
         
-        message::Login login;
-        login.set_name("测试名称");
-        login.set_password("测试密码");
-		boost::asio::write(sock, boost::asio::buffer(SendPacket(kLoginMsg, login).Pack()));
-
+        message::Register reg;
+        reg.set_name("TestName");
+        reg.set_password("TestPwd");
+		reg.mutable_register_time()->CopyFrom(Converter::ToTimestamp(std::chrono::system_clock::now()));
+		boost::asio::write(sock, boost::asio::buffer(SendPacket(kRegisterMsg, reg).Pack()));
+		
+		PacketHeader header;
+		boost::asio::read(sock, boost::asio::buffer(&header, sizeof(header)));
+		RecvPacket recv{header};
+		boost::asio::read(sock, boost::asio::buffer(recv.data(), recv.data_size()));
+		auto v = recv.DeserializeData<message::RegisterAck>();
+		if (v.success())
+			std::cout << "Success! account:" << v.account() << std::endl;
 		getchar();
 	}
 	catch (std::exception& e) {

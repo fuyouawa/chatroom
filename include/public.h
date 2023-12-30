@@ -3,6 +3,7 @@ namespace chatroom
 {
 enum MsgType {
     kRegisterMsg,
+    kRegisterMsgAck,
     kLoginMsg,
 };
 

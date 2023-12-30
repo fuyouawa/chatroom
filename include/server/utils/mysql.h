@@ -5,6 +5,7 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 #include <chrono>
+#include <expected>
 
 namespace chatroom
 {
@@ -15,8 +16,8 @@ class MySql : public Singleton<MySql>
 public:
     ~MySql();
     
-    std::unique_ptr<sql::ResultSet> Query(const sql::SQLString& sql);
-    int Update(const sql::SQLString& sql);
+    auto Query(const sql::SQLString& sql) -> std::expected<std::unique_ptr<sql::ResultSet>, sql::SQLException>;
+    auto Update(const sql::SQLString& sql) -> std::expected<int, sql::SQLException>;
 
 private:
     friend Singleton<MySql>;
@@ -31,13 +32,13 @@ class MySqlUtil
 {
 public:
     template<typename... Args>
-    static std::unique_ptr<sql::ResultSet> Query(std::string_view sql_fmt, Args&&... args) {
+    static auto Query(std::string_view sql_fmt, Args&&... args) {
         auto sql = FormatString(sql_fmt, std::forward<Args>(args)...);
         return detail::MySql::instance().Query(sql);
     }
 
     template<typename... Args>
-    static int Update(std::string_view sql_fmt, Args&&... args) {
+    static auto Update(std::string_view sql_fmt, Args&&... args) {
         auto sql = FormatString(sql_fmt, std::forward<Args>(args)...);
         return detail::MySql::instance().Update(sql);
     }
@@ -45,6 +46,6 @@ public:
     static int64_t GetLastInsertId();
 
     static std::string ToString(const std::chrono::system_clock::time_point& tp);
-    static std::chrono::system_clock::time_point TimepointCast(std::string_view str);
+    static std::chrono::system_clock::time_point StringToTimepoint(std::string_view str);
 };
 }

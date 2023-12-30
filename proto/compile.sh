@@ -1,1 +1,0 @@
-protoc *.proto --cpp_out=../include/message/

@@ -24,24 +24,40 @@ MySql::~MySql() {
     if (stmt_) delete stmt_;
 }
 
-std::unique_ptr<sql::ResultSet> MySql::Query(const sql::SQLString& sql) {
-    return std::unique_ptr<sql::ResultSet>(stmt_->executeQuery(sql));
+auto MySql::Query(const sql::SQLString& sql) -> std::expected<std::unique_ptr<sql::ResultSet>, sql::SQLException>
+{
+    try
+    {
+        return std::unique_ptr<sql::ResultSet>(stmt_->executeQuery(sql));
+    }
+    catch(const sql::SQLException& e)
+    {
+        return std::unexpected(e);
+    }
 }
-
-int MySql::Update(const sql::SQLString& sql) {
-    return stmt_->executeUpdate(sql);
+auto MySql::Update(const sql::SQLString& sql) -> std::expected<int, sql::SQLException>
+{
+    try
+    {
+        return stmt_->executeUpdate(sql);
+    }
+    catch(const sql::SQLException& e)
+    {
+        return std::unexpected(std::move(e));
+    }
 }
 }
 
 int64_t MySqlUtil::GetLastInsertId() {
-    return Query("SELECT LAST_INSERT_ID()")->getInt64(1);
+    auto exp = Query("SELECT LAST_INSERT_ID()");
+    return exp.has_value() ?  exp.value()->next(), exp.value()->getInt64(1) : 0;
 }
 
 std::string MySqlUtil::ToString(const std::chrono::system_clock::time_point& tp) {
     return Converter::ToString(tp, "%Y-%m-%d %H:%M:%S");
 }
 
-std::chrono::system_clock::time_point MySqlUtil::TimepointCast(std::string_view str) {
-    return Converter::TimepointCast(str, "%Y-%m-%d %H:%M:%S");
+std::chrono::system_clock::time_point MySqlUtil::StringToTimepoint(std::string_view str) {
+    return Converter::ToTimepoint(str, "%Y-%m-%d %H:%M:%S");
 }
 }
