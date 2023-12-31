@@ -52,7 +52,23 @@ auto UserModel::Query(uint account) -> std::expected<User, sql::SQLException>
     }
 }
 
-bool UserModel::Remove(std::initializer_list<uint> accounts) {
-    
+auto UserModel::Update(const User& user) -> std::optional<sql::SQLException>
+{
+    auto exp = MySqlUtil::Update(
+        "UPDATE `User` SET register_time='{}',name='{}',password='{}',state={} WHERE `account`={}",
+        MySqlUtil::ToString(user.register_time()), user.name(), user.password(), user.state(), user.account());
+    if (exp.has_value())
+        return std::nullopt;
+    else
+        return std::move(exp.error());
+}
+
+auto UserModel::Remove(std::initializer_list<uint> accounts) -> std::optional<sql::SQLException>
+{
+    auto exp = MySqlUtil::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
+    if (exp.has_value())
+        return std::nullopt;
+    else
+        return std::move(exp.error());
 }
 }

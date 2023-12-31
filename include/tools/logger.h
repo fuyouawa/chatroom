@@ -50,6 +50,6 @@ private:
 #define CHATROOM_LOG_WARNING(...) \
     chatroom::Logger(chatroom::Logger::kWarning, chatroom::FormatString(__VA_ARGS__)).Print();
 #define CHATROOM_LOG_ERROR(...) \
-    chatroom::Logger(chatroom::Logger::kError, chatroom::FormatString(__VA_ARGS__)).Print();
+    chatroom::Logger(chatroom::Logger::kError, chatroom::FormatString(__VA_ARGS__), __FILE__, __func__, __LINE__).Print();
 #define CHATROOM_LOG_FATAL(...) \
-    chatroom::Logger(chatroom::Logger::kFatal, chatroom::FormatString(__VA_ARGS__)).Print();
+    chatroom::Logger(chatroom::Logger::kFatal, chatroom::FormatString(__VA_ARGS__), __FILE__, __func__, __LINE__).Print();

@@ -31,7 +31,6 @@ int main() {
         message::Register reg;
         reg.set_name("TestName");
         reg.set_password("TestPwd");
-		reg.mutable_register_time()->CopyFrom(Converter::ToTimestamp(std::chrono::system_clock::now()));
 		boost::asio::write(sock, boost::asio::buffer(SendPacket(kRegisterMsg, reg).Pack()));
 		
 		PacketHeader header;

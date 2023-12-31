@@ -43,10 +43,10 @@ void ChatServer::RemoveSession(const std::string& uuid) {
 void ChatServer::HandleNewSession(ChatSessionPtr session) {
     CHATROOM_LOG_INFO("New connection from {}", session->socket().remote_endpoint());
     session->set_close_callback([](auto session) {
-        CHATROOM_LOG_INFO("session({}) closed connection!", session->socket().remote_endpoint());
-        session->Close();
+        ChatService::instance().HandleSessionClosed(session);
     });
     session->set_read_callback([](auto session, auto& packet) {
+        if (session->is_closed()) return;
         ChatService::instance().HandleRecvPacket(session, packet);
     });
     session->Start();

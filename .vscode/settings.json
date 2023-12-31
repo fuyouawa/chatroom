@@ -78,6 +78,8 @@
         "format": "cpp",
         "*.ipp": "cpp",
         "strstream": "cpp",
-        "expected": "cpp"
+        "expected": "cpp",
+        "regex": "cpp",
+        "ranges": "cpp"
     }
 }

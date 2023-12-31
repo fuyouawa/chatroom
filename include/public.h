@@ -5,7 +5,13 @@ enum MsgType {
     kRegisterMsg,
     kRegisterMsgAck,
     kLoginMsg,
+    kLoginMsgAck,
+    kEmergencyMsg
 };
 
-inline bool CheckMsgTypeValid(short msg_type) { return msg_type <= kLoginMsg; }
+enum EmergencyEvent {
+    kForceOfflineEvent
+};
+
+inline bool CheckMsgTypeValid(short msg_type) { return msg_type <= kEmergencyMsg; }
 }

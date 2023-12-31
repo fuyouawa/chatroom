@@ -32,7 +32,6 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_register_2eproto
@@ -185,7 +184,6 @@ class Register PROTOBUF_FINAL :
   enum : int {
     kNameFieldNumber = 1,
     kPasswordFieldNumber = 2,
-    kRegisterTimeFieldNumber = 3,
   };
   // string name = 1;
   void clear_name();
@@ -237,24 +235,6 @@ class Register PROTOBUF_FINAL :
   std::string* _internal_mutable_password();
   public:
 
-  // .google.protobuf.Timestamp register_time = 3;
-  bool has_register_time() const;
-  private:
-  bool _internal_has_register_time() const;
-  public:
-  void clear_register_time();
-  const PROTOBUF_NAMESPACE_ID::Timestamp& register_time() const;
-  PROTOBUF_NAMESPACE_ID::Timestamp* release_register_time();
-  PROTOBUF_NAMESPACE_ID::Timestamp* mutable_register_time();
-  void set_allocated_register_time(PROTOBUF_NAMESPACE_ID::Timestamp* register_time);
-  private:
-  const PROTOBUF_NAMESPACE_ID::Timestamp& _internal_register_time() const;
-  PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_register_time();
-  public:
-  void unsafe_arena_set_allocated_register_time(
-      PROTOBUF_NAMESPACE_ID::Timestamp* register_time);
-  PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_register_time();
-
   // @@protoc_insertion_point(class_scope:chatroom.message.Register)
  private:
   class _Internal;
@@ -264,7 +244,6 @@ class Register PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
-  PROTOBUF_NAMESPACE_ID::Timestamp* register_time_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_register_2eproto;
 };
@@ -439,81 +418,6 @@ inline void Register::unsafe_arena_set_allocated_password(
   password_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       password, GetArena());
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.message.Register.password)
-}
-
-// .google.protobuf.Timestamp register_time = 3;
-inline bool Register::_internal_has_register_time() const {
-  return this != internal_default_instance() && register_time_ != nullptr;
-}
-inline bool Register::has_register_time() const {
-  return _internal_has_register_time();
-}
-inline const PROTOBUF_NAMESPACE_ID::Timestamp& Register::_internal_register_time() const {
-  const PROTOBUF_NAMESPACE_ID::Timestamp* p = register_time_;
-  return p != nullptr ? *p : *reinterpret_cast<const PROTOBUF_NAMESPACE_ID::Timestamp*>(
-      &PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
-}
-inline const PROTOBUF_NAMESPACE_ID::Timestamp& Register::register_time() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.Register.register_time)
-  return _internal_register_time();
-}
-inline void Register::unsafe_arena_set_allocated_register_time(
-    PROTOBUF_NAMESPACE_ID::Timestamp* register_time) {
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(register_time_);
-  }
-  register_time_ = register_time;
-  if (register_time) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.message.Register.register_time)
-}
-inline PROTOBUF_NAMESPACE_ID::Timestamp* Register::release_register_time() {
-  auto temp = unsafe_arena_release_register_time();
-  if (GetArena() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline PROTOBUF_NAMESPACE_ID::Timestamp* Register::unsafe_arena_release_register_time() {
-  // @@protoc_insertion_point(field_release:chatroom.message.Register.register_time)
-  
-  PROTOBUF_NAMESPACE_ID::Timestamp* temp = register_time_;
-  register_time_ = nullptr;
-  return temp;
-}
-inline PROTOBUF_NAMESPACE_ID::Timestamp* Register::_internal_mutable_register_time() {
-  
-  if (register_time_ == nullptr) {
-    auto* p = CreateMaybeMessage<PROTOBUF_NAMESPACE_ID::Timestamp>(GetArena());
-    register_time_ = p;
-  }
-  return register_time_;
-}
-inline PROTOBUF_NAMESPACE_ID::Timestamp* Register::mutable_register_time() {
-  // @@protoc_insertion_point(field_mutable:chatroom.message.Register.register_time)
-  return _internal_mutable_register_time();
-}
-inline void Register::set_allocated_register_time(PROTOBUF_NAMESPACE_ID::Timestamp* register_time) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(register_time_);
-  }
-  if (register_time) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(register_time)->GetArena();
-    if (message_arena != submessage_arena) {
-      register_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, register_time, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  register_time_ = register_time;
-  // @@protoc_insertion_point(field_set_allocated:chatroom.message.Register.register_time)
 }
 
 #ifdef __GNUC__

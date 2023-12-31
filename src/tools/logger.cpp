@@ -8,21 +8,20 @@ void Logger::set_ostream(Level lv, std::ostream& outer) {
 }
 
 Logger::Logger(Level lv, std::string_view description)
-    : lv_{lv}
+    : Logger{lv, description, "", "", 0}
 {
-    auto [lvstr, _] = out_manager_[lv];
-    message_ = std::format("[{}] {}", lvstr, description);
 }
 
 Logger::Logger(Level lv, std::string_view description, std::string_view filename, std::string_view func_name, size_t line)
     : lv_{lv}
 {
     auto [lvstr, _] = out_manager_[lv];
-    if (lv == kDebug) {
-        message_ = std::format("[{}] {}:{}({}): {}", lvstr, filename, line, func_name, description);
+    message_ = std::format("[{}]({})-> ", lvstr, std::chrono::system_clock::now());
+    if (!filename.empty()) {
+        message_ += std::format("{}:{}({}): {}", filename, line, func_name, description);
         return;
     }
-    message_ = std::format("[{}] {}", lvstr, description);
+    message_ += description;
 }
 
 void Logger::Print() {

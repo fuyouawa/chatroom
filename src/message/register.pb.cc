@@ -14,7 +14,6 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_google_2fprotobuf_2ftimestamp_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto;
 namespace chatroom {
 namespace message {
 class RegisterDefaultTypeInternal {
@@ -34,9 +33,8 @@ static void InitDefaultsscc_info_Register_register_2eproto() {
   ::chatroom::message::Register::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Register_register_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Register_register_2eproto}, {
-      &scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Register_register_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Register_register_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_register_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_register_2eproto = nullptr;
@@ -50,7 +48,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_register_2eproto::offsets[] PR
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::chatroom::message::Register, name_),
   PROTOBUF_FIELD_OFFSET(::chatroom::message::Register, password_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::Register, register_time_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::chatroom::message::Register)},
@@ -61,22 +58,19 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_register_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016register.proto\022\020chatroom.message\032\037goog"
-  "le/protobuf/timestamp.proto\"]\n\010Register\022"
-  "\014\n\004name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\0221\n\rregis"
-  "ter_time\030\003 \001(\0132\032.google.protobuf.Timesta"
-  "mpb\006proto3"
+  "\n\016register.proto\022\020chatroom.message\"*\n\010Re"
+  "gister\022\014\n\004name\030\001 \001(\t\022\020\n\010password\030\002 \001(\tb\006"
+  "proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_register_2eproto_deps[1] = {
-  &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_register_2eproto_sccs[1] = {
   &scc_info_Register_register_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_register_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_register_2eproto = {
-  false, false, descriptor_table_protodef_register_2eproto, "register.proto", 170,
-  &descriptor_table_register_2eproto_once, descriptor_table_register_2eproto_sccs, descriptor_table_register_2eproto_deps, 1, 1,
+  false, false, descriptor_table_protodef_register_2eproto, "register.proto", 86,
+  &descriptor_table_register_2eproto_once, descriptor_table_register_2eproto_sccs, descriptor_table_register_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_register_2eproto::offsets,
   file_level_metadata_register_2eproto, 1, file_level_enum_descriptors_register_2eproto, file_level_service_descriptors_register_2eproto,
 };
@@ -89,24 +83,11 @@ namespace message {
 // ===================================================================
 
 void Register::InitAsDefaultInstance() {
-  ::chatroom::message::_Register_default_instance_._instance.get_mutable()->register_time_ = const_cast< PROTOBUF_NAMESPACE_ID::Timestamp*>(
-      PROTOBUF_NAMESPACE_ID::Timestamp::internal_default_instance());
 }
 class Register::_Internal {
  public:
-  static const PROTOBUF_NAMESPACE_ID::Timestamp& register_time(const Register* msg);
 };
 
-const PROTOBUF_NAMESPACE_ID::Timestamp&
-Register::_Internal::register_time(const Register* msg) {
-  return *msg->register_time_;
-}
-void Register::clear_register_time() {
-  if (GetArena() == nullptr && register_time_ != nullptr) {
-    delete register_time_;
-  }
-  register_time_ = nullptr;
-}
 Register::Register(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
@@ -126,11 +107,6 @@ Register::Register(const Register& from)
     password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_password(),
       GetArena());
   }
-  if (from._internal_has_register_time()) {
-    register_time_ = new PROTOBUF_NAMESPACE_ID::Timestamp(*from.register_time_);
-  } else {
-    register_time_ = nullptr;
-  }
   // @@protoc_insertion_point(copy_constructor:chatroom.message.Register)
 }
 
@@ -138,7 +114,6 @@ void Register::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Register_register_2eproto.base);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   password_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  register_time_ = nullptr;
 }
 
 Register::~Register() {
@@ -151,7 +126,6 @@ void Register::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   password_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (this != internal_default_instance()) delete register_time_;
 }
 
 void Register::ArenaDtor(void* object) {
@@ -177,10 +151,6 @@ void Register::Clear() {
 
   name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   password_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  if (GetArena() == nullptr && register_time_ != nullptr) {
-    delete register_time_;
-  }
-  register_time_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -207,13 +177,6 @@ const char* Register::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
           auto str = _internal_mutable_password();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.message.Register.password"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // .google.protobuf.Timestamp register_time = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_register_time(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -265,14 +228,6 @@ failure:
         2, this->_internal_password(), target);
   }
 
-  // .google.protobuf.Timestamp register_time = 3;
-  if (this->has_register_time()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        3, _Internal::register_time(this), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -301,13 +256,6 @@ size_t Register::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_password());
-  }
-
-  // .google.protobuf.Timestamp register_time = 3;
-  if (this->has_register_time()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *register_time_);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -347,9 +295,6 @@ void Register::MergeFrom(const Register& from) {
   if (from.password().size() > 0) {
     _internal_set_password(from._internal_password());
   }
-  if (from.has_register_time()) {
-    _internal_mutable_register_time()->PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(from._internal_register_time());
-  }
 }
 
 void Register::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -375,7 +320,6 @@ void Register::InternalSwap(Register* other) {
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   password_.Swap(&other->password_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  swap(register_time_, other->register_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Register::GetMetadata() const {

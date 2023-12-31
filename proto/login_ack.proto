@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package chatroom.message;
+
+message LoginAck {
+    bool success = 1;
+    string errmsg = 2;
+}

@@ -182,36 +182,10 @@ class Login PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kPasswordFieldNumber = 3,
-    kIdFieldNumber = 1,
+    kPasswordFieldNumber = 2,
+    kAccountFieldNumber = 1,
   };
-  // string name = 2;
-  void clear_name();
-  const std::string& name() const;
-  void set_name(const std::string& value);
-  void set_name(std::string&& value);
-  void set_name(const char* value);
-  void set_name(const char* value, size_t size);
-  std::string* mutable_name();
-  std::string* release_name();
-  void set_allocated_name(std::string* name);
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  std::string* unsafe_arena_release_name();
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  void unsafe_arena_set_allocated_name(
-      std::string* name);
-  private:
-  const std::string& _internal_name() const;
-  void _internal_set_name(const std::string& value);
-  std::string* _internal_mutable_name();
-  public:
-
-  // string password = 3;
+  // string password = 2;
   void clear_password();
   const std::string& password() const;
   void set_password(const std::string& value);
@@ -236,13 +210,13 @@ class Login PROTOBUF_FINAL :
   std::string* _internal_mutable_password();
   public:
 
-  // int32 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // uint32 account = 1;
+  void clear_account();
+  ::PROTOBUF_NAMESPACE_ID::uint32 account() const;
+  void set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_account() const;
+  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.message.Login)
@@ -252,9 +226,8 @@ class Login PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 account_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_2eproto;
 };
@@ -269,108 +242,27 @@ class Login PROTOBUF_FINAL :
 #endif  // __GNUC__
 // Login
 
-// int32 id = 1;
-inline void Login::clear_id() {
-  id_ = 0;
+// uint32 account = 1;
+inline void Login::clear_account() {
+  account_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Login::_internal_id() const {
-  return id_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Login::_internal_account() const {
+  return account_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Login::id() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.Login.id)
-  return _internal_id();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Login::account() const {
+  // @@protoc_insertion_point(field_get:chatroom.message.Login.account)
+  return _internal_account();
 }
-inline void Login::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void Login::_internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  id_ = value;
+  account_ = value;
 }
-inline void Login::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.Login.id)
+inline void Login::set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_account(value);
+  // @@protoc_insertion_point(field_set:chatroom.message.Login.account)
 }
 
-// string name = 2;
-inline void Login::clear_name() {
-  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline const std::string& Login::name() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.Login.name)
-  return _internal_name();
-}
-inline void Login::set_name(const std::string& value) {
-  _internal_set_name(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.Login.name)
-}
-inline std::string* Login::mutable_name() {
-  // @@protoc_insertion_point(field_mutable:chatroom.message.Login.name)
-  return _internal_mutable_name();
-}
-inline const std::string& Login::_internal_name() const {
-  return name_.Get();
-}
-inline void Login::_internal_set_name(const std::string& value) {
-  
-  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
-}
-inline void Login::set_name(std::string&& value) {
-  
-  name_.Set(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:chatroom.message.Login.name)
-}
-inline void Login::set_name(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
-              GetArena());
-  // @@protoc_insertion_point(field_set_char:chatroom.message.Login.name)
-}
-inline void Login::set_name(const char* value,
-    size_t size) {
-  
-  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:chatroom.message.Login.name)
-}
-inline std::string* Login::_internal_mutable_name() {
-  
-  return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline std::string* Login::release_name() {
-  // @@protoc_insertion_point(field_release:chatroom.message.Login.name)
-  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void Login::set_allocated_name(std::string* name) {
-  if (name != nullptr) {
-    
-  } else {
-    
-  }
-  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:chatroom.message.Login.name)
-}
-inline std::string* Login::unsafe_arena_release_name() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.message.Login.name)
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  
-  return name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      GetArena());
-}
-inline void Login::unsafe_arena_set_allocated_name(
-    std::string* name) {
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  if (name != nullptr) {
-    
-  } else {
-    
-  }
-  name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      name, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.message.Login.name)
-}
-
-// string password = 3;
+// string password = 2;
 inline void Login::clear_password() {
   password_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
