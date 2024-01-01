@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chatroom.message;
+
+message UserRegisterAck {
+    bool success = 1;
+    string errmsg = 2;
+    uint32 account = 3;
+}

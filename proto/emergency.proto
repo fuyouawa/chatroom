@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package chatroom.message;
-
-message Emergency {
-    int32 event_id = 1;
-    string extras = 2;
-}

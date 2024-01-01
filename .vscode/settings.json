@@ -81,5 +81,6 @@
         "expected": "cpp",
         "regex": "cpp",
         "ranges": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/fuyou/Code/C++/Network/chatroom/server"
 }

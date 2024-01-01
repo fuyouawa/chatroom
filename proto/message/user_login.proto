@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package chatroom.message;
+
+message UserLogin {
+    uint32 account = 1;
+    string password = 2;
+}
