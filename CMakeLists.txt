@@ -8,16 +8,4 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# We need to enable debugging information.
-SET(CMAKE_BUILD_TYPE "Debug") 
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb -fcoroutines")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
-
-include_directories(${PROJECT_SOURCE_DIR}/server/include)
-include_directories(${PROJECT_SOURCE_DIR}/server/include/basic)
-include_directories(${PROJECT_SOURCE_DIR}/server/include/message)
-include_directories(${PROJECT_SOURCE_DIR}/server/include/service)
-include_directories(${PROJECT_SOURCE_DIR}/server/include/model)
-include_directories(${PROJECT_SOURCE_DIR}/server/include/tools)
-
-add_subdirectory(server)
+add_subdirectory(apps)
