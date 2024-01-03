@@ -11,7 +11,7 @@ namespace chatroom
 {
 void HandleSessionError(ChatSessionPtr session, const std::exception& e) {
     CHATROOM_LOG_ERROR("Error occur in session({}): {}", *session, e.what());
-    session->Terminate();
+    session->Close();
 }
 
 ChatSession::ChatSession(Socket&& socket, ChatServer* server)
@@ -25,10 +25,10 @@ ChatSession::ChatSession(Socket&& socket, ChatServer* server)
 }
 
 ChatSession::~ChatSession() noexcept {
-    Terminate();
+    Close();
 }
 
-void ChatSession::Terminate() noexcept {
+void ChatSession::Close() noexcept {
     try
     {
         bool expect = false;
@@ -76,7 +76,7 @@ void ChatSession::Start() {
         }
         catch(const boost::system::system_error& e) {
             if (e.code() == boost::asio::error::eof) {
-                Terminate();
+                Close();
             }
             else {
                 HandleSessionError(self, e);
@@ -100,7 +100,7 @@ void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, b
         auto old_deque_size = send_deque_.size();
         if (old_deque_size >= kMaxSendQueue) {
             CHATROOM_LOG_ERROR("Send message's queue fulled!");
-            Terminate();
+            Close();
             //TODO: 高水位处理
             return;
         }
@@ -157,7 +157,7 @@ void ChatSession::HandleWrited(const boost::system::error_code& ec) {
         }
         else {
             CHATROOM_LOG_ERROR("Session({}) write message failed: {}", *this, ec.message());
-            Terminate();
+            Close();
         }
     }
     catch(const std::exception& e)

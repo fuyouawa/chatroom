@@ -84,17 +84,14 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
         }
         if (user.state() == UserState::kOnline) {
             auto [logged_session, logged_user] = logged_session_map_[user.account()];
-            message::UserForceOffline force_offline;
-            force_offline.set_reason("一个新设备正在登录您的账户, 您将被强制下线");
-            logged_session->SendEmergency(MessageID::kUserForceOffline, force_offline);
-            Logout(logged_session);
             CHATROOM_LOG_INFO("One device({}({})) is already logged into the account, and the other device({}({})) is trying to log in.",
             logged_user.name(), logged_user.account(), user.name(), user.account());
+            login_ack.set_success(false);
+            login_ack.set_errmsg("一个设备正在登录这个账户!");
+            goto send;
         }
-        else {
-            user.set_state(UserState::kOnline);
-            UserModel::UpdateState(user.account(), UserState::kOnline);
-        }
+        user.set_state(UserState::kOnline);
+        UserModel::UpdateState(user.account(), UserState::kOnline);
         Login(session, user);
         login_ack.set_success(true);
         CHATROOM_LOG_INFO("Session({}) login success! Username:{}({})", *session, user.name(), user.account());

@@ -29,7 +29,7 @@ public:
     ~ChatSession() noexcept;
 
     void Start();
-    void Terminate() noexcept;
+    void Close() noexcept;
 
     void Send(MessageID msgid, const google::protobuf::Message& data) noexcept;
     void SendEmergency(MessageID msgid, const google::protobuf::Message& data) noexcept;
