@@ -1,2 +1,4 @@
 /bin
 /build
+/.venv
+__pycache__/

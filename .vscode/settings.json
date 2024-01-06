@@ -82,5 +82,6 @@
         "regex": "cpp",
         "ranges": "cpp"
     },
-    "cmake.sourceDirectory": "/home/fuyou/Code/C++/Network/chatroom/apps/server"
+    "cmake.sourceDirectory": "E:/Code/Python/Qt6/chatroom/apps/server",
+    "git.ignoreLimitWarning": true
 }
