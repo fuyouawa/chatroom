@@ -1,15 +1,6 @@
 {
-    "logger": {
-        "file_paths" : {
-            "INFO" : "%{EXE_PATH}/logger/info.log",
-            "DEBUG" : "%{EXE_PATH}/logger/debug.log",
-            "WARNING" : "%{EXE_PATH}/logger/warning.log",
-            "ERROR" : "%{EXE_PATH}/logger/error.log",
-            "FATAL" : "%{EXE_PATH}/logger/fatal.log"
-        },
-        "log_config" : {
-            "display_date" : true,
-            "max_entry" : 1145
-        }
+    "client" : {
+        "host" : "",
+        "port" : 8888
     }
 }
