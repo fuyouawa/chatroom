@@ -19,8 +19,8 @@ class LoginWin(FramelessMainWindow):
     @pyqtSlot()
     def on_btn_login_clicked(self):
         if not MAX_ACCOUNT_LEN >= len(self.__ui.edit_account.text()) >= MIN_ACCOUNT_LEN:
-            Logger.warning(self, f'账号长度必须在{MIN_ACCOUNT_LEN}-{MAX_ACCOUNT_LEN}个字符内!')
+            Logger.warning(f'账号长度必须在{MIN_ACCOUNT_LEN}-{MAX_ACCOUNT_LEN}个字符内!', self)
             return
         if not MAX_PASSWORD_LEN >= len(self.__ui.edit_password.text()) >= MIN_PASSWORD_LEN:
-            Logger.warning(self, f'密码长度必须在{MAX_PASSWORD_LEN}-{MIN_PASSWORD_LEN}个字符内!')
+            Logger.warning(f'密码长度必须在{MAX_PASSWORD_LEN}-{MIN_PASSWORD_LEN}个字符内!', self)
             return

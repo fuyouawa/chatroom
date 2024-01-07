@@ -1,8 +1,6 @@
 from enum import Enum
 import sys
 from PyQt6.QtWidgets import QMessageBox
-from basic.config import Config
-
 
 class Logger:
     class Level(Enum):
@@ -35,23 +33,23 @@ class Logger:
             QMessageBox.critical(parent, title, self.text)
 
     @staticmethod
-    def info(parent, text):
+    def info(text, parent=None):
         Logger(Logger.Level.INFO, text).output(parent)
 
     @staticmethod
-    def debug(parent, text):
+    def debug(text, parent=None):
         Logger(Logger.Level.DEBUG, text).output(parent)
 
     @staticmethod
-    def warning(parent, text):
+    def warning(text, parent=None):
         Logger(Logger.Level.WARNING, text).output(parent)
 
     @staticmethod
-    def error(parent, text):
+    def error(text, parent=None):
         Logger(Logger.Level.ERROR, text).output(parent)
 
     @staticmethod
-    def fatal(parent, text, exit_code=1):
+    def fatal(text, parent=None, exit_code=1):
         Logger(Logger.Level.FATAL, text).output(parent)
         sys.exit(exit_code)
         

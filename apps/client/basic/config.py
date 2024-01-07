@@ -1,27 +1,44 @@
 import json
 import os
-from tools.result import Result
+from dataclasses import dataclass
+from tools.logger import Logger
 
 class Config:
-    __cfg = None
+    @dataclass
+    class ClientConfig:
+        host: str
+        port: int
+
 
     @staticmethod
     def file_path():
         return os.path.join(os.getcwd(), 'config.json')
     
-    @classmethod
-    def load(cls)-> Result[dict, Exception]:
+
+    def __init__(self) -> None:
         try:
-            if cls.__cfg is None or not isinstance(cls.__cfg, dict):
-                with open(cls.file_path(), 'r') as f:
-                    cls.__cfg = json.load(f)
-                    if not isinstance(cls.__cfg, dict):
-                        return Result(err=ConfigCorruptedError())
-            return Result(ok=cls.__cfg)
+            self.__load()
+            self.__check()
         except Exception as e:
-            return Result(err=e)
-        
+            Logger.fatal(f'加载配置文件失败!\n原因:{e}')
+
+    def __check(self):
+        self.client_config()
+
+    def __load(self):
+        with open(Config.file_path(), 'r') as f:
+            self.__cfg = json.load(f)
+            if not isinstance(self.__cfg, dict):
+                raise ConfigCorruptedError()
+
+    def client_config(self):
+        cfg = self.__cfg['client']
+        return Config.ClientConfig(cfg['host'], cfg['port'])
+
+
 
 class ConfigCorruptedError(Exception):
     def __init__(self) -> None:
         super().__init__(f'Configuration file corruption: {Config.file_path()}')
+
+config = Config()

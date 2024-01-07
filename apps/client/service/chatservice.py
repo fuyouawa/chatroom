@@ -8,4 +8,4 @@ class ChatService:
         pass
 
 
-service: ChatService
+service = ChatService()
