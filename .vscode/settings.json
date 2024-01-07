@@ -82,6 +82,8 @@
         "regex": "cpp",
         "ranges": "cpp"
     },
-    "cmake.sourceDirectory": "E:/Code/Python/Qt6/chatroom/apps/server",
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cmake.configureOnOpen": false,
+    "cmake.buildDirectory": "${workspaceFolder}/apps/server/build",
+    "cmake.sourceDirectory": "${workspaceFolder}/apps/server"
 }

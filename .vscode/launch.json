@@ -8,13 +8,6 @@
             "target": "./bin/chat-server",
             "cwd": "${workspaceRoot}",
             "valuesFormatting": "parseText"
-        },
-        {
-            "name": "Python: File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "justMyCode": true
         }
     ]
 }
