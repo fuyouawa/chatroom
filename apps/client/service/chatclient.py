@@ -2,7 +2,6 @@ import asyncio
 import struct
 from basic.packet import PACKET_HEADER_SIZE, Packet
 from service.chatservice import service
-from basic.config import config
 from PyQt6.QtCore import QMutexLocker, QMutex
 from tools.logger import Logger
 
@@ -11,10 +10,10 @@ class ServerClosedError(Exception):
         super().__init__('The server closed the link')
 
 class ChatClient:
+    HOST: str
+    PORT: int
+
     def __init__(self) -> None:
-        cfg = config.client_config()
-        self.__host = cfg.host
-        self.__port = cfg.port
         self.__is_closed = False
 
         self.__pending_functors = []
@@ -29,19 +28,16 @@ class ChatClient:
         asyncio.run(start_loop())
 
 
+    def set_logger_parent(self, parent):
+        self.__parent = parent
+
+
     def is_closed(self):
         return self.__is_closed
 
 
     def notify_close(self):
-        if self.__is_closed: return
-        def close():
-            if self.__writter:
-                self.__writter.close()
-            if self.__wakeup_writter:
-                self.__wakeup_writter.close()
-            self.__is_closed = True
-        self.queue_functor_in_loop(close)
+        self.queue_functor_in_loop(self.__close)
 
 
     def queue_functor_in_loop(self, functor):
@@ -50,15 +46,31 @@ class ChatClient:
         self.__wakeup_pending()
 
 
+    async def __close(self):
+        try:
+            if self.__is_closed: return
+            if self.__writter:
+                self.__writter.close()
+                self.__wakeup_writter.close()
+                await self.__writter.wait_closed()
+                await self.__wakeup_writter.wait_closed()
+                self.__is_closed = True
+        except Exception as e:
+            Logger.fatal(f'关闭服务器链接时出现错误: {e}', self.__parent)
+
+
     def __wakeup_pending(self):
-        self.__wakeup_writter.write(b'wk')
+        try:
+            self.__wakeup_writter.write(b'wk')
+        except Exception as e:
+            Logger.fatal(f': {e}', self.__parent)
 
 
     async def __connect_to_server(self):
         self.__wakeup_server = await asyncio.start_server(self.__pending_loop, '127.0.0.1', 0)
         wakeup_server_port = self.__wakeup_server.sockets[0].getsockname()[1]
         _, self.__wakeup_writter = await asyncio.open_connection('127.0.0.1', wakeup_server_port)
-        self.__reader, self.__writter = await asyncio.open_connection(self.__host, self.__port)
+        self.__reader, self.__writter = await asyncio.open_connection(self.HOST, self.PORT)
 
 
     async def __receive_loop(self):
@@ -83,7 +95,7 @@ class ChatClient:
             self.__pending_functors.clear()
 
         for functor in functors:
-            functor()
+            await functor()
 
 
 chat_client = ChatClient()

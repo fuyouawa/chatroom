@@ -3,6 +3,7 @@ import threading
 from PyQt6.QtWidgets import QApplication
 from forms.loginwin import LoginWin
 from service.chatclient import chat_client
+from tools.logger import Logger
 
 
 app = QApplication(sys.argv)

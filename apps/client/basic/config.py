@@ -1,29 +1,30 @@
 import json
 import os
-from dataclasses import dataclass
-from tools.logger import Logger
+from basic.app_paths import AppPaths
 
 class Config:
-    @dataclass
-    class ClientConfig:
-        host: str
-        port: int
-
-
     @staticmethod
     def file_path():
         return os.path.join(os.getcwd(), 'config.json')
     
 
-    def __init__(self) -> None:
-        try:
-            self.__load()
-            self.__check()
-        except Exception as e:
-            Logger.fatal(f'加载配置文件失败!\n原因:{e}')
+    @staticmethod
+    def process_path(path: str):
+        res = path.replace('${AppCachePath}', AppPaths.CACHE)
+        return os.path.normpath(res)
+    
 
-    def __check(self):
-        self.client_config()
+    def get(self, key):
+        val = self.__cfg.get(key)
+        if val:
+            return val
+        else:
+            raise ConfigCorruptedError()
+    
+
+    def __init__(self) -> None:
+        self.__load()
+
 
     def __load(self):
         with open(Config.file_path(), 'r') as f:
@@ -31,14 +32,11 @@ class Config:
             if not isinstance(self.__cfg, dict):
                 raise ConfigCorruptedError()
 
-    def client_config(self):
-        cfg = self.__cfg['client']
-        return Config.ClientConfig(cfg['host'], cfg['port'])
-
 
 
 class ConfigCorruptedError(Exception):
     def __init__(self) -> None:
         super().__init__(f'Configuration file corruption: {Config.file_path()}')
+
 
 config = Config()
