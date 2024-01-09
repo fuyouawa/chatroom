@@ -1,11 +1,9 @@
-from basic.packet import Packet
+from core.struct.packet import Packet
+from core.design.singleton import Singleton
 
-class ChatService:
+class ChatService(Singleton):
     def handle_receive(packet: Packet):
         pass
 
     def login_ack(self):
         pass
-
-
-service = ChatService()

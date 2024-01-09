@@ -1,5 +1,5 @@
 import struct
-from basic.message_id import MessageID
+from core.enum.message_id import MessageID
 
 PACKET_HEADER_SIZE = 4
 

@@ -1,15 +1,16 @@
 import asyncio
 import struct
-from basic.packet import PACKET_HEADER_SIZE, Packet
-from service.chatservice import service
+from core.struct.packet import PACKET_HEADER_SIZE, Packet
+from service.chatservice import ChatService
 from PyQt6.QtCore import QMutexLocker, QMutex
 from tools.logger import Logger
+from core.design.singleton import Singleton
 
 class ServerClosedError(Exception):
     def __init__(self) -> None:
         super().__init__('The server closed the link')
 
-class ChatClient:
+class ChatClient(Singleton):
     HOST: str
     PORT: int
 
@@ -80,7 +81,7 @@ class ChatClient:
                 raise ServerClosedError()
             total_size, msg_id = struct.unpack('!HH', header_data)
             data = await self.__reader.read(total_size - PACKET_HEADER_SIZE)
-            service.handle_receive(Packet(total_size, msg_id, data))
+            ChatService.instance().handle_receive(Packet(total_size, msg_id, data))
 
 
     async def __pending_loop(self, wakeup_reader: asyncio.StreamReader, _):
@@ -96,6 +97,3 @@ class ChatClient:
 
         for functor in functors:
             await functor()
-
-
-chat_client = ChatClient()

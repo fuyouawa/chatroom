@@ -2,18 +2,18 @@ import sys
 import threading
 from PyQt6.QtWidgets import QApplication
 from forms.loginwin import LoginWin
-from service.chatclient import chat_client
-from tools.logger import Logger
-
+from service.chatclient import ChatClient
 
 app = QApplication(sys.argv)
-client_loop = threading.Thread(target=chat_client.start)
+
+client = ChatClient.instance()
+client_loop = threading.Thread(target=client.start)
 client_loop.start()
 
 win = LoginWin()
 win.show()
 ec = app.exec()
 
-chat_client.notify_close()
+client.notify_close()
 client_loop.join()
 sys.exit(ec)

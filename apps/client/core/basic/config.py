@@ -1,25 +1,19 @@
 import json
 import os
-from basic.app_paths import AppPaths
+from core.design.singleton import Singleton
 
-class Config:
+class Config(Singleton):
+    def __init__(self):
+        self.__load()
+
+
     @staticmethod
     def file_path():
         return os.path.join(os.getcwd(), 'config.json')
     
 
-    @staticmethod
-    def process_path(path: str):
-        res = path.replace('${AppCachePath}', AppPaths.CACHE)
-        return os.path.normpath(res)
-    
-
-    def get(self, key):
-        val = self.__cfg.get(key)
-        if val:
-            return val
-        else:
-            raise ConfigCorruptedError()
+    def __getitem__(self, key):
+        return self.__cfg[key]
     
 
     def __init__(self) -> None:
@@ -33,10 +27,6 @@ class Config:
                 raise ConfigCorruptedError()
 
 
-
 class ConfigCorruptedError(Exception):
     def __init__(self) -> None:
         super().__init__(f'Configuration file corruption: {Config.file_path()}')
-
-
-config = Config()
