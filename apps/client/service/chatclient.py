@@ -3,12 +3,12 @@ import struct
 from core.struct.packet import PACKET_HEADER_SIZE, Packet
 from service.chatservice import ChatService
 from PyQt6.QtCore import QMutexLocker, QMutex
-from tools.logger import Logger
 from core.design.singleton import Singleton
+from tools.tipbox import TipBox
 
 class ServerClosedError(Exception):
     def __init__(self) -> None:
-        super().__init__('The server closed the link')
+        super().__init__('服务器关闭了链接')
 
 class ChatClient(Singleton):
     HOST: str
@@ -30,7 +30,7 @@ class ChatClient(Singleton):
 
 
     def set_logger_parent(self, parent):
-        self.__parent = parent
+        self.__logger_parent = parent
 
 
     def is_closed(self):
@@ -57,14 +57,14 @@ class ChatClient(Singleton):
                 await self.__wakeup_writter.wait_closed()
                 self.__is_closed = True
         except Exception as e:
-            Logger.fatal(f'关闭服务器链接时出现错误: {e}', self.__parent)
+            TipBox.fatal(f'关闭服务器链接时出现错误: {e}', self.__logger_parent)
 
 
     def __wakeup_pending(self):
         try:
             self.__wakeup_writter.write(b'wk')
         except Exception as e:
-            Logger.fatal(f': {e}', self.__parent)
+            TipBox.fatal(f'意外错误: {e}', self.__logger_parent)
 
 
     async def __connect_to_server(self):
@@ -75,13 +75,16 @@ class ChatClient(Singleton):
 
 
     async def __receive_loop(self):
-        while not self.__is_closed:
-            header_data = await self.__reader.read(PACKET_HEADER_SIZE)
-            if not header_data:
-                raise ServerClosedError()
-            total_size, msg_id = struct.unpack('!HH', header_data)
-            data = await self.__reader.read(total_size - PACKET_HEADER_SIZE)
-            ChatService.instance().handle_receive(Packet(total_size, msg_id, data))
+        try:
+            while not self.__is_closed:
+                header_data = await self.__reader.read(PACKET_HEADER_SIZE)
+                if not header_data:
+                    raise ServerClosedError()
+                total_size, msg_id = struct.unpack('!HH', header_data)
+                data = await self.__reader.read(total_size - PACKET_HEADER_SIZE)
+                ChatService.instance().handle_receive(Packet(total_size, msg_id, data))
+        except Exception as e:
+            TipBox.fatal(f'接收服务器数据时出现错误: {e}', self.__logger_parent)
 
 
     async def __pending_loop(self, wakeup_reader: asyncio.StreamReader, _):

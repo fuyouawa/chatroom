@@ -34,7 +34,7 @@ class TipBox:
             TipBox.Level.INFO: lambda: QMessageBox.information(self.__parent, title, self.__text),
             TipBox.Level.WARNING: lambda: QMessageBox.warning(self.__parent, title, self.__text),
             TipBox.Level.ERROR: lambda: QMessageBox.critical(self.__parent, title, self.__text),
-            TipBox.Level.FATAL: lambda: QMessageBox.warning(self.__parent, title, self.__text),
+            TipBox.Level.FATAL: lambda: QMessageBox.critical(self.__parent, title, self.__text),
         }.get(self.__lv)
         return call()
     

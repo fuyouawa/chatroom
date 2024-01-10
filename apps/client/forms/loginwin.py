@@ -1,4 +1,4 @@
-from forms.ui.ui_loginwin import Ui_LoginWin
+from res.ui.ui_loginwin import Ui_LoginWin
 from qframelesswindow import FramelessMainWindow, StandardTitleBar
 from PyQt6.QtCore import pyqtSlot
 from utils.screen import ScreenUtil
@@ -28,3 +28,4 @@ class LoginWin(FramelessMainWindow):
         if not MAX_PASSWORD_LEN >= len(self.__ui.edit_password.text()) >= MIN_PASSWORD_LEN:
             TipBox.warning(f'密码长度必须在{MAX_PASSWORD_LEN}-{MIN_PASSWORD_LEN}个字符内!', self)
             return
+    
