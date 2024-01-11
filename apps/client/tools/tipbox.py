@@ -1,6 +1,9 @@
+import sys
+import subprocess
 from enum import Enum
 from PyQt6.QtWidgets import QMessageBox
 from datetime import datetime
+from tools.pathhelper import PathHelper
 
 class TipBox:
     class Level(Enum):
@@ -62,5 +65,9 @@ class TipBox:
 
 
     @staticmethod
-    def fatal(text, parent=None):
-        TipBox(TipBox.Level.FATAL, text, parent).show(save=True)
+    def fatal(text, parent=None, exit_code=1):
+        exe_path = PathHelper.path_in_cur_module_dir('fatalbox.exe')
+        cmd_args = [text, '致命错误', PathHelper.current_module_path()]
+        cmd = [exe_path] + cmd_args
+        subprocess.run(cmd, cwd=PathHelper.current_module_dir())
+        sys.exit(exit_code)

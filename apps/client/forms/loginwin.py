@@ -26,6 +26,5 @@ class LoginWin(FramelessMainWindow):
             TipBox.warning(f'账号长度必须在{MIN_ACCOUNT_LEN}-{MAX_ACCOUNT_LEN}个字符内!', self)
             return
         if not MAX_PASSWORD_LEN >= len(self.__ui.edit_password.text()) >= MIN_PASSWORD_LEN:
-            TipBox.warning(f'密码长度必须在{MAX_PASSWORD_LEN}-{MIN_PASSWORD_LEN}个字符内!', self)
+            TipBox.warning(f'密码长度必须在{MIN_PASSWORD_LEN}-{MAX_PASSWORD_LEN}个字符内!', self)
             return
-    

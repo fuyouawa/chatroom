@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'e:\Code\Python\Qt6\chatroom\apps\client\forms\ui\loginwin.ui'
+# Form implementation generated from reading ui file 'e:\Code\Python\Qt6\chatroom\apps\client\res\ui\loginwin.ui'
 #
 # Created by: PyQt6 UI code generator 6.6.1
 #

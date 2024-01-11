@@ -6,6 +6,8 @@ from service.chatclient import ChatClient
 
 app = QApplication(sys.argv)
 
+print(sys.argv)
+
 win = LoginWin()
 win.show()
 client = ChatClient.instance()
@@ -14,6 +16,7 @@ client_loop = threading.Thread(target=client.start)
 client_loop.start()
 ec = app.exec()
 
+client.set_logger_parent(None)
 client.notify_close()
 client_loop.join()
 sys.exit(ec)
