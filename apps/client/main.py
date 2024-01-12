@@ -6,8 +6,6 @@ from service.chatclient import ChatClient
 
 app = QApplication(sys.argv)
 
-print(sys.argv)
-
 win = LoginWin()
 win.show()
 client = ChatClient.instance()

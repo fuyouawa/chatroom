@@ -1,6 +1,6 @@
 import asyncio
 import struct
-from core.struct.packet import PACKET_HEADER_SIZE, Packet
+from core.struct.packet import PACKET_HEADER_SIZE, RecvPacket, SendPacket
 from service.chatservice import ChatService
 from PyQt6.QtCore import QMutexLocker, QMutex
 from core.design.singleton import Singleton
@@ -35,9 +35,15 @@ class ChatClient(Singleton):
 
     def is_closed(self):
         return self.__is_closed
+    
+
+    def send_in_loop(self, msg_id, msgpb):
+        packet = SendPacket(msg_id, msgpb.SerializeToString())
+        self.queue_functor_in_loop(lambda: self.__send(packet))
 
 
-    def notify_close(self):
+    def close_in_loop(self):
+        if self.__is_closed: return
         self.queue_functor_in_loop(self.__close)
 
 
@@ -47,9 +53,15 @@ class ChatClient(Singleton):
         self.__wakeup_pending()
 
 
+    def __wakeup_pending(self):
+        try:
+            self.__wakeup_writter.write(b'wk')
+        except Exception as e:
+            TipBox.fatal(f'意外错误: {e}', self.__logger_parent)
+
+            
     async def __close(self):
         try:
-            if self.__is_closed: return
             if self.__writter:
                 self.__writter.close()
                 self.__wakeup_writter.close()
@@ -60,11 +72,9 @@ class ChatClient(Singleton):
             TipBox.fatal(f'关闭服务器链接时出现错误: {e}', self.__logger_parent)
 
 
-    def __wakeup_pending(self):
-        try:
-            self.__wakeup_writter.write(b'wk')
-        except Exception as e:
-            TipBox.fatal(f'意外错误: {e}', self.__logger_parent)
+    async def __send(self, packet: SendPacket):
+        self.__writter.write(packet.pack())
+        await self.__writter.drain()
 
 
     async def __connect_to_server(self):
@@ -82,7 +92,7 @@ class ChatClient(Singleton):
                     raise ServerClosedError()
                 total_size, msg_id = struct.unpack('!HH', header_data)
                 data = await self.__reader.read(total_size - PACKET_HEADER_SIZE)
-                ChatService.instance().handle_receive(Packet(total_size, msg_id, data))
+                ChatService.instance().handle_receive(RecvPacket(total_size, msg_id, data))
         except Exception as e:
             TipBox.fatal(f'接收服务器数据时出现错误: {e}', self.__logger_parent)
 
@@ -95,6 +105,8 @@ class ChatClient(Singleton):
 
     async def __do_pending_functors(self):
         with QMutexLocker(self.__pending_mutex):
+            if self.__pending_functors.count() == 0:
+                return
             functors = self.__pending_functors.copy()
             self.__pending_functors.clear()
 

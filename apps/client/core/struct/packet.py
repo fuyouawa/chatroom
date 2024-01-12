@@ -2,21 +2,36 @@ import struct
 from core.enum.message_id import MessageID
 
 PACKET_HEADER_SIZE = 4
-
 PACKET_MAX_TOTAL_SIZE = 4096
+
 
 class PacketCorruptionError(Exception):
     def __init__(self) -> None:
         super().__init__('Packet corruption')
 
+
+
 class Packet:
     def __init__(self, total_size: int, msg_id: MessageID, data) -> None:
-        if not PACKET_HEADER_SIZE <= total_size <= PACKET_MAX_TOTAL_SIZE:
-            raise PacketCorruptionError()
+        assert PACKET_HEADER_SIZE <= total_size <= PACKET_MAX_TOTAL_SIZE, f'total_size should between {PACKET_HEADER_SIZE} and {PACKET_MAX_TOTAL_SIZE}'
+        assert len(self.data) == total_size - PACKET_HEADER_SIZE, 'data length error'
         self.total_size = total_size
         self.msg_id = msg_id
         self.data = data
 
+
+
+class SendPacket(Packet):
+    def __init__(self, msg_id: MessageID, data) -> None:
+        super().__init__(PACKET_HEADER_SIZE + len(data), msg_id, data)
+
+
     def pack(self) -> bytes:
         header = struct.pack('!HH', self.total_size, self.msg_id.value)
         return header + self.data
+
+
+
+class RecvPacket(Packet):
+    def __init__(self, total_size: int, msg_id: MessageID, data) -> None:
+        super().__init__(total_size, msg_id, data)

@@ -1,9 +1,11 @@
 class Singleton:
+    __instance = {}
+
     def __init__(self):
         pass
 
     @classmethod
     def instance(cls, *args, **kwargs):
-        if not hasattr(Singleton, "_instance"):
-            Singleton._instance = cls(*args, **kwargs)
-        return Singleton._instance
+        if cls not in Singleton.__instance:
+            Singleton.__instance[cls] = cls(*args, **kwargs)
+        return Singleton.__instance[cls]
