@@ -1,5 +1,2 @@
-/.venv
-/.vscode
-/apps/server/bin
-/apps/server/build
-__pycache__/
+build/
+bin/
