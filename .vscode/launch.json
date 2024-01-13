@@ -2,10 +2,22 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug",
+            "name": "Debug-Windows",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/chatroom.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "console": "externalTerminal",
+            "visualizerFile": "c:\\Users\\29071\\AppData\\Roaming\\Code\\User\\workspaceStorage\\58ee81e2e30a83c515a874c740ecea84\\tonka3000.qtvsctools\\qt.natvis.xml"
+        },
+        {
+            "name": "Debug-Ubuntu",
             "type": "gdb",
             "request": "launch",
-            "target": "./bin/chat-server",
+            "target": "${workspaceFolder}/bin/chat-server",
             "cwd": "${workspaceRoot}",
             "valuesFormatting": "parseText"
         }
