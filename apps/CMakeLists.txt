@@ -1,0 +1,11 @@
+include_directories(./include)
+include_directories(./include/public)
+include_directories(./include/public/core)
+include_directories(./include/public/msgpb)
+include_directories(./include/public/tools)
+include_directories(./include/server)
+include_directories(./include/server/service)
+include_directories(./include/server/tools)
+include_directories(./include/server/model)
+
+add_subdirectory(src)
