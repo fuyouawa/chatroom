@@ -1,16 +1,17 @@
 #include "packet.h"
 #include <cstring>
-#include <arpa/inet.h>
 #include <stdexcept>
 #include <format>
+
+#include <common/tools/net_util.h>
 
 namespace chatroom
 {
 RecvPacket::RecvPacket(const PacketHeader& network_header)
     : packet_{nullptr}
 {
-    set_total_size_safety(ntohs(network_header.total_size));
-    set_msgid_safety(ntohs(network_header.msgid));
+    set_total_size_safety(NetUtil::NetworkToHost(network_header.total_size));
+    set_msgid_safety(NetUtil::NetworkToHost(network_header.msgid));
 }
 
 RecvPacket::~RecvPacket() {
@@ -45,8 +46,8 @@ std::vector<char> SendPacket::Pack() {
     std::vector<char> buffer(total_size);
 
     auto packet = (Packet*)buffer.data();
-    packet->total_size = htons(total_size);
-    packet->msgid = htons(static_cast<uint16_t>(msgid_));
+    packet->total_size = NetUtil::HostToNetwork(total_size);
+    packet->msgid = NetUtil::HostToNetwork(static_cast<uint16_t>(msgid_));
 
     std::memcpy(packet->data, data_.data(), data_.size());
     return buffer;

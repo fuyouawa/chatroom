@@ -11,6 +11,6 @@ include_directories(./tools)
 
 file(GLOB_RECURSE SOURCES "*.cpp" "*.cc")
 
-add_executable(${SERVER_NAME} ${COMMON_SRCS} ${SOURCES})
+add_executable(${SERVER_NAME} ${COMMON_SOURCES} ${SOURCES})
 
-target_link_libraries(${SERVER_NAME} protobuf mysqlcppconn)
+target_link_libraries(${SERVER_NAME} PRIVATE protobuf mysqlcppconn)

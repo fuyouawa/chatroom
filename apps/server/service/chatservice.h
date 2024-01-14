@@ -4,8 +4,8 @@
 #include "model/user.h"
 
 #include "common/core/singleton.h"
-#include "common/msgpb/user_login.pb.h"
-#include "common/msgpb/user_register.pb.h"
+#include "msgpb/user_login.pb.h"
+#include "msgpb/user_register.pb.h"
 
 
 namespace chatroom

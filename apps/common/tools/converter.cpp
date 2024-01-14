@@ -22,7 +22,7 @@ Converter::time_point Converter::ToTimepoint(std::string_view str, std::string_v
 Converter::time_point Converter::ToTimepoint(const google::protobuf::Timestamp& timestamp) {
     std::chrono::seconds seconds(timestamp.seconds());
     std::chrono::nanoseconds nanos(timestamp.nanos());
-    return Converter::time_point(seconds + nanos);
+    return Converter::time_point(std::chrono::duration_cast<std::chrono::system_clock::duration>(seconds + nanos));
 }
 
 google::protobuf::Timestamp Converter::ToTimestamp(const Converter::time_point& tp) {
