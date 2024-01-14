@@ -8,10 +8,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Output path of the library
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-include_directories(${PROJECT_SOURCE_DIR}/apps/include)
-include_directories(${PROJECT_SOURCE_DIR}/apps/include/public)
-include_directories(${PROJECT_SOURCE_DIR}/apps/include/public/core)
-include_directories(${PROJECT_SOURCE_DIR}/apps/include/public/msgpb)
-include_directories(${PROJECT_SOURCE_DIR}/apps/include/public/tools)
+include_directories(./apps)
+include_directories(./apps/common)
+include_directories(./apps/common/core)
+include_directories(./apps/common/msgpb)
+include_directories(./apps/common/tools)
 
 add_subdirectory(apps)

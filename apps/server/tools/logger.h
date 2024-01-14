@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <boost/system/error_code.hpp>
-#include "public/tools/format.h"
+#include "common/tools/format.h"
 
 namespace chatroom
 {

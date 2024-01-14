@@ -1,13 +1,12 @@
-#include "service/chatservice.h"
+#include "chatservice.h"
 #include "tools/logger.h"
-#include "public/tools/converter.h"
-#include "public/core/message_id.h"
-
 #include "model/user_model.h"
 
-#include "public/msgpb/user_register_ack.pb.h"
-#include "public/msgpb/user_login_ack.pb.h"
-#include "public/msgpb/user_force_offline.pb.h"
+#include "common/tools/converter.h"
+#include "common/core/message_id.h"
+#include "common/msgpb/user_register_ack.pb.h"
+#include "common/msgpb/user_login_ack.pb.h"
+#include "common/msgpb/user_force_offline.pb.h"
 
 namespace chatroom
 {

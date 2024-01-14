@@ -2,10 +2,10 @@
 #include <unordered_map>
 #include "service/chatsession.h"
 #include "model/user.h"
-#include "public/core/singleton.h"
 
-#include "public/msgpb/user_login.pb.h"
-#include "public/msgpb/user_register.pb.h"
+#include "common/core/singleton.h"
+#include "common/msgpb/user_login.pb.h"
+#include "common/msgpb/user_register.pb.h"
 
 
 namespace chatroom

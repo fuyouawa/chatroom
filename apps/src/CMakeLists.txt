@@ -1,5 +1,0 @@
-if(WIN32)
-    add_subdirectory(client)
-else()
-    add_subdirectory(server)
-endif()

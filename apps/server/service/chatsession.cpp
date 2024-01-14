@@ -1,9 +1,9 @@
-#include "service/chatsession.h"
+#include "chatsession.h"
 #include <coroutine>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include "tools/logger.h"
-#include "public/core/packet.h"
+#include "common/core/packet.h"
 #include "service/chatserver.h"
 #include "service/chatservice.h"
 

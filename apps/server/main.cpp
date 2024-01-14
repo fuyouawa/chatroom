@@ -1,6 +1,6 @@
 #include <iostream>
 #include <csignal>
-#include "public/core/config.h"
+#include "common/core/config.h"
 #include "service/chatserver.h"
 
 int main()

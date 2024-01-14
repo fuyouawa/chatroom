@@ -7,9 +7,10 @@
 #include <atomic>
 #include <functional>
 #include "model/user.h"
-#include "public/core/packet.h"
-#include "public/core/noncopyable.h"
-#include "public/core/message_id.h"
+
+#include "common/core/packet.h"
+#include "common/core/noncopyable.h"
+#include "common/core/message_id.h"
 
 namespace chatroom
 {

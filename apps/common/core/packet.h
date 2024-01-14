@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <numeric>
 #include <google/protobuf/message.h>
-#include "public/core/message_id.h"
+#include "common/core/message_id.h"
 
 namespace chatroom
 {

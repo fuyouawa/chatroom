@@ -1,7 +1,7 @@
-#include "tools/sql_engine.h"
+#include "sql_engine.h"
 #include <mysql_driver.h>
-#include "public/tools/converter.h"
-#include "public/core/config.h"
+#include "common/tools/converter.h"
+#include "common/core/config.h"
 
 namespace chatroom
 {

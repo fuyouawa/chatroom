@@ -4,8 +4,8 @@
 #include <cppconn/statement.h>
 #include <chrono>
 #include <expected>
-#include "public/core/singleton.h"
-#include "public/tools/format.h"
+#include "common/core/singleton.h"
+#include "common/tools/format.h"
 
 namespace chatroom
 {

@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 #include <vector>
 #include <thread>
-#include "public/core/singleton.h"
+#include "common/core/singleton.h"
 
 namespace chatroom
 {
