@@ -3,9 +3,13 @@ set(CLIENT_NAME chatroom)
 include_directories(${THIRD_PARTY_DIR}/imgui)
 include_directories(${THIRD_PARTY_DIR}/imgui_ex)
 
-# file(GLOB_RECURSE IMGUI_SOURCES ${THIRD_PARTY_DIR}/imgui/*.cpp ${THIRD_PARTY_DIR}/imgui_ex/*.cpp)
+aux_source_directory(${THIRD_PARTY_DIR}/imgui IMGUI_SOURCES)
+aux_source_directory(${THIRD_PARTY_DIR}/imgui_ex IMGUI_SOURCES)
+
 file(GLOB_RECURSE SOURCES "*.cpp" "*.cc")
 
-add_executable(${CLIENT_NAME} ${COMMON_SOURCES} ${SOURCES} ${IMGUI_SOURCES})
+add_executable(${CLIENT_NAME} WIN32 ${IMGUI_SOURCES} ${COMMON_SOURCES} ${SOURCES})
+
+# set(WIN32_LIB user32 gdi32 winmm kernel32)
 
 target_link_libraries(${CLIENT_NAME} PRIVATE libprotobuf Ws2_32)
