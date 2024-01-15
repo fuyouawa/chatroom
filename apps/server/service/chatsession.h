@@ -10,7 +10,7 @@
 
 #include "common/core/packet.h"
 #include "common/core/noncopyable.h"
-#include "common/core/message_id.h"
+#include "common/core/msg_id.h"
 
 namespace chatroom
 {

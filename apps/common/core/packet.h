@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <numeric>
 #include <google/protobuf/message.h>
-#include "common/core/message_id.h"
+#include "common/core/msg_id.h"
 
 namespace chatroom
 {
@@ -21,8 +21,6 @@ struct Packet : public PacketHeader
 {
     char data[1];
 };
-
-static constexpr int kMaxTotalSize = 4096;
 
 class RecvPacket
 {
