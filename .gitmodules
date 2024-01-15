@@ -1,6 +1,6 @@
 [submodule "third-party/imgui_ex"]
 	path = third-party/imgui_ex
-	url = https://github.com/yuyuaqwq/imgui_ex.git
+	url = git@github.com:yuyuaqwq/imgui_ex.git
 [submodule "third-party/imgui"]
 	path = third-party/imgui
 	url = git@github.com:ocornut/imgui.git
