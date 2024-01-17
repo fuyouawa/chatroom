@@ -96,9 +96,9 @@ void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, b
             CHATROOM_LOG_WARNING("Try to send a closed session!");
             return;
         }
-        auto send_packet = std::make_shared<SendPacket>(msgid, data);
+        const auto send_packet = std::make_shared<SendPacket>(msgid, data);
         std::unique_lock<std::mutex> lock{mutex_};
-        auto old_deque_size = send_deque_.size();
+        const auto old_deque_size = send_deque_.size();
         if (old_deque_size >= kMaxSendQueue) {
             CHATROOM_LOG_ERROR("Send message's queue fulled!");
             Close();
@@ -119,7 +119,7 @@ void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, b
         if (old_deque_size > 0) {
             return;
         }
-        auto packet = send_deque_.front();
+        const auto packet = send_deque_.front();
         lock.unlock();
 
         boost::asio::async_write(socket_,
@@ -148,7 +148,7 @@ void ChatSession::HandleWrited(const boost::system::error_code& ec) {
             std::unique_lock<std::mutex> lock{mutex_};
             send_deque_.pop_front();
             if (!send_deque_.empty()) {
-                auto packet = send_deque_.front();
+                const auto packet = send_deque_.front();
                 lock.unlock();
 
                 boost::asio::async_write(socket_,

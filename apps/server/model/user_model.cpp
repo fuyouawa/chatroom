@@ -32,10 +32,10 @@ auto UserModel::Query(uint account) -> std::expected<User, sql::SQLException>
     try
     {
         res->next();
-        auto name = res->getString("name");
-        auto pwd = res->getString("password");
-        auto register_time = res->getString("register_time");
-        auto state = static_cast<UserState>(res->getInt("state"));
+        const auto name = res->getString("name");
+        const auto pwd = res->getString("password");
+        const auto register_time = res->getString("register_time");
+        const auto state = static_cast<UserState>(res->getInt("state"));
         User user;
         user.set_account(account);
         user.set_name(name.asStdString());

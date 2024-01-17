@@ -54,7 +54,7 @@ SendPacket::SendPacket(MessageID msgid, const google::protobuf::Message& model)
     model.SerializeToArray(data_.data(), data_.size());
 }
 
-std::vector<char> SendPacket::Pack() {
+std::vector<char> SendPacket::Pack() const {
     const auto total_size = data_.size() + sizeof(PacketHeader);
 
     std::vector<char> buffer(total_size);

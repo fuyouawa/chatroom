@@ -37,7 +37,7 @@ void ChatServer::Start() {
 }
 
 void ChatServer::RemoveSession(const std::string& uuid) {
-    std::lock_guard<std::mutex> lock{mutex_};
+    const std::lock_guard<std::mutex> lock{mutex_};
     sessions_.erase(uuid);
 }
 

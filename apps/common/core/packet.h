@@ -56,7 +56,7 @@ public:
     SendPacket(MessageID msgid, std::vector<char>&& data) noexcept;
     SendPacket(MessageID msgid, const google::protobuf::Message& model);
 
-    std::vector<char> Pack();
+    std::vector<char> Pack() const;
 
 private:
     MessageID msgid_;

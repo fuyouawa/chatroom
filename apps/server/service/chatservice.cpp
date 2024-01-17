@@ -51,19 +51,19 @@ void ChatService::HandleRegister(ChatSessionPtr session, const message::UserRegi
     register_user.set_name(msg.name());
     register_user.set_password(msg.password());
     register_user.set_register_time(std::chrono::system_clock::now());
-    auto exp = UserModel::Insert(register_user);
+    const auto exp = UserModel::Insert(register_user);
 
     message::UserRegisterAck register_ack;
     register_ack.set_success(exp.has_value());
     if (exp.has_value())
     {
-        auto account = exp.value();
+        const auto account = exp.value();
         CHATROOM_LOG_INFO("{} register success! Account:{}", session->name(), account);
         register_ack.set_account(account);
     }
     else
     {
-        auto errmsg = exp.error().what();
+        const auto errmsg = exp.error().what();
         CHATROOM_LOG_INFO("{} register failed: {}", session->name(), errmsg);
         register_ack.set_errmsg(errmsg);
     }
@@ -72,17 +72,17 @@ void ChatService::HandleRegister(ChatSessionPtr session, const message::UserRegi
 
 void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& msg) {
     CHATROOM_LOG_INFO("{} wanna login! Account:{} Password:{}", session->name(), msg.account(), msg.password());
-    auto exp = UserModel::Query(msg.account());
+    const auto exp = UserModel::Query(msg.account());
     message::UserLoginAck login_ack;
     if (exp.has_value()) {
-        auto& user = exp.value();
+        auto user = exp.value();
         if (user.password() != msg.password()) {
             login_ack.set_success(false);
             login_ack.set_errmsg("密码错误!");
             goto send;
         }
         if (user.state() == UserState::kOnline) {
-            auto [logged_session, logged_user] = logged_session_map_[user.account()];
+            const auto [_, logged_user] = logged_session_map_[user.account()];
             CHATROOM_LOG_INFO("One device({}({})) is already logged into the account, and the other device({}({})) is trying to log in.",
             logged_user.name(), logged_user.account(), user.name(), user.account());
             login_ack.set_success(false);
