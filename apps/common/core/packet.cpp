@@ -55,11 +55,11 @@ SendPacket::SendPacket(MessageID msgid, const google::protobuf::Message& model)
 }
 
 std::vector<char> SendPacket::Pack() {
-    auto total_size = data_.size() + sizeof(PacketHeader);
+    const auto total_size = data_.size() + sizeof(PacketHeader);
 
     std::vector<char> buffer(total_size);
 
-    auto packet = (Packet*)buffer.data();
+    const auto packet = (Packet*)buffer.data();
     packet->total_size = NetUtil::HostToNetwork(static_cast<uint16_t>(total_size));
     packet->msgid = NetUtil::HostToNetwork(static_cast<uint16_t>(msgid_));
 

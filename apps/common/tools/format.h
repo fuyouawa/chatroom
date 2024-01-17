@@ -50,11 +50,11 @@ struct std::formatter<InputContainer> {
     std::string elem_fmt;
 
     constexpr auto parse(std::format_parse_context& ctx) {
-        auto beg = ctx.begin();
+        const auto beg = ctx.begin();
         if (beg != ctx.end()) {
             std::smatch matches;
-            auto end = std::ranges::find(ctx, '}');
-            std::string total{ beg, end };
+            const auto end = std::ranges::find(ctx, '}');
+            const std::string total{ beg, end };
             if (std::regex_match(total, matches, kFmtRegex)) {
                 beg_str = matches[1].str();
                 separator = matches[2].str();
