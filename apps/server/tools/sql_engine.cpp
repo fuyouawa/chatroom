@@ -54,10 +54,10 @@ int64_t SQLEngine::GetLastInsertId() {
 }
 
 std::string SQLEngine::ToString(const std::chrono::system_clock::time_point& tp) {
-    return Converter::ToString(tp, "%Y-%m-%d %H:%M:%S");
+    return converter::ToString(tp, "%Y-%m-%d %H:%M:%S");
 }
 
 std::chrono::system_clock::time_point SQLEngine::StringToTimepoint(std::string_view str) {
-    return Converter::ToTimepoint(str, "%Y-%m-%d %H:%M:%S");
+    return converter::ToTimepoint(str, "%Y-%m-%d %H:%M:%S");
 }
 }

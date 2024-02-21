@@ -24,8 +24,8 @@ void CheckMsgID(MessageID msgid) {
 RecvPacket::RecvPacket(const PacketHeader& network_header)
     : packet_{nullptr}
 {
-    set_total_size_safety(NetUtil::NetworkToHost(network_header.total_size));
-    set_msgid_safety(NetUtil::NetworkToHost(network_header.msgid));
+    set_total_size_safety(socket::ntohs(network_header.total_size));
+    set_msgid_safety(socket::ntohs(network_header.msgid));
 }
 
 RecvPacket::~RecvPacket() {
@@ -60,8 +60,8 @@ std::vector<char> SendPacket::Pack() const {
     std::vector<char> buffer(total_size);
 
     const auto packet = (Packet*)buffer.data();
-    packet->total_size = NetUtil::HostToNetwork(static_cast<uint16_t>(total_size));
-    packet->msgid = NetUtil::HostToNetwork(static_cast<uint16_t>(msgid_));
+    packet->total_size = socket::htons(static_cast<uint16_t>(total_size));
+    packet->msgid = socket::htons(static_cast<uint16_t>(msgid_));
 
     std::memcpy(packet->data, data_.data(), data_.size());
     return buffer;
