@@ -1,10 +1,6 @@
 #include <stdint.h>
 #include <concepts>
-#ifdef _WIN32
-#include <WinSock2.h>
-#else
-#include <arpa/inet.h>
-#endif
+#include <boost/asio/detail/socket_ops.hpp>
 
 namespace chatroom
 {
@@ -14,10 +10,10 @@ public:
     template<std::integral T>
     static T NetworkToHost(T net) {
         if constexpr (std::is_same_v<std::make_unsigned_t<T>, uint16_t>) {
-            return ntohs(net);
+            return boost::asio::detail::socket_ops::network_to_host_short(net);
         }
         else if constexpr (std::is_same_v<std::make_unsigned_t<T>, uint32_t>) {
-            return ntohl(net);
+            return boost::asio::detail::socket_ops::network_to_host_long(net);
         }
         else {
             static_assert(sizeof(T) == 0, "T is not supported");
@@ -25,12 +21,12 @@ public:
         }
     }
     template<std::integral T>
-    static T HostToNetwork(T net) {
+    static T HostToNetwork(T host) {
         if constexpr (std::is_same_v<std::make_unsigned_t<T>, uint16_t>) {
-            return ntohs(net);
+            return boost::asio::detail::socket_ops::host_to_network_short(host);
         }
         else if constexpr (std::is_same_v<std::make_unsigned_t<T>, uint32_t>) {
-            return ntohl(net);
+            return boost::asio::detail::socket_ops::host_to_network_long(host);
         }
         else {
             static_assert(sizeof(T) == 0, "T is not supported");
