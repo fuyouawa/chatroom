@@ -1,1 +1,1 @@
-protoc --python_out=../apps/client/core/message --proto_path=./message ./message/*
+protoc --cpp_out=../apps/client/msgpb --proto_path=./message ./message/*
