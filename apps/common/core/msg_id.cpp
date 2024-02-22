@@ -1,4 +1,4 @@
-﻿#include "msg_id.h"
+#include "msg_id.h"
 
 namespace chatroom {
 bool IsValidMsgID(MessageID msgid) noexcept {

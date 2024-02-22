@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <iostream>
 #include <vector>
 #include <boost/system/error_code.hpp>

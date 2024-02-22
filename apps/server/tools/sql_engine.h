@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <mysql_connection.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>

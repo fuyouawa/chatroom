@@ -1,4 +1,4 @@
-﻿#include "user_model.h"
+#include "user_model.h"
 #include "tools/sql_engine.h"
 
 namespace chatroom

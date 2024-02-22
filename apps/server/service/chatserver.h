@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <mutex>
 #include <unordered_map>
 #include "service/chatservice.h"

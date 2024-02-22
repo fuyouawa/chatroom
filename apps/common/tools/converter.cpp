@@ -1,4 +1,4 @@
-﻿#include "converter.h"
+#include "converter.h"
 #include <sstream>
 #include <iomanip>
 #include <time.h>

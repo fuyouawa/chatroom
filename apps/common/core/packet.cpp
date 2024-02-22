@@ -1,4 +1,4 @@
-﻿#include "packet.h"
+#include "packet.h"
 #include <cstring>
 #include <stdexcept>
 #include <format>

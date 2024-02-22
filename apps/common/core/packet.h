@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <span>
 #include <vector>
 #include <stdint.h>

@@ -1,4 +1,4 @@
-﻿#include "net_util.h"
+#include "net_util.h"
 #include <boost/asio/detail/socket_ops.hpp>
 
 namespace chatroom {

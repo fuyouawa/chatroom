@@ -1,4 +1,4 @@
-﻿#include "chatclient.h"
+#include "chatclient.h"
 #include "common/core/config.h"
 #include "tools/console.h"
 

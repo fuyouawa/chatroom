@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <csignal>
 #include "common/core/config.h"
 #include "service/chatserver.h"

@@ -1,4 +1,4 @@
-﻿#include "chatclient.h"
+#include "chatclient.h"
 #include "common/core/msg_id.h"
 #include "common/core/packet.h"
 #include "msgpb/user_register.pb.h"
@@ -30,7 +30,7 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
     auto opt = console::Options({"登录", "注册"}, 0);
     if (opt == 0) {
     re_ask:
-        console::Print("账户:"); auto account = console::GetUInt32();
+        console::Print("账号:"); auto account = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
         message::UserLogin login;
         login.set_account(account);
@@ -39,11 +39,11 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
         auto recv = co_await Receive();
         auto ack = recv.DeserializeData<message::UserLoginAck>();
         if (!ack.success()) {
-            console::Print("密码错误, 请重新输入!\n");
+            console::Print("登录失败, 请重新输入!\n");
             goto re_ask;
         }
         else {
-            console::Print("密码正确, 登录成功!\n");
+            console::Print("登录成功!\n");
         }
     }
 }
