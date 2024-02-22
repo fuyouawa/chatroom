@@ -1,4 +1,4 @@
-#include "sql_engine.h"
+﻿#include "sql_engine.h"
 #include <mysql_driver.h>
 #include "common/tools/converter.h"
 #include "common/core/config.h"

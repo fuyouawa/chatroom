@@ -1,4 +1,4 @@
-SET(SERVER_NAME chat-server)
+﻿SET(SERVER_NAME chat-server)
 
 SET(CMAKE_BUILD_TYPE "Debug") 
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb -fcoroutines")

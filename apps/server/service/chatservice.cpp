@@ -1,4 +1,4 @@
-#include "chatservice.h"
+﻿#include "chatservice.h"
 #include "tools/logger.h"
 #include "model/user_model.h"
 
@@ -78,7 +78,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
         auto user = exp.value();
         if (user.password() != msg.password()) {
             login_ack.set_success(false);
-            login_ack.set_errmsg("密码错误!");
+            login_ack.set_errmsg("瀵嗙爜閿欒!");
             goto send;
         }
         if (user.state() == UserState::kOnline) {
@@ -86,7 +86,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
             CHATROOM_LOG_INFO("One device({}({})) is already logged into the account, and the other device({}({})) is trying to log in.",
             logged_user.name(), logged_user.account(), user.name(), user.account());
             login_ack.set_success(false);
-            login_ack.set_errmsg("一个设备正在登录这个账户!");
+            login_ack.set_errmsg("涓€涓澶囨鍦ㄧ櫥褰曡繖涓处鎴�!");
             goto send;
         }
         user.set_state(UserState::kOnline);
@@ -97,7 +97,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
     }
     else {
         login_ack.set_success(false);
-        login_ack.set_errmsg("账号不存在!");
+        login_ack.set_errmsg("璐﹀彿涓嶅瓨鍦�!");
     }
 send:
     session->Send(MessageID::kUserLoginAck, login_ack);

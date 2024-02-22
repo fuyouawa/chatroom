@@ -1,4 +1,4 @@
-set(CLIENT_NAME chatroom)
+﻿set(CLIENT_NAME chatroom)
 
 file(GLOB_RECURSE SOURCES "*.cpp" "*.cc")
 

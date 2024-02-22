@@ -1,4 +1,4 @@
-#include "chatclient.h"
+ï»¿#include "chatclient.h"
 #include "common/core/msg_id.h"
 #include "common/core/packet.h"
 #include "msgpb/user_register.pb.h"
@@ -27,11 +27,11 @@ void ChatClient::RunLoop() {
 }
 
 boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
-    auto opt = console::Options({"µÇÂ¼", "×¢²á"}, 0);
+    auto opt = console::Options({"ç™»å½•", "æ³¨å†Œ"}, 0);
     if (opt == 0) {
     re_ask:
-        console::Print("ÕË»§:"); auto account = console::GetUInt32();
-        console::Print("ÃÜÂë:"); auto password = console::GetString();
+        console::Print("è´¦æˆ·:"); auto account = console::GetUInt32();
+        console::Print("å¯†ç :"); auto password = console::GetString();
         message::UserLogin login;
         login.set_account(account);
         login.set_password(password);
@@ -39,11 +39,11 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
         auto recv = co_await Receive();
         auto ack = recv.DeserializeData<message::UserLoginAck>();
         if (!ack.success()) {
-            console::Print("ÃÜÂë´íÎó, ÇëÖØĞÂÊäÈë!\n");
+            console::Print("å¯†ç é”™è¯¯, è¯·é‡æ–°è¾“å…¥!\n");
             goto re_ask;
         }
         else {
-            console::Print("ÃÜÂëÕıÈ·, µÇÂ¼³É¹¦!\n");
+            console::Print("å¯†ç æ­£ç¡®, ç™»å½•æˆåŠŸ!\n");
         }
     }
 }
