@@ -78,7 +78,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
         auto user = exp.value();
         if (user.password() != msg.password()) {
             login_ack.set_success(false);
-            login_ack.set_errmsg("å¯†ç é”™è¯¯!");
+            login_ack.set_errmsg("ÃÜÂë´íÎó!");
             goto send;
         }
         if (user.state() == UserState::kOnline) {
@@ -86,7 +86,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
             CHATROOM_LOG_INFO("One device({}({})) is already logged into the account, and the other device({}({})) is trying to log in.",
             logged_user.name(), logged_user.account(), user.name(), user.account());
             login_ack.set_success(false);
-            login_ack.set_errmsg("ä¸€ä¸ªè®¾å¤‡æ­£åœ¨ç™»å½•è¿™ä¸ªè´¦æˆ·!");
+            login_ack.set_errmsg("Ò»¸öÉè±¸ÕýÔÚµÇÂ¼Õâ¸öÕË»§!");
             goto send;
         }
         user.set_state(UserState::kOnline);
@@ -97,7 +97,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
     }
     else {
         login_ack.set_success(false);
-        login_ack.set_errmsg("è´¦å·ä¸å­˜åœ¨!");
+        login_ack.set_errmsg("ÕËºÅ²»´æÔÚ!");
     }
 send:
     session->Send(MessageID::kUserLoginAck, login_ack);

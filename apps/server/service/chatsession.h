@@ -46,7 +46,7 @@ public:
     void set_read_callback(ReadCallback cb) noexcept { read_callback_ = std::move(cb); }
     void set_account(uint account) noexcept { account_ = account; }
     void set_logging(bool logging) noexcept { logging_ = logging; }
-    //TODO 瓒呮椂鍏抽棴杩炴帴鍔熻兘
+    //TODO 超时关闭连接功能
 
 private:
     void Send(MessageID msgid, const google::protobuf::Message& data, bool is_emergency) noexcept;
