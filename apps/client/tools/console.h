@@ -1,6 +1,5 @@
 #pragma once
 #include <format>
-#include <iostream>
 #include <initializer_list>
 
 namespace console {
@@ -16,11 +15,16 @@ enum class Color {
     Green,
     White
 };
+void Print(std::string_view fmt);
 
 template<typename... Args>
 void Print(std::string_view fmt, Args&&... args) {
-    std::cout << std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)) << std::endl;
+    Print(std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)));
 }
+
+std::string GetString();
+uint32_t GetUInt32();
+
 int Options(std::initializer_list<std::string_view> opts, int cur_selection);
 Keycode InputKey();
 void Clear();

@@ -3,6 +3,7 @@
 #include "common/core/packet.h"
 #include "msgpb/user_register.pb.h"
 #include "msgpb/user_login.pb.h"
+#include "tools/console.h"
 
 namespace chatroom {
 ChatClient::ChatClient(boost::asio::io_service& ios, std::string_view remote_address, uint16_t port)
@@ -22,7 +23,41 @@ void ChatClient::RunLoop() {
 
 }
 
-void ChatClient::AskAccountAndPassword() {
+boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
+    auto opt = console::Options({"登录", "注册"}, 0);
+    if (opt == 0) {
+        console::Print("账户:"); auto account = console::GetUInt32();
+        console::Print("密码:"); auto password = console::GetString();
+        message::UserLogin login;
+        login.set_account(account);
+        login.set_password(password);
+        co_await Send(MessageID::kUserLogin, login);
+    }
+}
 
+boost::asio::awaitable<size_t> ChatClient::Send(MessageID msgid, const google::protobuf::Message &msg) {
+    SendPacket packet{msgid, msg};
+    co_return boost::asio::async_write(socket_, boost::asio::buffer(packet.Pack()), boost::asio::use_awaitable);
+}
+
+boost::asio::awaitable<RecvPacket> ChatClient::Receive() {
+    PacketHeader network_header;
+    auto n = co_await boost::asio::async_read(
+        socket_,
+        boost::asio::buffer(&network_header, sizeof(network_header)),
+        boost::asio::use_awaitable);
+    if (n == 0)
+        throw boost::system::system_error(boost::asio::error::eof);
+    assert(n == sizeof(network_header));
+    RecvPacket recv_packet{network_header};
+
+    n = co_await boost::asio::async_read(
+        socket_,
+        boost::asio::buffer(recv_packet.data(), recv_packet.data_size()),
+        boost::asio::use_awaitable);
+    if (n == 0)
+        throw boost::system::system_error(boost::asio::error::eof);
+    assert(n == recv_packet.data_size());
+    co_return recv_packet;
 }
 }   // namespace chatroom

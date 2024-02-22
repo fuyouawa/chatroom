@@ -2,7 +2,7 @@
 
 namespace chatroom {
 bool IsValidMsgID(MessageID msgid) noexcept {
-    constexpr uint16_t kMaxMsgID = static_cast<uint16_t>(MessageID::kUserLoginAck);
+    constexpr auto kMaxMsgID = static_cast<uint16_t>(MessageID::kUserLoginAck);
     return static_cast<uint16_t>(msgid) <= kMaxMsgID;
 }
 

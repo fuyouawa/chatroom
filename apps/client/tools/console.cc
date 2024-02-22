@@ -2,8 +2,13 @@
 #include <conio.h>
 #include <cassert>
 #include <stack>
+#include <iostream>
 
 namespace console {
+void Print(std::string_view fmt) {
+    std::cout << fmt << std::endl;
+}
+
 int Options(std::initializer_list<std::string_view> opts, int cur_selection) {
 re_print:
     Clear();
@@ -59,6 +64,7 @@ Keycode InputKey() {
         case 'D':
             return Keycode::D;
         case '\n':
+        case '\r':
             return Keycode::Enter;
         default:
             assert(false);
@@ -97,5 +103,21 @@ void EndColor() {
     auto attr = attr_stack_.top();
     attr_stack_.pop();
     SetConsoleTextAttribute(console_handler, attr);
+}
+
+namespace {
+template<typename T>
+T GetValue() {
+    T tmp;
+    std::cin >> tmp;
+    return tmp;
+}
+}   // namespace
+
+std::string GetString() {
+    return GetValue<std::string>();
+}
+uint32_t GetUInt32() {
+    return GetValue<uint32_t>();
 }
 }   // namespace console
