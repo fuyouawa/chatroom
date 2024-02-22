@@ -29,6 +29,7 @@ public:
     ~RecvPacket();
 
     RecvPacket(const RecvPacket&) = delete;
+    RecvPacket(RecvPacket&& right);
 
     auto total_size() const noexcept { return packet_->total_size; }
     auto data_size() const noexcept { return packet_->total_size - sizeof(PacketHeader); }

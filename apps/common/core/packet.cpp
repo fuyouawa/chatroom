@@ -28,6 +28,11 @@ RecvPacket::RecvPacket(const PacketHeader& network_header)
     set_msgid_safety(socket::ntohs(network_header.msgid));
 }
 
+RecvPacket::RecvPacket(RecvPacket&& right) {
+    packet_ = right.packet_;
+    right.packet_ = nullptr;
+}
+
 RecvPacket::~RecvPacket() {
     if (packet_)
         std::free(packet_);

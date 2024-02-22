@@ -10,11 +10,10 @@
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],
-            "console": "externalTerminal",
-            "visualizerFile": "c:\\Users\\29071\\AppData\\Roaming\\Code\\User\\workspaceStorage\\58ee81e2e30a83c515a874c740ecea84\\tonka3000.qtvsctools\\qt.natvis.xml"
+            "console":"newExternalWindow"
         },
         {
-            "name": "ServerBuild",
+            "name": "Debug-Server",
             "type": "gdb",
             "request": "launch",
             "target": "${workspaceFolder}/bin/chat-server",

@@ -3,6 +3,7 @@
 #include "common/core/packet.h"
 #include "msgpb/user_register.pb.h"
 #include "msgpb/user_login.pb.h"
+#include "msgpb/user_login_ack.pb.h"
 #include "tools/console.h"
 
 namespace chatroom {
@@ -20,24 +21,37 @@ void ChatClient::Start() {
 }
 
 void ChatClient::RunLoop() {
-
+    boost::asio::co_spawn(socket_.get_executor(), [this]()->boost::asio::awaitable<void> {
+        co_await AskAccountAndPassword();
+    }, boost::asio::detached);
 }
 
 boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
-    auto opt = console::Options({"ç™»å½•", "æ³¨å†Œ"}, 0);
+    auto opt = console::Options({"µÇÂ¼", "×¢²á"}, 0);
     if (opt == 0) {
-        console::Print("è´¦æˆ·:"); auto account = console::GetUInt32();
-        console::Print("å¯†ç :"); auto password = console::GetString();
+    re_ask:
+        console::Print("ÕË»§:"); auto account = console::GetUInt32();
+        console::Print("ÃÜÂë:"); auto password = console::GetString();
         message::UserLogin login;
         login.set_account(account);
         login.set_password(password);
         co_await Send(MessageID::kUserLogin, login);
+        auto recv = co_await Receive();
+        auto ack = recv.DeserializeData<message::UserLoginAck>();
+        if (!ack.success()) {
+            console::Print("ÃÜÂë´íÎó, ÇëÖØĞÂÊäÈë!\n");
+            goto re_ask;
+        }
+        else {
+            console::Print("ÃÜÂëÕıÈ·, µÇÂ¼³É¹¦!\n");
+        }
     }
 }
 
 boost::asio::awaitable<size_t> ChatClient::Send(MessageID msgid, const google::protobuf::Message &msg) {
     SendPacket packet{msgid, msg};
-    co_return boost::asio::async_write(socket_, boost::asio::buffer(packet.Pack()), boost::asio::use_awaitable);
+    auto n = co_await boost::asio::async_write(socket_, boost::asio::buffer(packet.Pack()), boost::asio::use_awaitable);
+    co_return n;
 }
 
 boost::asio::awaitable<RecvPacket> ChatClient::Receive() {

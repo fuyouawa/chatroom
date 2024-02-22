@@ -6,7 +6,7 @@
 
 namespace console {
 void Print(std::string_view fmt) {
-    std::cout << fmt << std::endl;
+    std::cout << fmt;
 }
 
 int Options(std::initializer_list<std::string_view> opts, int cur_selection) {
@@ -18,7 +18,7 @@ re_print:
         if (is_selection) {
             BeginColor(Color::Green);
         }
-        Print("{} {}", is_selection ? ">>" : "  ", opt);
+        Print("{} {}\n", is_selection ? ">>" : "  ", opt);
         if (is_selection) {
             EndColor();
         }
