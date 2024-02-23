@@ -1,8 +1,4 @@
 {
-    "cmake.configureSettings": {
-        "CMAKE_TOOLCHAIN_FILE": "D:/Tool/Program/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows"
-    },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "files.associations": {
         "format": "cpp",
@@ -105,5 +101,6 @@
         "cinttypes": "cpp",
         "*.ipp": "cpp",
         "stack": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/fuyou/Code/C++/Network/chatroom/apps/server"
 }
