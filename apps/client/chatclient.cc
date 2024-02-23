@@ -1,9 +1,9 @@
 #include "chatclient.h"
 #include "common/core/msg_id.h"
 #include "common/core/packet.h"
-#include "msgpb/user_register.pb.h"
-#include "msgpb/user_login.pb.h"
-#include "msgpb/user_login_ack.pb.h"
+#include "common/msgpb/user_register.pb.h"
+#include "common/msgpb/user_login.pb.h"
+#include "common/msgpb/user_login_ack.pb.h"
 #include "tools/console.h"
 
 namespace chatroom {

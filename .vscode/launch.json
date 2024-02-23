@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug-Server",
+            "type": "gdb",
+            "request": "launch",
+            "target": "${workspaceFolder}/bin/chat-server",
+            "cwd": "${workspaceRoot}",
+            "valuesFormatting": "parseText"
+        },
+        {
+            "name": "Debug-Client",
+            "type": "gdb",
+            "request": "launch",
+            "target": "${workspaceFolder}/bin/chatroom",
+            "cwd": "${workspaceRoot}",
+            "valuesFormatting": "parseText"
+        }
+    ]
+}

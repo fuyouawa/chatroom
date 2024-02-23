@@ -1,8 +1,17 @@
 #include "console.h"
-#include <conio.h>
 #include <cassert>
 #include <stack>
 #include <iostream>
+#include <unistd.h>
+#include <termios.h>
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
 namespace console {
 void Print(std::string_view fmt) {
@@ -16,7 +25,7 @@ re_print:
     for (const auto& opt : opts) {
         bool is_selection = cur_selection == i;
         if (is_selection) {
-            BeginColor(Color::Green);
+            BeginColor(Color::kGreen);
         }
         Print("{} {}\n", is_selection ? ">>" : "  ", opt);
         if (is_selection) {
@@ -49,8 +58,15 @@ get_input:
 }
 
 Keycode InputKey() {
-    int k = _getch();
-    switch (k) {
+    termios old_tio, new_tio;
+    tcgetattr(STDIN_FILENO, &old_tio);
+    new_tio = old_tio;
+    new_tio.c_lflag &= (~ICANON & ~ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_tio);
+
+    char ch;
+    std::cin.get(ch);
+    switch (ch) {
         case 'w':
         case 'W':
             return Keycode::W;
@@ -69,40 +85,47 @@ Keycode InputKey() {
         default:
             assert(false);
     }
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
     return Keycode::W;
 }
 void Clear() {
-    std::system("cls");
+    std::cout << "\033[2J\033[1;1H";
 }
 
-#include <Windows.h>
 namespace {
-std::stack<WORD> attr_stack_;
+std::string_view GetColorAnsi(Color color) {
+    switch (color)
+    {
+    case Color::kGreen:
+        return "\x1b[32m";
+    case Color::kWhite:
+        return "\x1b[37m";
+    default:
+        return "";
+    }
+}
+std::stack<std::string_view> color_stack_;
 }   // namespace
 
+
 void BeginColor(Color color) {
-    HANDLE console_handler = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    GetConsoleScreenBufferInfo(console_handler, &info);
-    attr_stack_.push(info.wAttributes);
-    int color_attr = 0;
-    switch (color) {
-        case Color::Green:
-            color_attr = FOREGROUND_GREEN;
-            break;
-        case Color::White:
-            color_attr = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-            break;
-    }
-    SetConsoleTextAttribute(console_handler, color_attr);
+    auto ansi = GetColorAnsi(color);
+    color_stack_.push(ansi);
+    std::cout << ansi;
 }
 
 void EndColor() {
-    assert(!attr_stack_.empty());
-    HANDLE console_handler = GetStdHandle(STD_OUTPUT_HANDLE);
-    auto attr = attr_stack_.top();
-    attr_stack_.pop();
-    SetConsoleTextAttribute(console_handler, attr);
+    color_stack_.pop();
+    if (color_stack_.empty()) {
+        ResetColor();
+    }
+    else {
+        std::cout << color_stack_.top();
+        color_stack_.pop();
+    }
+}
+void ResetColor() {
+    std::cout << "\x1b[0m";
 }
 
 namespace {

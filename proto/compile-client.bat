@@ -1,1 +1,0 @@
-protoc --cpp_out=../apps/client/msgpb --proto_path=./message ./message/*

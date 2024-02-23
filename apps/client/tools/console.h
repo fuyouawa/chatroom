@@ -1,6 +1,7 @@
 #pragma once
 #include <format>
 #include <initializer_list>
+#include <cstdint>
 
 namespace console {
 enum class Keycode {
@@ -12,8 +13,8 @@ enum class Keycode {
 };
 
 enum class Color {
-    Green,
-    White
+    kGreen,
+    kWhite
 };
 void Print(std::string_view fmt);
 
@@ -31,4 +32,5 @@ void Clear();
 
 void BeginColor(Color color);
 void EndColor();
+void ResetColor();
 }   // namespace console
