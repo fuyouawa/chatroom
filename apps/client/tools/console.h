@@ -26,7 +26,7 @@ void Print(std::string_view fmt, Args&&... args) {
 std::string GetString();
 uint32_t GetUInt32();
 
-int Options(std::initializer_list<std::string_view> opts, int cur_selection);
+int Options(std::initializer_list<std::string_view> opts, size_t cur_selection);
 Keycode InputKey();
 void Clear();
 

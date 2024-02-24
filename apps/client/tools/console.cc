@@ -18,7 +18,7 @@ void Print(std::string_view fmt) {
     std::cout << fmt;
 }
 
-int Options(std::initializer_list<std::string_view> opts, int cur_selection) {
+int Options(std::initializer_list<std::string_view> opts, size_t cur_selection) {
 re_print:
     Clear();
     size_t i = 0;
@@ -66,6 +66,8 @@ Keycode InputKey() {
 
     char ch;
     std::cin.get(ch);
+    
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
     switch (ch) {
         case 'w':
         case 'W':
@@ -85,7 +87,6 @@ Keycode InputKey() {
         default:
             assert(false);
     }
-    tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
     return Keycode::W;
 }
 void Clear() {

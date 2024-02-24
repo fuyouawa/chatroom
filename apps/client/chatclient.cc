@@ -2,6 +2,7 @@
 #include "common/core/msg_id.h"
 #include "common/core/packet.h"
 #include "common/msgpb/user_register.pb.h"
+#include "common/msgpb/user_register_ack.pb.h"
 #include "common/msgpb/user_login.pb.h"
 #include "common/msgpb/user_login_ack.pb.h"
 #include "tools/console.h"
@@ -29,7 +30,7 @@ void ChatClient::RunLoop() {
 boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
     auto opt = console::Options({"登录", "注册"}, 0);
     if (opt == 0) {
-    re_ask:
+    re_login:
         console::Print("账号:"); auto account = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
         message::UserLogin login;
@@ -38,12 +39,36 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
         co_await Send(MessageID::kUserLogin, login);
         auto recv = co_await Receive();
         auto ack = recv.DeserializeData<message::UserLoginAck>();
-        if (!ack.success()) {
-            console::Print("登录失败, 请重新输入!\n");
-            goto re_ask;
+        if (ack.success()) {
+            console::Print("登录成功!\n");
         }
         else {
-            console::Print("登录成功!\n");
+            console::Print("登录失败!原因:{}\n", ack.errmsg());
+            goto re_login;
+        }
+    }
+    else {
+    re_reg:
+        console::Print("注册昵称:"); auto name = console::GetString();
+    re_pwd:
+        console::Print("注册密码:"); auto password = console::GetString();
+        console::Print("确认密码:"); auto password2 = console::GetString();
+        if (password != password2) {
+            console::Print("两次密码不正确, 请重新输入!\n");
+            goto re_pwd;
+        }
+        message::UserRegister reg;
+        reg.set_name(name);
+        reg.set_password(password);
+        co_await Send(MessageID::kUserRegister, reg);
+        auto recv = co_await Receive();
+        auto ack = recv.DeserializeData<message::UserRegisterAck>();
+        if (ack.success()) {
+            console::Print("注册成功! 你的账号是:{}\n", ack.account());
+        }
+        else {
+            console::Print("注册失败! 原因:{}\n", ack.errmsg());
+            goto re_reg;
         }
     }
 }
