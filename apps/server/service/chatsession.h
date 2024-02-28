@@ -17,8 +17,8 @@ namespace chatroom
 class ChatSession;
 class ChatServer;
 using ChatSessionPtr = std::shared_ptr<ChatSession>;
-using CloseCallback = std::move_only_function<void(ChatSessionPtr)>;
-using ReadCallback = std::move_only_function<void(ChatSessionPtr, const RecvPacket&)>;
+using CloseCallback = std::function<void(ChatSessionPtr)>;
+using ReadCallback = std::function<void(ChatSessionPtr, const RecvPacket&)>;
 
 class ChatSession : public std::enable_shared_from_this<ChatSession>, NonCopyable
 {
@@ -42,8 +42,8 @@ public:
     auto account() const noexcept { return account_; }
     auto logging() const noexcept { return logging_; }
     auto is_closed() const noexcept { return is_closed_.load(); }
-    void set_close_callback(CloseCallback cb) noexcept { close_callback_ = std::move(cb); }
-    void set_read_callback(ReadCallback cb) noexcept { read_callback_ = std::move(cb); }
+    void set_close_callback(CloseCallback&& cb) noexcept { close_callback_ = std::move(cb); }
+    void set_read_callback(ReadCallback&& cb) noexcept { read_callback_ = std::move(cb); }
     void set_account(uint account) noexcept { account_ = account; }
     void set_logging(bool logging) noexcept { logging_ = logging; }
     //TODO 超时关闭连接功能

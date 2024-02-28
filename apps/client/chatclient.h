@@ -17,6 +17,7 @@ private:
     void RunLoop();
 
     boost::asio::awaitable<void> AskAccountAndPassword();
+    void BasicPanel();
 
     boost::asio::awaitable<size_t> Send(MessageID msgid, const google::protobuf::Message& msg);
     boost::asio::awaitable<RecvPacket> Receive();
@@ -24,6 +25,5 @@ private:
     boost::asio::ip::tcp::socket socket_;
     boost::asio::ip::tcp::endpoint remote_ep_;
     int account_;
-    std::string password_;
 };
 }   // namespace chatroom

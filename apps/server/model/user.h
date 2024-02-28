@@ -1,8 +1,7 @@
 #pragma once
 #include <chrono>
 
-namespace chatroom
-{
+namespace chatroom {
 enum class UserState: int { kOffline, kOnline };
 
 class User

@@ -9,7 +9,9 @@ enum class Keycode {
     A,
     S,
     D,
-    Enter
+    Enter,
+    Esc,
+    TODO,
 };
 
 enum class Color {
@@ -26,7 +28,7 @@ void Print(std::string_view fmt, Args&&... args) {
 std::string GetString();
 uint32_t GetUInt32();
 
-int Options(std::initializer_list<std::string_view> opts, size_t cur_selection);
+int Options(std::initializer_list<std::string_view> opts, size_t cur_selection=0, bool* is_esc=nullptr);
 Keycode InputKey();
 void Clear();
 

@@ -6,7 +6,6 @@
 #include "common/core/msg_id.h"
 #include "common/msgpb/user_register_ack.pb.h"
 #include "common/msgpb/user_login_ack.pb.h"
-#include "common/msgpb/user_force_offline.pb.h"
 
 namespace chatroom
 {
@@ -51,31 +50,30 @@ void ChatService::HandleRegister(ChatSessionPtr session, const message::UserRegi
     register_user.set_name(msg.name());
     register_user.set_password(msg.password());
     register_user.set_register_time(std::chrono::system_clock::now());
-    const auto exp = UserModel::Insert(register_user);
 
     message::UserRegisterAck register_ack;
-    register_ack.set_success(exp.has_value());
-    if (exp.has_value())
+    try
     {
-        const auto account = exp.value();
+        const auto account = UserModel::Insert(register_user);
+        register_ack.set_success(true);
         CHATROOM_LOG_INFO("{} register success! Account:{}", session->name(), account);
         register_ack.set_account(account);
     }
-    else
+    catch(const std::exception& e)
     {
-        const auto errmsg = exp.error().what();
-        CHATROOM_LOG_INFO("{} register failed: {}", session->name(), errmsg);
-        register_ack.set_errmsg(errmsg);
+        CHATROOM_LOG_INFO("{} register failed: {}", session->name(), e.what());
+        register_ack.set_success(false);
+        register_ack.set_errmsg(e.what());
     }
     session->Send(MessageID::kUserRegisterAck, register_ack);
 }
 
 void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& msg) {
     CHATROOM_LOG_INFO("{} wanna login! Account:{} Password:{}", session->name(), msg.account(), msg.password());
-    const auto exp = UserModel::Query(msg.account());
     message::UserLoginAck login_ack;
-    if (exp.has_value()) {
-        auto user = exp.value();
+    try
+    {
+        auto user = UserModel::Query(msg.account());
         if (user.password() != msg.password()) {
             login_ack.set_success(false);
             login_ack.set_errmsg("密码错误!");
@@ -95,10 +93,12 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
         login_ack.set_success(true);
         CHATROOM_LOG_INFO("{} login success! Username:{}({})", session->name(), user.name(), user.account());
     }
-    else {
+    catch(const std::exception& e)
+    {
         login_ack.set_success(false);
         login_ack.set_errmsg("账号不存在!");
     }
+    
 send:
     session->Send(MessageID::kUserLoginAck, login_ack);
 }

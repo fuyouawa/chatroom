@@ -24,11 +24,12 @@ void ChatClient::Start() {
 void ChatClient::RunLoop() {
     boost::asio::co_spawn(socket_.get_executor(), [this]()->boost::asio::awaitable<void> {
         co_await AskAccountAndPassword();
+
     }, boost::asio::detached);
 }
 
 boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
-    auto opt = console::Options({"登录", "注册"}, 0);
+    auto opt = console::Options({"登录", "注册"});
     if (opt == 0) {
     re_login:
         console::Print("账号:"); auto account = console::GetUInt32();
@@ -46,6 +47,7 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
             console::Print("登录失败!原因:{}\n", ack.errmsg());
             goto re_login;
         }
+        account_ = account;
     }
     else {
     re_reg:
@@ -70,6 +72,18 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
             console::Print("注册失败! 原因:{}\n", ack.errmsg());
             goto re_reg;
         }
+        account_ = ack.account();
+    }
+}
+
+void ChatClient::BasicPanel() {
+    auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表"});
+    if (idx == 0) {
+        
+    } else if (idx == 1) {
+
+    } else if (idx == 2) {
+
     }
 }
 

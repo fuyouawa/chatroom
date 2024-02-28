@@ -1,81 +1,48 @@
 #include "user_model.h"
-#include "tools/sql_engine.h"
+#include "tools/mysql.h"
 
 namespace chatroom
 {
-auto UserModel::Insert(const User& user) -> std::expected<uint, sql::SQLException>
+uint UserModel::Insert(const User& user)
 {
-    try
-    {
-        auto exp = SQLEngine::Update(
-            "INSERT INTO `User`(name,password,register_time,state) VALUES('{}','{}','{}',{})",
-            user.name(), user.password(), SQLEngine::ToString(user.register_time()), user.state());
+    mysql::Update(
+        "INSERT INTO `User`(name,password,register_time,state) VALUES('{}','{}','{}',{})",
+        user.name(), user.password(), mysql::ToString(user.register_time()), user.state());
 
-        if (exp.has_value())
-            return SQLEngine::GetLastInsertId();
-        else
-            return std::unexpected(std::move(exp.error()));
-    }
-    catch(const std::exception& e)
-    {
-        return std::unexpected(sql::SQLException{e.what()});
-    }
+    return mysql::GetLastInsertId();
 }
 
-auto UserModel::Query(uint account) -> std::expected<User, sql::SQLException>
+User UserModel::Query(uint account)
 {
-    auto exp = SQLEngine::Query("SELECT * FROM User WHERE account = {}", account);
-    if (!exp.has_value())
-        return std::unexpected(exp.error());
-    auto res = std::move(exp.value());
-    
-    try
-    {
-        res->next();
-        const auto name = res->getString("name");
-        const auto pwd = res->getString("password");
-        const auto register_time = res->getString("register_time");
-        const auto state = static_cast<UserState>(res->getInt("state"));
-        User user;
-        user.set_account(account);
-        user.set_name(name.asStdString());
-        user.set_password(pwd.asStdString());
-        user.set_register_time(SQLEngine::StringToTimepoint(register_time.asStdString()));
-        user.set_state(state);
-        return user;
-    }
-    catch(const std::exception& e)
-    {
-        return std::unexpected(sql::SQLException{e.what()});
-    }
+    auto res = mysql::Query("SELECT * FROM User WHERE account = {}", account);
+    res->next();
+    const auto name = res->getString("name");
+    const auto pwd = res->getString("password");
+    const auto register_time = res->getString("register_time");
+    const auto state = static_cast<UserState>(res->getInt("state"));
+    User user;
+    user.set_account(account);
+    user.set_name(name.asStdString());
+    user.set_password(pwd.asStdString());
+    user.set_register_time(mysql::StringToTimepoint(register_time.asStdString()));
+    user.set_state(state);
+    return user;
 }
 
-auto UserModel::Update(const User& user) -> std::optional<sql::SQLException>
+void UserModel::Update(const User& user)
 {
-    auto exp = SQLEngine::Update(
+    mysql::Update(
         "UPDATE `User` SET register_time='{}',name='{}',password='{}',state={} WHERE `account`={}",
-        SQLEngine::ToString(user.register_time()), user.name(), user.password(), user.state(), user.account());
-    if (exp.has_value())
-        return std::nullopt;
-    else
-        return std::move(exp.error());
+        mysql::ToString(user.register_time()), user.name(), user.password(), user.state(), user.account());
 }
 
-auto UserModel::UpdateState(uint account, UserState state) -> std::optional<sql::SQLException>
+void UserModel::UpdateState(uint account, UserState state)
 {
-    auto exp = SQLEngine::Update("UPDATE `User` SET state={} WHERE `account`={}", state, account);
-    if (exp.has_value())
-        return std::nullopt;
-    else
-        return std::move(exp.error());
+    mysql::Update("UPDATE `User` SET state={} WHERE `account`={}", state, account);
 }
 
-auto UserModel::Remove(std::initializer_list<uint> accounts) -> std::optional<sql::SQLException>
+void UserModel::Remove(std::initializer_list<uint> accounts)
 {
-    auto exp = SQLEngine::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
-    if (exp.has_value())
-        return std::nullopt;
-    else
-        return std::move(exp.error());
+    mysql::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
 }
 }

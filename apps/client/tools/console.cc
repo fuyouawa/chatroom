@@ -18,7 +18,7 @@ void Print(std::string_view fmt) {
     std::cout << fmt;
 }
 
-int Options(std::initializer_list<std::string_view> opts, size_t cur_selection) {
+int Options(std::initializer_list<std::string_view> opts, size_t cur_selection, bool* is_esc) {
 re_print:
     Clear();
     size_t i = 0;
@@ -51,6 +51,11 @@ get_input:
         }
         case Keycode::Enter:
             break;
+        case Keycode::Esc:
+            if (is_esc) {
+                *is_esc = true;
+                return 0;
+            }
         default:
             goto get_input;
     }
@@ -84,10 +89,11 @@ Keycode InputKey() {
         case '\n':
         case '\r':
             return Keycode::Enter;
+        case 27:
+            return Keycode::Esc;
         default:
-            assert(false);
+            return Keycode::TODO;
     }
-    return Keycode::W;
 }
 void Clear() {
     std::cout << "\033[2J\033[1;1H";

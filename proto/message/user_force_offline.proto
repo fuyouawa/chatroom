@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package chatroom.message;
-
-message UserForceOffline {
-    string reason = 1;
-}
