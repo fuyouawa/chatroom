@@ -13,10 +13,10 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
     switch (packet.msgid())
     {
     case MessageID::kUserRegister:
-        HandleRegister(session, packet.DeserializeData<message::UserRegister>());
+        HandleRegister(session, packet.DeserializeData<msgpb::UserRegister>());
         break;
     case MessageID::kUserLogin:
-        HandleLogin(session, packet.DeserializeData<message::UserLogin>());
+        HandleLogin(session, packet.DeserializeData<msgpb::UserLogin>());
         break;
     default:
         break;
@@ -30,7 +30,7 @@ void ChatService::HandleSessionClosed(ChatSessionPtr session) {
 
 void ChatService::Logout(ChatSessionPtr session) {
     if (session->logging()) {
-        UserModel::UpdateState(session->account(), UserState::kOffline);
+        model::UpdateUserState(session->account(), UserState::kOffline);
         logged_session_map_.erase(session->account());
         session->set_account(0);
         session->set_logging(false);
@@ -41,20 +41,20 @@ void ChatService::Login(ChatSessionPtr session, const User& user) {
     session->set_account(user.account());
     session->set_logging(true);
     logged_session_map_[user.account()] = {session, user};
-    UserModel::UpdateState(session->account(), UserState::kOnline);
+    model::UpdateUserState(session->account(), UserState::kOnline);
 }
 
-void ChatService::HandleRegister(ChatSessionPtr session, const message::UserRegister& msg) {
+void ChatService::HandleRegister(ChatSessionPtr session, const msgpb::UserRegister& msg) {
     CHATROOM_LOG_INFO("{} wanna register! Name:{}, Password:{}", session->name(), msg.name(), msg.password());
     User register_user{};
     register_user.set_name(msg.name());
     register_user.set_password(msg.password());
     register_user.set_register_time(std::chrono::system_clock::now());
 
-    message::UserRegisterAck register_ack;
+    msgpb::UserRegisterAck register_ack;
     try
     {
-        const auto account = UserModel::Insert(register_user);
+        const auto account = model::InsertUser(register_user);
         register_ack.set_success(true);
         CHATROOM_LOG_INFO("{} register success! Account:{}", session->name(), account);
         register_ack.set_account(account);
@@ -68,12 +68,12 @@ void ChatService::HandleRegister(ChatSessionPtr session, const message::UserRegi
     session->Send(MessageID::kUserRegisterAck, register_ack);
 }
 
-void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& msg) {
+void ChatService::HandleLogin(ChatSessionPtr session, const msgpb::UserLogin& msg) {
     CHATROOM_LOG_INFO("{} wanna login! Account:{} Password:{}", session->name(), msg.account(), msg.password());
-    message::UserLoginAck login_ack;
+    msgpb::UserLoginAck login_ack;
     try
     {
-        auto user = UserModel::Query(msg.account());
+        auto user = model::QueryUser(msg.account());
         if (user.password() != msg.password()) {
             login_ack.set_success(false);
             login_ack.set_errmsg("密码错误!");
@@ -88,7 +88,7 @@ void ChatService::HandleLogin(ChatSessionPtr session, const message::UserLogin& 
             goto send;
         }
         user.set_state(UserState::kOnline);
-        UserModel::UpdateState(user.account(), UserState::kOnline);
+        model::UpdateUserState(user.account(), UserState::kOnline);
         Login(session, user);
         login_ack.set_success(true);
         CHATROOM_LOG_INFO("{} login success! Username:{}({})", session->name(), user.name(), user.account());

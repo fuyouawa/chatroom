@@ -15,22 +15,22 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 namespace chatroom {
-namespace message {
+namespace msgpb {
 class UserLoginDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserLogin> _instance;
 } _UserLogin_default_instance_;
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 static void InitDefaultsscc_info_UserLogin_user_5flogin_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::chatroom::message::_UserLogin_default_instance_;
-    new (ptr) ::chatroom::message::UserLogin();
+    void* ptr = &::chatroom::msgpb::_UserLogin_default_instance_;
+    new (ptr) ::chatroom::msgpb::UserLogin();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::chatroom::message::UserLogin::InitAsDefaultInstance();
+  ::chatroom::msgpb::UserLogin::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserLogin_user_5flogin_2eproto =
@@ -42,25 +42,25 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_s
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_5flogin_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserLogin, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserLogin, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserLogin, account_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserLogin, password_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserLogin, account_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserLogin, password_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::chatroom::message::UserLogin)},
+  { 0, -1, sizeof(::chatroom::msgpb::UserLogin)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::message::_UserLogin_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::msgpb::_UserLogin_default_instance_),
 };
 
 const char descriptor_table_protodef_user_5flogin_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020user_login.proto\022\020chatroom.message\".\n\t"
-  "UserLogin\022\017\n\007account\030\001 \001(\r\022\020\n\010password\030\002"
-  " \001(\tb\006proto3"
+  "\n\020user_login.proto\022\016chatroom.msgpb\".\n\tUs"
+  "erLogin\022\017\n\007account\030\001 \001(\r\022\020\n\010password\030\002 \001"
+  "(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_5flogin_2eproto_deps[1] = {
 };
@@ -69,7 +69,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_5flogin_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5flogin_2eproto = {
-  false, false, descriptor_table_protodef_user_5flogin_2eproto, "user_login.proto", 92,
+  false, false, descriptor_table_protodef_user_5flogin_2eproto, "user_login.proto", 90,
   &descriptor_table_user_5flogin_2eproto_once, descriptor_table_user_5flogin_2eproto_sccs, descriptor_table_user_5flogin_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_user_5flogin_2eproto::offsets,
   file_level_metadata_user_5flogin_2eproto, 1, file_level_enum_descriptors_user_5flogin_2eproto, file_level_service_descriptors_user_5flogin_2eproto,
@@ -78,7 +78,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_user_5flogin_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_user_5flogin_2eproto)), true);
 namespace chatroom {
-namespace message {
+namespace msgpb {
 
 // ===================================================================
 
@@ -92,7 +92,7 @@ UserLogin::UserLogin(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(arena_constructor:chatroom.msgpb.UserLogin)
 }
 UserLogin::UserLogin(const UserLogin& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -103,7 +103,7 @@ UserLogin::UserLogin(const UserLogin& from)
       GetArena());
   }
   account_ = from.account_;
-  // @@protoc_insertion_point(copy_constructor:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.UserLogin)
 }
 
 void UserLogin::SharedCtor() {
@@ -113,7 +113,7 @@ void UserLogin::SharedCtor() {
 }
 
 UserLogin::~UserLogin() {
-  // @@protoc_insertion_point(destructor:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(destructor:chatroom.msgpb.UserLogin)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -139,7 +139,7 @@ const UserLogin& UserLogin::default_instance() {
 
 
 void UserLogin::Clear() {
-// @@protoc_insertion_point(message_clear_start:chatroom.message.UserLogin)
+// @@protoc_insertion_point(message_clear_start:chatroom.msgpb.UserLogin)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -169,7 +169,7 @@ const char* UserLogin::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_password();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.message.UserLogin.password"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.UserLogin.password"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -197,7 +197,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* UserLogin::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(serialize_to_array_start:chatroom.msgpb.UserLogin)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -212,7 +212,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_password().data(), static_cast<int>(this->_internal_password().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "chatroom.message.UserLogin.password");
+      "chatroom.msgpb.UserLogin.password");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_password(), target);
   }
@@ -221,12 +221,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(serialize_to_array_end:chatroom.msgpb.UserLogin)
   return target;
 }
 
 size_t UserLogin::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:chatroom.message.UserLogin)
+// @@protoc_insertion_point(message_byte_size_start:chatroom.msgpb.UserLogin)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -257,22 +257,22 @@ size_t UserLogin::ByteSizeLong() const {
 }
 
 void UserLogin::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chatroom.message.UserLogin)
+// @@protoc_insertion_point(generalized_merge_from_start:chatroom.msgpb.UserLogin)
   GOOGLE_DCHECK_NE(&from, this);
   const UserLogin* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserLogin>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.msgpb.UserLogin)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.message.UserLogin)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.msgpb.UserLogin)
     MergeFrom(*source);
   }
 }
 
 void UserLogin::MergeFrom(const UserLogin& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.message.UserLogin)
+// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.msgpb.UserLogin)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -287,14 +287,14 @@ void UserLogin::MergeFrom(const UserLogin& from) {
 }
 
 void UserLogin::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chatroom.message.UserLogin)
+// @@protoc_insertion_point(generalized_copy_from_start:chatroom.msgpb.UserLogin)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void UserLogin::CopyFrom(const UserLogin& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.message.UserLogin)
+// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.msgpb.UserLogin)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -317,11 +317,11 @@ void UserLogin::InternalSwap(UserLogin* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::chatroom::message::UserLogin* Arena::CreateMaybeMessage< ::chatroom::message::UserLogin >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::chatroom::message::UserLogin >(arena);
+template<> PROTOBUF_NOINLINE ::chatroom::msgpb::UserLogin* Arena::CreateMaybeMessage< ::chatroom::msgpb::UserLogin >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::chatroom::msgpb::UserLogin >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

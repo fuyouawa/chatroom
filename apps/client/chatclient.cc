@@ -34,12 +34,12 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
     re_login:
         console::Print("账号:"); auto account = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
-        message::UserLogin login;
+        msgpb::UserLogin login;
         login.set_account(account);
         login.set_password(password);
         co_await Send(MessageID::kUserLogin, login);
         auto recv = co_await Receive();
-        auto ack = recv.DeserializeData<message::UserLoginAck>();
+        auto ack = recv.DeserializeData<msgpb::UserLoginAck>();
         if (ack.success()) {
             console::Print("登录成功!\n");
         }
@@ -59,12 +59,12 @@ boost::asio::awaitable<void> ChatClient::AskAccountAndPassword() {
             console::Print("两次密码不正确, 请重新输入!\n");
             goto re_pwd;
         }
-        message::UserRegister reg;
+        msgpb::UserRegister reg;
         reg.set_name(name);
         reg.set_password(password);
         co_await Send(MessageID::kUserRegister, reg);
         auto recv = co_await Receive();
-        auto ack = recv.DeserializeData<message::UserRegisterAck>();
+        auto ack = recv.DeserializeData<msgpb::UserRegisterAck>();
         if (ack.success()) {
             console::Print("注册成功! 你的账号是:{}\n", ack.account());
         }

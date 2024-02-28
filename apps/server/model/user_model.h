@@ -4,15 +4,12 @@
 #include <optional>
 #include "model/user.h"
 
-namespace chatroom
-{
-class UserModel
-{
-public:
-    static uint Insert(const User& user);
-    static User Query(uint account);
-    static void Update(const User& user);
-    static void UpdateState(uint account, UserState state);
-    static void Remove(std::initializer_list<uint> accounts);
-};
+namespace chatroom {
+namespace model {
+uint InsertUser(const User& user);
+User QueryUser(uint account);
+void UpdateUser(const User& user);
+void UpdateUserState(uint account, UserState state);
+void RemoveUser(std::initializer_list<uint> accounts);
+}
 }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package chatroom.message;
+package chatroom.msgpb;
 
 message UserRegister {
     string name = 1;

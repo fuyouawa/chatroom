@@ -15,22 +15,22 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 namespace chatroom {
-namespace message {
+namespace msgpb {
 class UserRegisterAckDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserRegisterAck> _instance;
 } _UserRegisterAck_default_instance_;
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 static void InitDefaultsscc_info_UserRegisterAck_user_5fregister_5fack_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::chatroom::message::_UserRegisterAck_default_instance_;
-    new (ptr) ::chatroom::message::UserRegisterAck();
+    void* ptr = &::chatroom::msgpb::_UserRegisterAck_default_instance_;
+    new (ptr) ::chatroom::msgpb::UserRegisterAck();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::chatroom::message::UserRegisterAck::InitAsDefaultInstance();
+  ::chatroom::msgpb::UserRegisterAck::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserRegisterAck_user_5fregister_5fack_2eproto =
@@ -42,26 +42,26 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_s
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_5fregister_5fack_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserRegisterAck, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserRegisterAck, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserRegisterAck, success_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserRegisterAck, errmsg_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::message::UserRegisterAck, account_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserRegisterAck, success_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserRegisterAck, errmsg_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserRegisterAck, account_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::chatroom::message::UserRegisterAck)},
+  { 0, -1, sizeof(::chatroom::msgpb::UserRegisterAck)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::message::_UserRegisterAck_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::msgpb::_UserRegisterAck_default_instance_),
 };
 
 const char descriptor_table_protodef_user_5fregister_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\027user_register_ack.proto\022\020chatroom.mess"
-  "age\"C\n\017UserRegisterAck\022\017\n\007success\030\001 \001(\010\022"
-  "\016\n\006errmsg\030\002 \001(\t\022\017\n\007account\030\003 \001(\rb\006proto3"
+  "\n\027user_register_ack.proto\022\016chatroom.msgp"
+  "b\"C\n\017UserRegisterAck\022\017\n\007success\030\001 \001(\010\022\016\n"
+  "\006errmsg\030\002 \001(\t\022\017\n\007account\030\003 \001(\rb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_5fregister_5fack_2eproto_deps[1] = {
 };
@@ -70,7 +70,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_5fregister_5fack_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5fregister_5fack_2eproto = {
-  false, false, descriptor_table_protodef_user_5fregister_5fack_2eproto, "user_register_ack.proto", 120,
+  false, false, descriptor_table_protodef_user_5fregister_5fack_2eproto, "user_register_ack.proto", 118,
   &descriptor_table_user_5fregister_5fack_2eproto_once, descriptor_table_user_5fregister_5fack_2eproto_sccs, descriptor_table_user_5fregister_5fack_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_user_5fregister_5fack_2eproto::offsets,
   file_level_metadata_user_5fregister_5fack_2eproto, 1, file_level_enum_descriptors_user_5fregister_5fack_2eproto, file_level_service_descriptors_user_5fregister_5fack_2eproto,
@@ -79,7 +79,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_user_5fregister_5fack_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_user_5fregister_5fack_2eproto)), true);
 namespace chatroom {
-namespace message {
+namespace msgpb {
 
 // ===================================================================
 
@@ -93,7 +93,7 @@ UserRegisterAck::UserRegisterAck(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(arena_constructor:chatroom.msgpb.UserRegisterAck)
 }
 UserRegisterAck::UserRegisterAck(const UserRegisterAck& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -106,7 +106,7 @@ UserRegisterAck::UserRegisterAck(const UserRegisterAck& from)
   ::memcpy(&success_, &from.success_,
     static_cast<size_t>(reinterpret_cast<char*>(&account_) -
     reinterpret_cast<char*>(&success_)) + sizeof(account_));
-  // @@protoc_insertion_point(copy_constructor:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.UserRegisterAck)
 }
 
 void UserRegisterAck::SharedCtor() {
@@ -118,7 +118,7 @@ void UserRegisterAck::SharedCtor() {
 }
 
 UserRegisterAck::~UserRegisterAck() {
-  // @@protoc_insertion_point(destructor:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(destructor:chatroom.msgpb.UserRegisterAck)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -144,7 +144,7 @@ const UserRegisterAck& UserRegisterAck::default_instance() {
 
 
 void UserRegisterAck::Clear() {
-// @@protoc_insertion_point(message_clear_start:chatroom.message.UserRegisterAck)
+// @@protoc_insertion_point(message_clear_start:chatroom.msgpb.UserRegisterAck)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -176,7 +176,7 @@ const char* UserRegisterAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_errmsg();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.message.UserRegisterAck.errmsg"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.UserRegisterAck.errmsg"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -211,7 +211,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* UserRegisterAck::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(serialize_to_array_start:chatroom.msgpb.UserRegisterAck)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -226,7 +226,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_errmsg().data(), static_cast<int>(this->_internal_errmsg().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "chatroom.message.UserRegisterAck.errmsg");
+      "chatroom.msgpb.UserRegisterAck.errmsg");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_errmsg(), target);
   }
@@ -241,12 +241,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(serialize_to_array_end:chatroom.msgpb.UserRegisterAck)
   return target;
 }
 
 size_t UserRegisterAck::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:chatroom.message.UserRegisterAck)
+// @@protoc_insertion_point(message_byte_size_start:chatroom.msgpb.UserRegisterAck)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -282,22 +282,22 @@ size_t UserRegisterAck::ByteSizeLong() const {
 }
 
 void UserRegisterAck::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chatroom.message.UserRegisterAck)
+// @@protoc_insertion_point(generalized_merge_from_start:chatroom.msgpb.UserRegisterAck)
   GOOGLE_DCHECK_NE(&from, this);
   const UserRegisterAck* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserRegisterAck>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.msgpb.UserRegisterAck)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.msgpb.UserRegisterAck)
     MergeFrom(*source);
   }
 }
 
 void UserRegisterAck::MergeFrom(const UserRegisterAck& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.message.UserRegisterAck)
+// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.msgpb.UserRegisterAck)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -315,14 +315,14 @@ void UserRegisterAck::MergeFrom(const UserRegisterAck& from) {
 }
 
 void UserRegisterAck::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chatroom.message.UserRegisterAck)
+// @@protoc_insertion_point(generalized_copy_from_start:chatroom.msgpb.UserRegisterAck)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void UserRegisterAck::CopyFrom(const UserRegisterAck& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.message.UserRegisterAck)
+// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.msgpb.UserRegisterAck)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -350,11 +350,11 @@ void UserRegisterAck::InternalSwap(UserRegisterAck* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::chatroom::message::UserRegisterAck* Arena::CreateMaybeMessage< ::chatroom::message::UserRegisterAck >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::chatroom::message::UserRegisterAck >(arena);
+template<> PROTOBUF_NOINLINE ::chatroom::msgpb::UserRegisterAck* Arena::CreateMaybeMessage< ::chatroom::msgpb::UserRegisterAck >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::chatroom::msgpb::UserRegisterAck >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

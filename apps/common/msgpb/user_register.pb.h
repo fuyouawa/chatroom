@@ -55,22 +55,22 @@ struct TableStruct_user_5fregister_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5fregister_2eproto;
 namespace chatroom {
-namespace message {
+namespace msgpb {
 class UserRegister;
 class UserRegisterDefaultTypeInternal;
 extern UserRegisterDefaultTypeInternal _UserRegister_default_instance_;
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> ::chatroom::message::UserRegister* Arena::CreateMaybeMessage<::chatroom::message::UserRegister>(Arena*);
+template<> ::chatroom::msgpb::UserRegister* Arena::CreateMaybeMessage<::chatroom::msgpb::UserRegister>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace chatroom {
-namespace message {
+namespace msgpb {
 
 // ===================================================================
 
 class UserRegister PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chatroom.message.UserRegister) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chatroom.msgpb.UserRegister) */ {
  public:
   inline UserRegister() : UserRegister(nullptr) {};
   virtual ~UserRegister();
@@ -159,7 +159,7 @@ class UserRegister PROTOBUF_FINAL :
   void InternalSwap(UserRegister* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "chatroom.message.UserRegister";
+    return "chatroom.msgpb.UserRegister";
   }
   protected:
   explicit UserRegister(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -235,7 +235,7 @@ class UserRegister PROTOBUF_FINAL :
   std::string* _internal_mutable_password();
   public:
 
-  // @@protoc_insertion_point(class_scope:chatroom.message.UserRegister)
+  // @@protoc_insertion_point(class_scope:chatroom.msgpb.UserRegister)
  private:
   class _Internal;
 
@@ -263,15 +263,15 @@ inline void UserRegister::clear_name() {
   name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline const std::string& UserRegister::name() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.UserRegister.name)
   return _internal_name();
 }
 inline void UserRegister::set_name(const std::string& value) {
   _internal_set_name(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.UserRegister.name)
 }
 inline std::string* UserRegister::mutable_name() {
-  // @@protoc_insertion_point(field_mutable:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.UserRegister.name)
   return _internal_mutable_name();
 }
 inline const std::string& UserRegister::_internal_name() const {
@@ -285,28 +285,28 @@ inline void UserRegister::set_name(std::string&& value) {
   
   name_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_set_rvalue:chatroom.msgpb.UserRegister.name)
 }
 inline void UserRegister::set_name(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.UserRegister.name)
 }
 inline void UserRegister::set_name(const char* value,
     size_t size) {
   
   name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.UserRegister.name)
 }
 inline std::string* UserRegister::_internal_mutable_name() {
   
   return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* UserRegister::release_name() {
-  // @@protoc_insertion_point(field_release:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_release:chatroom.msgpb.UserRegister.name)
   return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline void UserRegister::set_allocated_name(std::string* name) {
@@ -317,10 +317,10 @@ inline void UserRegister::set_allocated_name(std::string* name) {
   }
   name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_set_allocated:chatroom.msgpb.UserRegister.name)
 }
 inline std::string* UserRegister::unsafe_arena_release_name() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.msgpb.UserRegister.name)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
   return name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
@@ -336,7 +336,7 @@ inline void UserRegister::unsafe_arena_set_allocated_name(
   }
   name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       name, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.message.UserRegister.name)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.UserRegister.name)
 }
 
 // string password = 2;
@@ -344,15 +344,15 @@ inline void UserRegister::clear_password() {
   password_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline const std::string& UserRegister::password() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.UserRegister.password)
   return _internal_password();
 }
 inline void UserRegister::set_password(const std::string& value) {
   _internal_set_password(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.UserRegister.password)
 }
 inline std::string* UserRegister::mutable_password() {
-  // @@protoc_insertion_point(field_mutable:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.UserRegister.password)
   return _internal_mutable_password();
 }
 inline const std::string& UserRegister::_internal_password() const {
@@ -366,28 +366,28 @@ inline void UserRegister::set_password(std::string&& value) {
   
   password_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_set_rvalue:chatroom.msgpb.UserRegister.password)
 }
 inline void UserRegister::set_password(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.UserRegister.password)
 }
 inline void UserRegister::set_password(const char* value,
     size_t size) {
   
   password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.UserRegister.password)
 }
 inline std::string* UserRegister::_internal_mutable_password() {
   
   return password_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* UserRegister::release_password() {
-  // @@protoc_insertion_point(field_release:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_release:chatroom.msgpb.UserRegister.password)
   return password_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline void UserRegister::set_allocated_password(std::string* password) {
@@ -398,10 +398,10 @@ inline void UserRegister::set_allocated_password(std::string* password) {
   }
   password_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), password,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_set_allocated:chatroom.msgpb.UserRegister.password)
 }
 inline std::string* UserRegister::unsafe_arena_release_password() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.msgpb.UserRegister.password)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
   return password_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
@@ -417,7 +417,7 @@ inline void UserRegister::unsafe_arena_set_allocated_password(
   }
   password_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       password, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.message.UserRegister.password)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.UserRegister.password)
 }
 
 #ifdef __GNUC__
@@ -426,7 +426,7 @@ inline void UserRegister::unsafe_arena_set_allocated_password(
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 
 // @@protoc_insertion_point(global_scope)

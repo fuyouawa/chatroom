@@ -1,19 +1,17 @@
 #include "user_model.h"
 #include "tools/mysql.h"
 
-namespace chatroom
-{
-uint UserModel::Insert(const User& user)
-{
-    mysql::Update(
+namespace chatroom {
+namespace model {
+uint InsertUser(const User& user) {
+    auto res = mysql::Update(
         "INSERT INTO `User`(name,password,register_time,state) VALUES('{}','{}','{}',{})",
         user.name(), user.password(), mysql::ToString(user.register_time()), user.state());
-
+    assert(res);
     return mysql::GetLastInsertId();
 }
 
-User UserModel::Query(uint account)
-{
+User QueryUser(uint account) {
     auto res = mysql::Query("SELECT * FROM User WHERE account = {}", account);
     res->next();
     const auto name = res->getString("name");
@@ -29,20 +27,21 @@ User UserModel::Query(uint account)
     return user;
 }
 
-void UserModel::Update(const User& user)
-{
-    mysql::Update(
+void UpdateUser(const User& user) {
+    auto res = mysql::Update(
         "UPDATE `User` SET register_time='{}',name='{}',password='{}',state={} WHERE `account`={}",
         mysql::ToString(user.register_time()), user.name(), user.password(), user.state(), user.account());
+    assert(res);
 }
 
-void UserModel::UpdateState(uint account, UserState state)
-{
-    mysql::Update("UPDATE `User` SET state={} WHERE `account`={}", state, account);
+void UpdateUserState(uint account, UserState state) {
+    auto res = mysql::Update("UPDATE `User` SET state={} WHERE `account`={}", state, account);
+    assert(res);
 }
 
-void UserModel::Remove(std::initializer_list<uint> accounts)
-{
-    mysql::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
+void RemoveUser(std::initializer_list<uint> accounts) {
+    auto res = mysql::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
+    assert(res);
+}
 }
 }

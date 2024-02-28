@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package chatroom.msgpb;
 
-message UserRegisterAck {
+message UserRemoveFriendAck {
     bool success = 1;
     string errmsg = 2;
-    uint32 account = 3;
 }

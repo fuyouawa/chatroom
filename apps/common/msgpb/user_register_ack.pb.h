@@ -55,22 +55,22 @@ struct TableStruct_user_5fregister_5fack_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5fregister_5fack_2eproto;
 namespace chatroom {
-namespace message {
+namespace msgpb {
 class UserRegisterAck;
 class UserRegisterAckDefaultTypeInternal;
 extern UserRegisterAckDefaultTypeInternal _UserRegisterAck_default_instance_;
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> ::chatroom::message::UserRegisterAck* Arena::CreateMaybeMessage<::chatroom::message::UserRegisterAck>(Arena*);
+template<> ::chatroom::msgpb::UserRegisterAck* Arena::CreateMaybeMessage<::chatroom::msgpb::UserRegisterAck>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace chatroom {
-namespace message {
+namespace msgpb {
 
 // ===================================================================
 
 class UserRegisterAck PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chatroom.message.UserRegisterAck) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chatroom.msgpb.UserRegisterAck) */ {
  public:
   inline UserRegisterAck() : UserRegisterAck(nullptr) {};
   virtual ~UserRegisterAck();
@@ -159,7 +159,7 @@ class UserRegisterAck PROTOBUF_FINAL :
   void InternalSwap(UserRegisterAck* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "chatroom.message.UserRegisterAck";
+    return "chatroom.msgpb.UserRegisterAck";
   }
   protected:
   explicit UserRegisterAck(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -229,7 +229,7 @@ class UserRegisterAck PROTOBUF_FINAL :
   void _internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:chatroom.message.UserRegisterAck)
+  // @@protoc_insertion_point(class_scope:chatroom.msgpb.UserRegisterAck)
  private:
   class _Internal;
 
@@ -261,7 +261,7 @@ inline bool UserRegisterAck::_internal_success() const {
   return success_;
 }
 inline bool UserRegisterAck::success() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.UserRegisterAck.success)
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.UserRegisterAck.success)
   return _internal_success();
 }
 inline void UserRegisterAck::_internal_set_success(bool value) {
@@ -270,7 +270,7 @@ inline void UserRegisterAck::_internal_set_success(bool value) {
 }
 inline void UserRegisterAck::set_success(bool value) {
   _internal_set_success(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.UserRegisterAck.success)
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.UserRegisterAck.success)
 }
 
 // string errmsg = 2;
@@ -278,15 +278,15 @@ inline void UserRegisterAck::clear_errmsg() {
   errmsg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline const std::string& UserRegisterAck::errmsg() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.UserRegisterAck.errmsg)
   return _internal_errmsg();
 }
 inline void UserRegisterAck::set_errmsg(const std::string& value) {
   _internal_set_errmsg(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 inline std::string* UserRegisterAck::mutable_errmsg() {
-  // @@protoc_insertion_point(field_mutable:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.UserRegisterAck.errmsg)
   return _internal_mutable_errmsg();
 }
 inline const std::string& UserRegisterAck::_internal_errmsg() const {
@@ -300,28 +300,28 @@ inline void UserRegisterAck::set_errmsg(std::string&& value) {
   
   errmsg_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_set_rvalue:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 inline void UserRegisterAck::set_errmsg(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 inline void UserRegisterAck::set_errmsg(const char* value,
     size_t size) {
   
   errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 inline std::string* UserRegisterAck::_internal_mutable_errmsg() {
   
   return errmsg_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* UserRegisterAck::release_errmsg() {
-  // @@protoc_insertion_point(field_release:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_release:chatroom.msgpb.UserRegisterAck.errmsg)
   return errmsg_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline void UserRegisterAck::set_allocated_errmsg(std::string* errmsg) {
@@ -332,10 +332,10 @@ inline void UserRegisterAck::set_allocated_errmsg(std::string* errmsg) {
   }
   errmsg_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), errmsg,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_set_allocated:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 inline std::string* UserRegisterAck::unsafe_arena_release_errmsg() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.msgpb.UserRegisterAck.errmsg)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
   return errmsg_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
@@ -351,7 +351,7 @@ inline void UserRegisterAck::unsafe_arena_set_allocated_errmsg(
   }
   errmsg_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       errmsg, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.message.UserRegisterAck.errmsg)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 
 // uint32 account = 3;
@@ -362,7 +362,7 @@ inline ::PROTOBUF_NAMESPACE_ID::uint32 UserRegisterAck::_internal_account() cons
   return account_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::uint32 UserRegisterAck::account() const {
-  // @@protoc_insertion_point(field_get:chatroom.message.UserRegisterAck.account)
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.UserRegisterAck.account)
   return _internal_account();
 }
 inline void UserRegisterAck::_internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
@@ -371,7 +371,7 @@ inline void UserRegisterAck::_internal_set_account(::PROTOBUF_NAMESPACE_ID::uint
 }
 inline void UserRegisterAck::set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_account(value);
-  // @@protoc_insertion_point(field_set:chatroom.message.UserRegisterAck.account)
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.UserRegisterAck.account)
 }
 
 #ifdef __GNUC__
@@ -380,7 +380,7 @@ inline void UserRegisterAck::set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) 
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace message
+}  // namespace msgpb
 }  // namespace chatroom
 
 // @@protoc_insertion_point(global_scope)
