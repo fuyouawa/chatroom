@@ -210,13 +210,13 @@ class UserLogin PROTOBUF_FINAL :
   std::string* _internal_mutable_password();
   public:
 
-  // uint32 account = 1;
+  // int32 account = 1;
   void clear_account();
-  ::PROTOBUF_NAMESPACE_ID::uint32 account() const;
-  void set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 account() const;
+  void set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_account() const;
-  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_account() const;
+  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.UserLogin)
@@ -227,7 +227,7 @@ class UserLogin PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 account_;
+  ::PROTOBUF_NAMESPACE_ID::int32 account_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_5flogin_2eproto;
 };
@@ -242,22 +242,22 @@ class UserLogin PROTOBUF_FINAL :
 #endif  // __GNUC__
 // UserLogin
 
-// uint32 account = 1;
+// int32 account = 1;
 inline void UserLogin::clear_account() {
-  account_ = 0u;
+  account_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserLogin::_internal_account() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserLogin::_internal_account() const {
   return account_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserLogin::account() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserLogin::account() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.UserLogin.account)
   return _internal_account();
 }
-inline void UserLogin::_internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserLogin::_internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   account_ = value;
 }
-inline void UserLogin::set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserLogin::set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_account(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.UserLogin.account)
 }

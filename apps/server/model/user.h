@@ -22,7 +22,7 @@ public:
     void set_state(UserState state) noexcept { state_ = state; }
 
 private:
-    uint account_;
+    int account_;
     std::chrono::system_clock::time_point register_time_;
     std::string name_;
     std::string password_;

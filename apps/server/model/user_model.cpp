@@ -3,7 +3,7 @@
 
 namespace chatroom {
 namespace model {
-uint InsertUser(const User& user) {
+int InsertUser(const User& user) {
     auto res = mysql::Update(
         "INSERT INTO `User`(name,password,register_time,state) VALUES('{}','{}','{}',{})",
         user.name(), user.password(), mysql::ToString(user.register_time()), user.state());
@@ -11,7 +11,7 @@ uint InsertUser(const User& user) {
     return mysql::GetLastInsertId();
 }
 
-User QueryUser(uint account) {
+User QueryUser(int account) {
     auto res = mysql::Query("SELECT * FROM User WHERE account = {}", account);
     res->next();
     const auto name = res->getString("name");
@@ -34,12 +34,12 @@ void UpdateUser(const User& user) {
     assert(res);
 }
 
-void UpdateUserState(uint account, UserState state) {
+void UpdateUserState(int account, UserState state) {
     auto res = mysql::Update("UPDATE `User` SET state={} WHERE `account`={}", state, account);
     assert(res);
 }
 
-void RemoveUser(std::initializer_list<uint> accounts) {
+void RemoveUser(std::initializer_list<int> accounts) {
     auto res = mysql::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
     assert(res);
 }

@@ -10,13 +10,12 @@
 namespace chatroom
 {
 void HandleSessionError(ChatSessionPtr session, const std::exception& e) {
-    CHATROOM_LOG_ERROR("Error occur in {}: {}", session->name(), e.what());
+    CHATROOM_LOG_ERROR("Error occur in {}: {}", session->client_ep(), e.what());
     session->Close();
 }
 
-ChatSession::ChatSession(Socket&& socket, ChatServer* server, std::string_view name)
+ChatSession::ChatSession(Socket&& socket, ChatServer* server)
     : logging_{false},
-    name_{name},
     account_{0},
     is_closed_{false},
     socket_{std::move(socket)},
@@ -42,7 +41,7 @@ void ChatSession::Close() noexcept {
     }
     catch(const std::exception& e)
     {
-        CHATROOM_LOG_ERROR("Error occur when {} closing: {}", name(), e.what());
+        CHATROOM_LOG_ERROR("Error occur when {} close one session: {}", client_ep(), e.what());
     }
     
 }
@@ -128,7 +127,7 @@ void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, b
     }
     catch(const std::exception& e)
     {
-        CHATROOM_LOG_ERROR("Error occur when sending data to {}:", name(), e.what());
+        CHATROOM_LOG_ERROR("Error occur when sending data to {}:{}", client_ep(), e.what());
     }
 }
 
@@ -157,7 +156,7 @@ void ChatSession::HandleWrited(const boost::system::error_code& ec) {
             }
         }
         else {
-            CHATROOM_LOG_ERROR("{} write message failed: {}", name(), ec.message());
+            CHATROOM_LOG_ERROR("Write message to {} failed: {}", client_ep(), ec.message());
             Close();
         }
     }

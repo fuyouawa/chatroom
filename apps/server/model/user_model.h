@@ -6,10 +6,10 @@
 
 namespace chatroom {
 namespace model {
-uint InsertUser(const User& user);
-User QueryUser(uint account);
+int InsertUser(const User& user);
+User QueryUser(int account);
 void UpdateUser(const User& user);
-void UpdateUserState(uint account, UserState state);
-void RemoveUser(std::initializer_list<uint> accounts);
+void UpdateUserState(int account, UserState state);
+void RemoveUser(std::initializer_list<int> accounts);
 }
 }

@@ -4,8 +4,6 @@
 #include "model/user.h"
 
 #include "common/core/singleton.h"
-#include "common/msgpb/user_login.pb.h"
-#include "common/msgpb/user_register.pb.h"
 
 
 namespace chatroom
@@ -17,13 +15,13 @@ public:
     void HandleRecvPacket(ChatSessionPtr session, const RecvPacket& packet);
     void HandleSessionClosed(ChatSessionPtr session);
 
-private:
     void Logout(ChatSessionPtr session);
     void Login(ChatSessionPtr session, const User& user);
 
-    void HandleRegister(ChatSessionPtr session, const msgpb::UserRegister& msg);
-    void HandleLogin(ChatSessionPtr session, const msgpb::UserLogin& msg);
+    auto& GetLoggedSession(int user_id) const { return logged_session_map_.at(user_id).first; }
+    auto& GetLoggedUserInfo(int user_id) const { return logged_session_map_.at(user_id).second; }
 
-    std::unordered_map<uint, std::tuple<ChatSessionPtr, User>> logged_session_map_;
+private:
+    std::unordered_map<int, std::pair<ChatSessionPtr, User>> logged_session_map_;
 };
 }

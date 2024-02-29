@@ -61,7 +61,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_user_5fregister_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\027user_register_ack.proto\022\016chatroom.msgp"
   "b\"C\n\017UserRegisterAck\022\017\n\007success\030\001 \001(\010\022\016\n"
-  "\006errmsg\030\002 \001(\t\022\017\n\007account\030\003 \001(\rb\006proto3"
+  "\006errmsg\030\002 \001(\t\022\017\n\007account\030\003 \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_5fregister_5fack_2eproto_deps[1] = {
 };
@@ -180,10 +180,10 @@ const char* UserRegisterAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 account = 3;
+      // int32 account = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          account_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          account_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -231,10 +231,10 @@ failure:
         2, this->_internal_errmsg(), target);
   }
 
-  // uint32 account = 3;
+  // int32 account = 3;
   if (this->account() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_account(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_account(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -265,10 +265,10 @@ size_t UserRegisterAck::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // uint32 account = 3;
+  // int32 account = 3;
   if (this->account() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_account());
   }
 

@@ -220,13 +220,13 @@ class UserRegisterAck PROTOBUF_FINAL :
   void _internal_set_success(bool value);
   public:
 
-  // uint32 account = 3;
+  // int32 account = 3;
   void clear_account();
-  ::PROTOBUF_NAMESPACE_ID::uint32 account() const;
-  void set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 account() const;
+  void set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_account() const;
-  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_account() const;
+  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.UserRegisterAck)
@@ -238,7 +238,7 @@ class UserRegisterAck PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
   bool success_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 account_;
+  ::PROTOBUF_NAMESPACE_ID::int32 account_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_5fregister_5fack_2eproto;
 };
@@ -354,22 +354,22 @@ inline void UserRegisterAck::unsafe_arena_set_allocated_errmsg(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.UserRegisterAck.errmsg)
 }
 
-// uint32 account = 3;
+// int32 account = 3;
 inline void UserRegisterAck::clear_account() {
-  account_ = 0u;
+  account_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserRegisterAck::_internal_account() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserRegisterAck::_internal_account() const {
   return account_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserRegisterAck::account() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserRegisterAck::account() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.UserRegisterAck.account)
   return _internal_account();
 }
-inline void UserRegisterAck::_internal_set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserRegisterAck::_internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   account_ = value;
 }
-inline void UserRegisterAck::set_account(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserRegisterAck::set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_account(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.UserRegisterAck.account)
 }

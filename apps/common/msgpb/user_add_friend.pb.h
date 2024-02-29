@@ -185,22 +185,22 @@ class UserAddFriend PROTOBUF_FINAL :
     kUserIdFieldNumber = 1,
     kFriendIdFieldNumber = 2,
   };
-  // uint32 user_id = 1;
+  // int32 user_id = 1;
   void clear_user_id();
-  ::PROTOBUF_NAMESPACE_ID::uint32 user_id() const;
-  void set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_user_id() const;
-  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // uint32 friend_id = 2;
+  // int32 friend_id = 2;
   void clear_friend_id();
-  ::PROTOBUF_NAMESPACE_ID::uint32 friend_id() const;
-  void set_friend_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 friend_id() const;
+  void set_friend_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_friend_id() const;
-  void _internal_set_friend_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_friend_id() const;
+  void _internal_set_friend_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.UserAddFriend)
@@ -210,8 +210,8 @@ class UserAddFriend PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 user_id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 friend_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 friend_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_5fadd_5ffriend_2eproto;
 };
@@ -226,42 +226,42 @@ class UserAddFriend PROTOBUF_FINAL :
 #endif  // __GNUC__
 // UserAddFriend
 
-// uint32 user_id = 1;
+// int32 user_id = 1;
 inline void UserAddFriend::clear_user_id() {
-  user_id_ = 0u;
+  user_id_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserAddFriend::_internal_user_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserAddFriend::_internal_user_id() const {
   return user_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserAddFriend::user_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserAddFriend::user_id() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.UserAddFriend.user_id)
   return _internal_user_id();
 }
-inline void UserAddFriend::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserAddFriend::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   user_id_ = value;
 }
-inline void UserAddFriend::set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserAddFriend::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_user_id(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.UserAddFriend.user_id)
 }
 
-// uint32 friend_id = 2;
+// int32 friend_id = 2;
 inline void UserAddFriend::clear_friend_id() {
-  friend_id_ = 0u;
+  friend_id_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserAddFriend::_internal_friend_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserAddFriend::_internal_friend_id() const {
   return friend_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 UserAddFriend::friend_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserAddFriend::friend_id() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.UserAddFriend.friend_id)
   return _internal_friend_id();
 }
-inline void UserAddFriend::_internal_set_friend_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserAddFriend::_internal_set_friend_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   friend_id_ = value;
 }
-inline void UserAddFriend::set_friend_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void UserAddFriend::set_friend_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_friend_id(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.UserAddFriend.friend_id)
 }

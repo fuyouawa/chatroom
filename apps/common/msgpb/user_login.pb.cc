@@ -59,7 +59,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_user_5flogin_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\020user_login.proto\022\016chatroom.msgpb\".\n\tUs"
-  "erLogin\022\017\n\007account\030\001 \001(\r\022\020\n\010password\030\002 \001"
+  "erLogin\022\017\n\007account\030\001 \001(\005\022\020\n\010password\030\002 \001"
   "(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_5flogin_2eproto_deps[1] = {
@@ -109,7 +109,7 @@ UserLogin::UserLogin(const UserLogin& from)
 void UserLogin::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserLogin_user_5flogin_2eproto.base);
   password_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  account_ = 0u;
+  account_ = 0;
 }
 
 UserLogin::~UserLogin() {
@@ -145,7 +145,7 @@ void UserLogin::Clear() {
   (void) cached_has_bits;
 
   password_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  account_ = 0u;
+  account_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -157,10 +157,10 @@ const char* UserLogin::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // uint32 account = 1;
+      // int32 account = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          account_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          account_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -201,10 +201,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 account = 1;
+  // int32 account = 1;
   if (this->account() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_account(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_account(), target);
   }
 
   // string password = 2;
@@ -240,10 +240,10 @@ size_t UserLogin::ByteSizeLong() const {
         this->_internal_password());
   }
 
-  // uint32 account = 1;
+  // int32 account = 1;
   if (this->account() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_account());
   }
 

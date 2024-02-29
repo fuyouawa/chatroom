@@ -5,5 +5,5 @@ package chatroom.msgpb;
 message UserRegisterAck {
     bool success = 1;
     string errmsg = 2;
-    uint32 account = 3;
+    int32 account = 3;
 }
