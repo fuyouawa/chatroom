@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message FriendInfo {
+    int32 id = 1;
+    string name = 2;
+}
+
+message UserGetFriendsAck {
+    bool success = 1;
+    string errmsg = 2;
+    repeated FriendInfo friends_info = 3;
+}

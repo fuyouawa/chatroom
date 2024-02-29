@@ -5,11 +5,13 @@
 #include "common/msgpb/user_login.pb.h"
 #include "common/msgpb/user_add_friend.pb.h"
 #include "common/msgpb/user_remove_friend.pb.h"
+#include "common/msgpb/user_get_friends.pb.h"
 
 #include "common/msgpb/user_register_ack.pb.h"
 #include "common/msgpb/user_login_ack.pb.h"
 #include "common/msgpb/user_add_friend_ack.pb.h"
 #include "common/msgpb/user_remove_friend_ack.pb.h"
+#include "common/msgpb/user_get_friends_ack.pb.h"
 
 #include "tools/console.h"
 
@@ -49,8 +51,7 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
         login.set_account(account);
         login.set_password(password);
         co_await Send(MessageID::kUserLogin, login);
-        auto recv = co_await Receive();
-        auto ack = recv.DeserializeData<msgpb::UserLoginAck>();
+        auto ack = co_await Receive<msgpb::UserLoginAck>();
         if (ack.success()) {
             console::Print("登录成功!\n");
             account_ = account;
@@ -58,7 +59,7 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
             console::SetConsoleTitle(std::format("Chatroom App({})", user_name_));
         }
         else {
-            console::Print("登录失败!原因:{}\n", ack.errmsg());
+            console::PrintError("登录失败!原因:{}\n", ack.errmsg());
             goto re_login;
         }
         co_return true;
@@ -78,15 +79,14 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
         reg.set_name(name);
         reg.set_password(password);
         co_await Send(MessageID::kUserRegister, reg);
-        auto recv = co_await Receive();
-        auto ack = recv.DeserializeData<msgpb::UserRegisterAck>();
+        auto ack = co_await Receive<msgpb::UserRegisterAck>();
         if (ack.success()) {
             console::Print("注册成功! 你的账号是:{}(按下任意键回退上一级)\n", ack.account());
             console::InputKey();
             goto re_login;
         }
         else {
-            console::Print("注册失败! 原因:{}\n", ack.errmsg());
+            console::PrintError("注册失败! 原因:{}\n", ack.errmsg());
             goto re_reg;
         }
         co_return true;
@@ -108,7 +108,16 @@ re_panel:
     }
     case 1:     // 查看好友列表
     {
-
+        msgpb::UserGetFriends msg;
+        msg.set_user_id(account_);
+        co_await Send(MessageID::kUserGetFriends, msg);
+        auto ack = co_await Receive<msgpb::UserGetFriendsAck>();
+        if (ack.success()) {
+            
+        }
+        else {
+            
+        }
         goto re_panel;
     }
     case 2:     // 查看群组列表
@@ -124,14 +133,13 @@ re_panel:
         msg.set_user_id(account_);
         msg.set_friend_id(account);
         co_await Send(MessageID::kUserAddFriend, msg);
-        auto recv = co_await Receive();
-        auto ack = recv.DeserializeData<msgpb::UserAddFriendAck>();
+        auto ack = co_await Receive<msgpb::UserAddFriendAck>();
         if (ack.success()) {
             console::Print("好友添加成功!(按下任意键回退上一级)");
             console::InputKey();
         }
         else {
-            console::Print("好友添加失败! 原因: {}", ack.errmsg());
+            console::PrintError("好友添加失败! 原因: {}", ack.errmsg());
             goto re_add_friend;
         }
         goto re_panel;
@@ -144,14 +152,13 @@ re_panel:
         msg.set_user_id(account_);
         msg.set_friend_id(account);
         co_await Send(MessageID::kUserRemoveFriend, msg);
-        auto recv = co_await Receive();
-        auto ack = recv.DeserializeData<msgpb::UserRemoveFriendAck>();
+        auto ack = co_await Receive<msgpb::UserRemoveFriendAck>();
         if (ack.success()) {
             console::Print("好友删除成功!(按下任意键回退上一级)");
             console::InputKey();
         }
         else {
-            console::Print("好友删除失败! 原因: {}", ack.errmsg());
+            console::PrintError("好友删除失败! 原因: {}", ack.errmsg());
             goto re_remove_friend;
         }
         goto re_panel;
@@ -178,7 +185,7 @@ boost::asio::awaitable<size_t> ChatClient::Send(MessageID msgid, const google::p
     co_return n;
 }
 
-boost::asio::awaitable<RecvPacket> ChatClient::Receive() {
+boost::asio::awaitable<RecvPacket> ChatClient::InternalReceive() {
     PacketHeader network_header;
     auto n = co_await boost::asio::async_read(
         socket_,

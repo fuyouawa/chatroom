@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message UserGetFriends {
+    int32 user_id = 1;
+}

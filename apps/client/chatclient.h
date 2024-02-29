@@ -21,7 +21,13 @@ private:
     boost::asio::awaitable<void> BasicPanel();
 
     boost::asio::awaitable<size_t> Send(MessageID msgid, const google::protobuf::Message& msg);
-    boost::asio::awaitable<RecvPacket> Receive();
+    boost::asio::awaitable<RecvPacket> InternalReceive();
+
+    template<ConvertiableToMessage T>
+    boost::asio::awaitable<T> Receive() {
+        const RecvPacket recv = co_await InternalReceive();
+        co_return recv.DeserializeData<T>();
+    }
 
     boost::asio::ip::tcp::socket socket_;
     boost::asio::ip::tcp::endpoint remote_ep_;

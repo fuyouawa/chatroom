@@ -11,6 +11,8 @@ enum class MessageID: uint16_t {
     kUserAddFriendAck,
     kUserRemoveFriend,
     kUserRemoveFriendAck,
+    kUserGetFriends,
+    kUserGetFriendsAck,
 };
 
 bool IsValidMsgID(MessageID msgid) noexcept;

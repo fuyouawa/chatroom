@@ -14,11 +14,13 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 namespace console {
+namespace internal {
 void Print(std::string_view fmt) {
     std::cout << fmt;
 }
+}   // namespace internal
 
-int Options(std::initializer_list<std::string_view> opts, size_t cur_selection, bool* is_esc) {
+int Options(std::span<const std::string_view> opts, size_t cur_selection, bool* is_esc) {
 re_print:
     Clear();
     size_t i = 0;
@@ -60,6 +62,10 @@ get_input:
             goto get_input;
     }
     return cur_selection;
+}
+
+int Options(std::initializer_list<std::string_view> opts, size_t cur_selection, bool* is_esc) {
+    return Options(std::span{opts.begin(), opts.end()}, cur_selection, is_esc);
 }
 
 Keycode InputKey() {

@@ -10,11 +10,15 @@
 #include "common/msgpb/user_register.pb.h"
 #include "common/msgpb/user_add_friend.pb.h"
 #include "common/msgpb/user_remove_friend.pb.h"
+#include "common/msgpb/user_get_friends.pb.h"
 
 #include "common/msgpb/user_register_ack.pb.h"
 #include "common/msgpb/user_login_ack.pb.h"
 #include "common/msgpb/user_add_friend_ack.pb.h"
 #include "common/msgpb/user_remove_friend_ack.pb.h"
+#include "common/msgpb/user_get_friends_ack.pb.h"
+
+#include <ranges>
 
 namespace chatroom {
 namespace {
@@ -80,10 +84,10 @@ send:
 }
 
 void HandleAddFriend(ChatSessionPtr session, const msgpb::UserAddFriend& msg) {
+    CHATROOM_LOG_INFO("Add friend({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
     msgpb::UserAddFriendAck ack;
     try
     {
-        CHATROOM_LOG_INFO("Add friend({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
         model::InsertFriend(msg.user_id(), msg.friend_id());
         ack.set_success(true);
         CHATROOM_LOG_INFO("Add friend success({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
@@ -98,10 +102,10 @@ void HandleAddFriend(ChatSessionPtr session, const msgpb::UserAddFriend& msg) {
 }
 
 void HandleRemoveFriend(ChatSessionPtr session, const msgpb::UserRemoveFriend& msg) {
+    CHATROOM_LOG_INFO("Remove friend({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
     msgpb::UserRemoveFriendAck ack;
     try
     {
-        CHATROOM_LOG_INFO("Remove friend({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
         model::RemoveFriend(msg.user_id(), msg.friend_id());
         ack.set_success(true);
         CHATROOM_LOG_INFO("Remove friend success({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
@@ -113,6 +117,30 @@ void HandleRemoveFriend(ChatSessionPtr session, const msgpb::UserRemoveFriend& m
         CHATROOM_LOG_INFO("Add friend faild({}): {}", session->client_ep(), e.what());
     }
     session->Send(MessageID::kUserRemoveFriendAck, ack);
+}
+
+void HandleGetFriends(ChatSessionPtr session, const msgpb::UserGetFriends& msg) {
+    CHATROOM_LOG_INFO("Get friends({}): User id:{}", session->client_ep(), msg.user_id());
+    msgpb::UserGetFriendsAck ack;
+    try
+    {
+        auto friends_id = model::QueryFriends(msg.user_id());
+        for (auto& id: friends_id) {
+            auto friend_info = model::QueryUser(id);
+            auto new_elem = ack.add_friends_info();
+            new_elem->set_id(id);
+            new_elem->set_name(friend_info.name());
+        }
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("Get friends success({}): User Account:{}", session->client_ep(), msg.user_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_INFO("Get friends faild({}): {}", session->client_ep(), e.what());
+    }
+    session->Send(MessageID::kUserGetFriendsAck, ack);
 }
 }   // namespace
 
@@ -130,6 +158,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case MessageID::kUserRemoveFriend:
         HandleRemoveFriend(session, packet.DeserializeData<msgpb::UserRemoveFriend>());
+        break;
+    case MessageID::kUserGetFriends:
+        HandleGetFriends(session, packet.DeserializeData<msgpb::UserGetFriends>());
         break;
     default:
         break;
