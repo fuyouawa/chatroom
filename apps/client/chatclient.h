@@ -3,6 +3,7 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
+#include <vector>
 #include "common/core/packet.h"
 #include "common/core/msg_id.h"
 
@@ -16,8 +17,8 @@ public:
 private:
     void RunLoop();
 
-    boost::asio::awaitable<void> AskAccountAndPassword();
-    void BasicPanel();
+    boost::asio::awaitable<bool> AskAccountAndPassword();
+    boost::asio::awaitable<void> BasicPanel();
 
     boost::asio::awaitable<size_t> Send(MessageID msgid, const google::protobuf::Message& msg);
     boost::asio::awaitable<RecvPacket> Receive();

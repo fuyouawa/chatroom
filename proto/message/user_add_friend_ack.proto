@@ -5,5 +5,4 @@ package chatroom.msgpb;
 message UserAddFriendAck {
     bool success = 1;
     string errmsg = 2;
-    string friend_name = 3;
 }

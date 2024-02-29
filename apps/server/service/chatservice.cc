@@ -1,14 +1,20 @@
 #include "chatservice.h"
 #include "tools/logger.h"
 #include "model/user_model.h"
+#include "model/friends_model.h"
 
 #include "common/tools/converter.h"
 #include "common/core/msg_id.h"
+
 #include "common/msgpb/user_login.pb.h"
 #include "common/msgpb/user_register.pb.h"
 #include "common/msgpb/user_add_friend.pb.h"
+#include "common/msgpb/user_remove_friend.pb.h"
+
 #include "common/msgpb/user_register_ack.pb.h"
 #include "common/msgpb/user_login_ack.pb.h"
+#include "common/msgpb/user_add_friend_ack.pb.h"
+#include "common/msgpb/user_remove_friend_ack.pb.h"
 
 namespace chatroom {
 namespace {
@@ -57,7 +63,6 @@ void HandleLogin(ChatSessionPtr session, const msgpb::UserLogin& msg) {
             goto send;
         }
         user.set_state(UserState::kOnline);
-        model::UpdateUserState(user.account(), UserState::kOnline);
         ChatService::instance().Login(session, user);
         login_ack.set_success(true);
         CHATROOM_LOG_INFO("Login success({}): Name:{}, Account:{}", session->client_ep(), user.name(), user.account());
@@ -73,8 +78,25 @@ send:
     session->Send(MessageID::kUserLoginAck, login_ack);
 }
 
-
 void HandleAddFriend(ChatSessionPtr session, const msgpb::UserAddFriend& msg) {
+    msgpb::UserAddFriendAck ack;
+    try
+    {
+        CHATROOM_LOG_INFO("Add friend({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
+        model::InsertFriend(msg.user_id(), msg.friend_id());
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("Add friend success({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_INFO("Add friend faild({}): {}", session->client_ep(), e.what());
+    }
+    session->Send(MessageID::kUserAddFriendAck, ack);
+}
+
+void HandleRemoveFriend(ChatSessionPtr session, const msgpb::UserRemoveFriend& msg) {
 
 }
 }   // namespace
@@ -87,6 +109,12 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case MessageID::kUserLogin:
         HandleLogin(session, packet.DeserializeData<msgpb::UserLogin>());
+        break;
+    case MessageID::kUserAddFriend:
+        HandleAddFriend(session, packet.DeserializeData<msgpb::UserAddFriend>());
+        break;
+    case MessageID::kUserRemoveFriend:
+        HandleRemoveFriend(session, packet.DeserializeData<msgpb::UserRemoveFriend>());
         break;
     default:
         break;

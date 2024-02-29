@@ -48,7 +48,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_5fadd_5ffriend_5fack_2epr
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserAddFriendAck, success_),
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserAddFriendAck, errmsg_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserAddFriendAck, friend_name_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::chatroom::msgpb::UserAddFriendAck)},
@@ -60,9 +59,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_user_5fadd_5ffriend_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\031user_add_friend_ack.proto\022\016chatroom.ms"
-  "gpb\"H\n\020UserAddFriendAck\022\017\n\007success\030\001 \001(\010"
-  "\022\016\n\006errmsg\030\002 \001(\t\022\023\n\013friend_name\030\003 \001(\tb\006p"
-  "roto3"
+  "gpb\"3\n\020UserAddFriendAck\022\017\n\007success\030\001 \001(\010"
+  "\022\016\n\006errmsg\030\002 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_5fadd_5ffriend_5fack_2eproto_deps[1] = {
 };
@@ -71,7 +69,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_5fadd_5ffriend_5fack_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5fadd_5ffriend_5fack_2eproto = {
-  false, false, descriptor_table_protodef_user_5fadd_5ffriend_5fack_2eproto, "user_add_friend_ack.proto", 125,
+  false, false, descriptor_table_protodef_user_5fadd_5ffriend_5fack_2eproto, "user_add_friend_ack.proto", 104,
   &descriptor_table_user_5fadd_5ffriend_5fack_2eproto_once, descriptor_table_user_5fadd_5ffriend_5fack_2eproto_sccs, descriptor_table_user_5fadd_5ffriend_5fack_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_user_5fadd_5ffriend_5fack_2eproto::offsets,
   file_level_metadata_user_5fadd_5ffriend_5fack_2eproto, 1, file_level_enum_descriptors_user_5fadd_5ffriend_5fack_2eproto, file_level_service_descriptors_user_5fadd_5ffriend_5fack_2eproto,
@@ -104,11 +102,6 @@ UserAddFriendAck::UserAddFriendAck(const UserAddFriendAck& from)
     errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_errmsg(),
       GetArena());
   }
-  friend_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_friend_name().empty()) {
-    friend_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_friend_name(),
-      GetArena());
-  }
   success_ = from.success_;
   // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.UserAddFriendAck)
 }
@@ -116,7 +109,6 @@ UserAddFriendAck::UserAddFriendAck(const UserAddFriendAck& from)
 void UserAddFriendAck::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserAddFriendAck_user_5fadd_5ffriend_5fack_2eproto.base);
   errmsg_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  friend_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   success_ = false;
 }
 
@@ -129,7 +121,6 @@ UserAddFriendAck::~UserAddFriendAck() {
 void UserAddFriendAck::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   errmsg_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  friend_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void UserAddFriendAck::ArenaDtor(void* object) {
@@ -154,7 +145,6 @@ void UserAddFriendAck::Clear() {
   (void) cached_has_bits;
 
   errmsg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  friend_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   success_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -180,15 +170,6 @@ const char* UserAddFriendAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
           auto str = _internal_mutable_errmsg();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.UserAddFriendAck.errmsg"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string friend_name = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_friend_name();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.UserAddFriendAck.friend_name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -236,16 +217,6 @@ failure:
         2, this->_internal_errmsg(), target);
   }
 
-  // string friend_name = 3;
-  if (this->friend_name().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_friend_name().data(), static_cast<int>(this->_internal_friend_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "chatroom.msgpb.UserAddFriendAck.friend_name");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_friend_name(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -267,13 +238,6 @@ size_t UserAddFriendAck::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_errmsg());
-  }
-
-  // string friend_name = 3;
-  if (this->friend_name().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_friend_name());
   }
 
   // bool success = 1;
@@ -315,9 +279,6 @@ void UserAddFriendAck::MergeFrom(const UserAddFriendAck& from) {
   if (from.errmsg().size() > 0) {
     _internal_set_errmsg(from._internal_errmsg());
   }
-  if (from.friend_name().size() > 0) {
-    _internal_set_friend_name(from._internal_friend_name());
-  }
   if (from.success() != 0) {
     _internal_set_success(from._internal_success());
   }
@@ -345,7 +306,6 @@ void UserAddFriendAck::InternalSwap(UserAddFriendAck* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   errmsg_.Swap(&other->errmsg_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  friend_name_.Swap(&other->friend_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   swap(success_, other->success_);
 }
 
