@@ -6,7 +6,7 @@
 
 namespace chatroom {
 namespace mysql {
-namespace detail {
+namespace internal {
 class MySQL : public Singleton<MySQL>
 {
 public:
@@ -19,23 +19,23 @@ private:
     friend Singleton<MySQL>;
     MySQL();
 };
-}
+}   // namespace internal
 
 template<typename... Args>
 auto Query(std::string_view sql_fmt, Args&&... args) {
     auto sql = FormatString(sql_fmt, std::forward<Args>(args)...);
-    return detail::MySQL::instance().Query(sql);
+    return internal::MySQL::instance().Query(sql);
 }
 
 template<typename... Args>
 auto Update(std::string_view sql_fmt, Args&&... args) {
     auto sql = FormatString(sql_fmt, std::forward<Args>(args)...);
-    return detail::MySQL::instance().Update(sql);
+    return internal::MySQL::instance().Update(sql);
 }
 
 int64_t GetLastInsertId();
 
 std::string ToString(const std::chrono::system_clock::time_point& tp);
 std::chrono::system_clock::time_point StringToTimepoint(std::string_view str);
-}
-}
+}   // namespace mysql
+}   // namespace chatroom

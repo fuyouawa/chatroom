@@ -7,8 +7,7 @@
 #include "service/chatserver.h"
 #include "service/chatservice.h"
 
-namespace chatroom
-{
+namespace chatroom {
 void HandleSessionError(ChatSessionPtr session, const std::exception& e) {
     CHATROOM_LOG_ERROR("Error occur in {}: {}", session->client_ep(), e.what());
     session->Close();
@@ -165,4 +164,4 @@ void ChatSession::HandleWrited(const boost::system::error_code& ec) {
         HandleSessionError(shared_from_this(), e);
     }
 }
-}
+}   // namespace chatroom

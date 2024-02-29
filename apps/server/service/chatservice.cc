@@ -113,4 +113,4 @@ void ChatService::Login(ChatSessionPtr session, const User& user) {
     logged_session_map_[user.account()] = {session, user};
     model::UpdateUserState(session->account(), UserState::kOnline);
 }
-}
+}   // namespace chatroom

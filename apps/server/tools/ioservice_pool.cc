@@ -1,7 +1,6 @@
 #include "ioservice_pool.h"
 
-namespace chatroom
-{
+namespace chatroom {
 IOServicePool::IOServicePool()
     : io_services_(kThreadSize),
     next_ioservice_index_{0}
@@ -38,4 +37,4 @@ boost::asio::io_service& IOServicePool::NextIOService() {
 	}
 	return service;
 }
-}
+}   // namespace chatroom

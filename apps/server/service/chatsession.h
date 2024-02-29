@@ -12,15 +12,14 @@
 #include "common/core/noncopyable.h"
 #include "common/core/msg_id.h"
 
-namespace chatroom
-{
+namespace chatroom {
 class ChatSession;
 class ChatServer;
 using ChatSessionPtr = std::shared_ptr<ChatSession>;
 using CloseCallback = std::function<void(ChatSessionPtr)>;
 using ReadCallback = std::function<void(ChatSessionPtr, const RecvPacket&)>;
 
-class ChatSession : public std::enable_shared_from_this<ChatSession>, NonCopyable
+class ChatSession : public std::enable_shared_from_this<ChatSession>, NonCopyable 
 {
 public:
     using Socket = boost::asio::ip::tcp::socket;
@@ -63,4 +62,4 @@ private:
     CloseCallback close_callback_;
     ReadCallback read_callback_;
 };
-}
+}   // namespace chatroom

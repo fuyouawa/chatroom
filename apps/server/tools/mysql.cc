@@ -7,7 +7,7 @@
 
 namespace chatroom {
 namespace mysql {
-namespace detail {
+namespace internal {
 namespace {
 sql::mysql::MySQL_Driver* driver;
 sql::Connection* conn;
@@ -38,7 +38,7 @@ int MySQL::Update(const sql::SQLString& sql)
 {
     return stmt->executeUpdate(sql);
 }
-}   // namepace detail
+}   // namepace internal
 
 int64_t GetLastInsertId() {
     auto res = Query("SELECT LAST_INSERT_ID()");

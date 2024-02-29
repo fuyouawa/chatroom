@@ -35,4 +35,4 @@ void Logger::Print() {
         break;
     }
 }
-}
+}   // namespace chatroom

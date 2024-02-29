@@ -15,7 +15,7 @@ include_directories(${APP_DIR}/common/core)
 include_directories(${APP_DIR}/common/msgpb)
 include_directories(${APP_DIR}/common/tools)
 
-file(GLOB_RECURSE COMMON_SOURCES ${APP_DIR}/common/*.cpp ${APP_DIR}/common/*.cc)
+file(GLOB_RECURSE COMMON_SOURCES ${APP_DIR}/common/*.cc)
 
 
 SET(CMAKE_BUILD_TYPE "Debug") 

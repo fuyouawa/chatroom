@@ -6,11 +6,8 @@
 #include "common/core/singleton.h"
 
 
-namespace chatroom
-{
-
-class ChatService : public Singleton<ChatService>
-{
+namespace chatroom {
+class ChatService : public Singleton<ChatService> {
 public:
     void HandleRecvPacket(ChatSessionPtr session, const RecvPacket& packet);
     void HandleSessionClosed(ChatSessionPtr session);
@@ -24,4 +21,4 @@ public:
 private:
     std::unordered_map<int, std::pair<ChatSessionPtr, User>> logged_session_map_;
 };
-}
+}   // namespace chatroom

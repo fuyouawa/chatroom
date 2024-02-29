@@ -25,5 +25,5 @@ std::vector<int> QueryFriends(int user_id) {
     }
     return total;
 }
-}
-}
+}   // namespace model
+}   // namespace chatroom

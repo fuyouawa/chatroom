@@ -1,10 +1,8 @@
 #pragma once
 
-namespace chatroom
-{
+namespace chatroom {
 template<class T>
-class Singleton
-{
+class Singleton {
 public:
     static T& instance()
     {
@@ -43,4 +41,4 @@ public:
 protected:
     ThreadSingleton() = default;
 };
-}
+}   // namespace chatroom

@@ -1,6 +1,6 @@
 set(CLIENT_NAME chatroom)
 
-file(GLOB_RECURSE SOURCES "*.cpp" "*.cc")
+file(GLOB_RECURSE SOURCES "*.cc")
 
 include_directories(.)
 

@@ -14,4 +14,4 @@ MessageID MapToMsgAckID(MessageID msgid) noexcept {
     if (IsMsgAckID(msgid)) return msgid;
     return static_cast<MessageID>(static_cast<uint16_t>(msgid) + 1);
 }
-}
+}   // namespace chatroom

@@ -5,7 +5,7 @@ include_directories(./model)
 include_directories(./service)
 include_directories(./tools)
 
-file(GLOB_RECURSE SOURCES "*.cpp" "*.cc")
+file(GLOB_RECURSE SOURCES "*.cc")
 
 add_executable(${SERVER_NAME} ${COMMON_SOURCES} ${SOURCES})
 

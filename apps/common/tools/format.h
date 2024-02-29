@@ -5,8 +5,7 @@
 #include <ranges>
 #include <regex>
 
-namespace chatroom
-{
+namespace chatroom {
 template<typename... Args>
 [[nodiscard]] inline std::string FormatString(std::string_view fmt, Args&&... args)
 {
@@ -17,7 +16,7 @@ template<typename... Args>
         return std::vformat(fmt, std::make_format_args(args...));
     }
 }
-}
+}   // namespace chatroom
 
 template<>
 struct std::formatter<boost::asio::ip::tcp::endpoint> {

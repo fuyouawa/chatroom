@@ -3,10 +3,8 @@
 #include <unordered_map>
 #include "service/chatservice.h"
 
-namespace chatroom
-{
-class ChatServer
-{
+namespace chatroom {
+class ChatServer {
 public:
     using Acceptor = boost::asio::ip::tcp::acceptor;
 
@@ -23,4 +21,4 @@ private:
     std::mutex mutex_;
     std::unordered_map<std::string, ChatSessionPtr> sessions_;
 };
-}
+}   // namespace chatroom

@@ -16,4 +16,4 @@ enum class MessageID: uint16_t {
 bool IsValidMsgID(MessageID msgid) noexcept;
 bool IsMsgAckID(MessageID msgid) noexcept;
 MessageID MapToMsgAckID(MessageID msgid) noexcept;
-}
+}   // namespace chatroom

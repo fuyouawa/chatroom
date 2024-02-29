@@ -43,5 +43,5 @@ void RemoveUser(std::initializer_list<int> accounts) {
     auto res = mysql::Update("DELETE FROM `User` WHERE `account` IN ({:`, `<>})", accounts);
     assert(res);
 }
-}
-}
+}   // namespace model
+}   // namespace chatroom

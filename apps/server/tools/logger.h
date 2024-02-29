@@ -4,10 +4,8 @@
 #include <boost/system/error_code.hpp>
 #include "common/tools/format.h"
 
-namespace chatroom
-{
-class Logger
-{
+namespace chatroom {
+class Logger {
 public:
     enum Level {
         kInfo,
@@ -37,7 +35,7 @@ private:
     std::string message_;
     Level lv_;
 };
-}
+}   // namespace chatroom
 
 #define CHATROOM_LOG_INFO(...) \
     chatroom::Logger(chatroom::Logger::kInfo, chatroom::FormatString(__VA_ARGS__)).Print();

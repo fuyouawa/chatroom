@@ -11,5 +11,5 @@ User QueryUser(int account);
 void UpdateUser(const User& user);
 void UpdateUserState(int account, UserState state);
 void RemoveUser(std::initializer_list<int> accounts);
-}
-}
+}   // namespace model
+}   // namespace chatroom

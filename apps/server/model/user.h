@@ -4,8 +4,7 @@
 namespace chatroom {
 enum class UserState: int { kOffline, kOnline };
 
-class User
-{
+class User {
 public:
     User() : account_{0}, state_{UserState::kOffline} {}
 
@@ -28,7 +27,7 @@ private:
     std::string password_;
     UserState state_;
 };
-}
+}   // namespace chatroom
 
 template<>
 struct std::formatter<chatroom::UserState> {

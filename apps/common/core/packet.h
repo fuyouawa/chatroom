@@ -6,10 +6,8 @@
 #include <google/protobuf/message.h>
 #include "common/core/msg_id.h"
 
-namespace chatroom
-{
-struct PacketHeader
-{
+namespace chatroom {
+struct PacketHeader {
     uint16_t total_size;
     uint16_t msgid;
 };
@@ -17,13 +15,11 @@ struct PacketHeader
 template<typename T>
 concept ConvertiableToMessage = std::is_convertible_v<T*, google::protobuf::Message*>;
 
-struct Packet : public PacketHeader
-{
+struct Packet : public PacketHeader {
     char data[1];
 };
 
-class RecvPacket
-{
+class RecvPacket {
 public:
     RecvPacket(const PacketHeader& network_header);
     ~RecvPacket();
@@ -51,8 +47,7 @@ private:
     Packet* packet_;
 };
 
-class SendPacket
-{
+class SendPacket {
 public:
     SendPacket(MessageID msgid, std::vector<char>&& data) noexcept;
     SendPacket(MessageID msgid, const google::protobuf::Message& model);
@@ -63,4 +58,4 @@ private:
     MessageID msgid_;
     std::vector<char> data_;
 };
-}
+}   // namespace chatroom

@@ -36,5 +36,5 @@ google::protobuf::Timestamp ToTimestamp(const time_point& tp) {
     timestamp.set_nanos(nanos.count());
     return timestamp;
 }
-}
-}
+}   // namespace converter
+}   // namespace chatroom

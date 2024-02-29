@@ -9,5 +9,5 @@ short ntohs(short val) {
 short htons(short val) {
     return boost::asio::detail::socket_ops::host_to_network_short(val);
 }
-}
-}
+}   // namespace socket
+}   // namespace chatroom

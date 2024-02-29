@@ -5,9 +5,10 @@
 
 #include <common/tools/net_util.h>
 
-namespace chatroom
-{
-static constexpr size_t kMaxTotalSize = 4096;
+namespace chatroom {
+namespace {
+constexpr size_t kMaxTotalSize = 4096;
+}   // namespace
 
 void CheckTotalSize(size_t total_size) {
     if (total_size > kMaxTotalSize)
@@ -71,4 +72,4 @@ std::vector<char> SendPacket::Pack() const {
     std::memcpy(packet->data, data_.data(), data_.size());
     return buffer;
 }
-}
+}   // namespace chatroom
