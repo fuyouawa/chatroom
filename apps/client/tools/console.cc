@@ -140,6 +140,7 @@ template<typename T>
 T GetValue() {
     T tmp;
     std::cin >> tmp;
+    getchar();
     return tmp;
 }
 }   // namespace
@@ -149,5 +150,10 @@ std::string GetString() {
 }
 uint32_t GetUInt32() {
     return GetValue<uint32_t>();
+}
+
+
+void SetConsoleTitle(std::string_view title) {
+    std::cout << std::format("\033]0;{}\007", title) << std::endl;
 }
 }   // namespace console

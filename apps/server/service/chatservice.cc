@@ -65,6 +65,7 @@ void HandleLogin(ChatSessionPtr session, const msgpb::UserLogin& msg) {
         user.set_state(UserState::kOnline);
         ChatService::instance().Login(session, user);
         login_ack.set_success(true);
+        login_ack.set_user_name(user.name());
         CHATROOM_LOG_INFO("Login success({}): Name:{}, Account:{}", session->client_ep(), user.name(), user.account());
     }
     catch(const std::exception& e)
@@ -97,7 +98,21 @@ void HandleAddFriend(ChatSessionPtr session, const msgpb::UserAddFriend& msg) {
 }
 
 void HandleRemoveFriend(ChatSessionPtr session, const msgpb::UserRemoveFriend& msg) {
-
+    msgpb::UserRemoveFriendAck ack;
+    try
+    {
+        CHATROOM_LOG_INFO("Remove friend({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
+        model::RemoveFriend(msg.user_id(), msg.friend_id());
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("Remove friend success({}): User Account:{}, Friend Account:{}", session->client_ep(), msg.user_id(), msg.friend_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_INFO("Add friend faild({}): {}", session->client_ep(), e.what());
+    }
+    session->Send(MessageID::kUserRemoveFriendAck, ack);
 }
 }   // namespace
 

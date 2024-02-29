@@ -4,10 +4,12 @@
 #include "common/msgpb/user_register.pb.h"
 #include "common/msgpb/user_login.pb.h"
 #include "common/msgpb/user_add_friend.pb.h"
+#include "common/msgpb/user_remove_friend.pb.h"
 
 #include "common/msgpb/user_register_ack.pb.h"
 #include "common/msgpb/user_login_ack.pb.h"
 #include "common/msgpb/user_add_friend_ack.pb.h"
+#include "common/msgpb/user_remove_friend_ack.pb.h"
 
 #include "tools/console.h"
 
@@ -51,12 +53,14 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
         auto ack = recv.DeserializeData<msgpb::UserLoginAck>();
         if (ack.success()) {
             console::Print("登录成功!\n");
+            account_ = account;
+            user_name_ = ack.user_name();
+            console::SetConsoleTitle(std::format("Chatroom App({})", user_name_));
         }
         else {
             console::Print("登录失败!原因:{}\n", ack.errmsg());
             goto re_login;
         }
-        account_ = account;
         co_return true;
     }
     case 1:     // 注册
@@ -134,7 +138,22 @@ re_panel:
     }
     case 4:     // 删除好友
     {
-
+    re_remove_friend:
+        console::Print("输入要删除的好友账号:"); auto account = console::GetUInt32();
+        msgpb::UserRemoveFriend msg;
+        msg.set_user_id(account_);
+        msg.set_friend_id(account);
+        co_await Send(MessageID::kUserRemoveFriend, msg);
+        auto recv = co_await Receive();
+        auto ack = recv.DeserializeData<msgpb::UserRemoveFriendAck>();
+        if (ack.success()) {
+            console::Print("好友删除成功!(按下任意键回退上一级)");
+            console::InputKey();
+        }
+        else {
+            console::Print("好友删除失败! 原因: {}", ack.errmsg());
+            goto re_remove_friend;
+        }
         goto re_panel;
     }
     case 5:     // 添加群组

@@ -183,6 +183,7 @@ class UserLoginAck PROTOBUF_FINAL :
 
   enum : int {
     kErrmsgFieldNumber = 2,
+    kUserNameFieldNumber = 3,
     kSuccessFieldNumber = 1,
   };
   // string errmsg = 2;
@@ -210,6 +211,31 @@ class UserLoginAck PROTOBUF_FINAL :
   std::string* _internal_mutable_errmsg();
   public:
 
+  // string user_name = 3;
+  void clear_user_name();
+  const std::string& user_name() const;
+  void set_user_name(const std::string& value);
+  void set_user_name(std::string&& value);
+  void set_user_name(const char* value);
+  void set_user_name(const char* value, size_t size);
+  std::string* mutable_user_name();
+  std::string* release_user_name();
+  void set_allocated_user_name(std::string* user_name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_user_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_user_name(
+      std::string* user_name);
+  private:
+  const std::string& _internal_user_name() const;
+  void _internal_set_user_name(const std::string& value);
+  std::string* _internal_mutable_user_name();
+  public:
+
   // bool success = 1;
   void clear_success();
   bool success() const;
@@ -227,6 +253,7 @@ class UserLoginAck PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_name_;
   bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_5flogin_5fack_2eproto;
@@ -341,6 +368,87 @@ inline void UserLoginAck::unsafe_arena_set_allocated_errmsg(
   errmsg_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       errmsg, GetArena());
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.UserLoginAck.errmsg)
+}
+
+// string user_name = 3;
+inline void UserLoginAck::clear_user_name() {
+  user_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& UserLoginAck::user_name() const {
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.UserLoginAck.user_name)
+  return _internal_user_name();
+}
+inline void UserLoginAck::set_user_name(const std::string& value) {
+  _internal_set_user_name(value);
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.UserLoginAck.user_name)
+}
+inline std::string* UserLoginAck::mutable_user_name() {
+  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.UserLoginAck.user_name)
+  return _internal_mutable_user_name();
+}
+inline const std::string& UserLoginAck::_internal_user_name() const {
+  return user_name_.Get();
+}
+inline void UserLoginAck::_internal_set_user_name(const std::string& value) {
+  
+  user_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void UserLoginAck::set_user_name(std::string&& value) {
+  
+  user_name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:chatroom.msgpb.UserLoginAck.user_name)
+}
+inline void UserLoginAck::set_user_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  user_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.UserLoginAck.user_name)
+}
+inline void UserLoginAck::set_user_name(const char* value,
+    size_t size) {
+  
+  user_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.UserLoginAck.user_name)
+}
+inline std::string* UserLoginAck::_internal_mutable_user_name() {
+  
+  return user_name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* UserLoginAck::release_user_name() {
+  // @@protoc_insertion_point(field_release:chatroom.msgpb.UserLoginAck.user_name)
+  return user_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void UserLoginAck::set_allocated_user_name(std::string* user_name) {
+  if (user_name != nullptr) {
+    
+  } else {
+    
+  }
+  user_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), user_name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:chatroom.msgpb.UserLoginAck.user_name)
+}
+inline std::string* UserLoginAck::unsafe_arena_release_user_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.msgpb.UserLoginAck.user_name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return user_name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void UserLoginAck::unsafe_arena_set_allocated_user_name(
+    std::string* user_name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (user_name != nullptr) {
+    
+  } else {
+    
+  }
+  user_name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      user_name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.UserLoginAck.user_name)
 }
 
 #ifdef __GNUC__

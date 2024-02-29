@@ -9,7 +9,9 @@ void InsertFriend(int user_id, int friend_id) {
 }
 
 void RemoveFriend(int user_id, int friend_id) {
-    auto res = mysql::Update("DELETE FROM Friends WHERE user_id = {} AND friend_id = {}", user_id, friend_id);
+    auto res = mysql::Update("DELETE FROM Friends \
+                              WHERE (user_id = {} AND friend_id = {}) \
+                                 OR (user_id = {} AND friend_id = {})", user_id, friend_id, friend_id, user_id);
     assert(res);
 }
 

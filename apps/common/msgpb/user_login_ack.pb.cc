@@ -48,6 +48,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_5flogin_5fack_2eproto::of
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserLoginAck, success_),
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserLoginAck, errmsg_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::UserLoginAck, user_name_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::chatroom::msgpb::UserLoginAck)},
@@ -58,9 +59,9 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_user_5flogin_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\024user_login_ack.proto\022\016chatroom.msgpb\"/"
+  "\n\024user_login_ack.proto\022\016chatroom.msgpb\"B"
   "\n\014UserLoginAck\022\017\n\007success\030\001 \001(\010\022\016\n\006errms"
-  "g\030\002 \001(\tb\006proto3"
+  "g\030\002 \001(\t\022\021\n\tuser_name\030\003 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_5flogin_5fack_2eproto_deps[1] = {
 };
@@ -69,7 +70,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_5flogin_5fack_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_5flogin_5fack_2eproto = {
-  false, false, descriptor_table_protodef_user_5flogin_5fack_2eproto, "user_login_ack.proto", 95,
+  false, false, descriptor_table_protodef_user_5flogin_5fack_2eproto, "user_login_ack.proto", 114,
   &descriptor_table_user_5flogin_5fack_2eproto_once, descriptor_table_user_5flogin_5fack_2eproto_sccs, descriptor_table_user_5flogin_5fack_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_user_5flogin_5fack_2eproto::offsets,
   file_level_metadata_user_5flogin_5fack_2eproto, 1, file_level_enum_descriptors_user_5flogin_5fack_2eproto, file_level_service_descriptors_user_5flogin_5fack_2eproto,
@@ -102,6 +103,11 @@ UserLoginAck::UserLoginAck(const UserLoginAck& from)
     errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_errmsg(),
       GetArena());
   }
+  user_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_user_name().empty()) {
+    user_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_user_name(),
+      GetArena());
+  }
   success_ = from.success_;
   // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.UserLoginAck)
 }
@@ -109,6 +115,7 @@ UserLoginAck::UserLoginAck(const UserLoginAck& from)
 void UserLoginAck::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserLoginAck_user_5flogin_5fack_2eproto.base);
   errmsg_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  user_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   success_ = false;
 }
 
@@ -121,6 +128,7 @@ UserLoginAck::~UserLoginAck() {
 void UserLoginAck::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   errmsg_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  user_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void UserLoginAck::ArenaDtor(void* object) {
@@ -145,6 +153,7 @@ void UserLoginAck::Clear() {
   (void) cached_has_bits;
 
   errmsg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  user_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   success_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -170,6 +179,15 @@ const char* UserLoginAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
           auto str = _internal_mutable_errmsg();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.UserLoginAck.errmsg"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string user_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          auto str = _internal_mutable_user_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.UserLoginAck.user_name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -217,6 +235,16 @@ failure:
         2, this->_internal_errmsg(), target);
   }
 
+  // string user_name = 3;
+  if (this->user_name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_user_name().data(), static_cast<int>(this->_internal_user_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "chatroom.msgpb.UserLoginAck.user_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_user_name(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -238,6 +266,13 @@ size_t UserLoginAck::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_errmsg());
+  }
+
+  // string user_name = 3;
+  if (this->user_name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_user_name());
   }
 
   // bool success = 1;
@@ -279,6 +314,9 @@ void UserLoginAck::MergeFrom(const UserLoginAck& from) {
   if (from.errmsg().size() > 0) {
     _internal_set_errmsg(from._internal_errmsg());
   }
+  if (from.user_name().size() > 0) {
+    _internal_set_user_name(from._internal_user_name());
+  }
   if (from.success() != 0) {
     _internal_set_success(from._internal_success());
   }
@@ -306,6 +344,7 @@ void UserLoginAck::InternalSwap(UserLoginAck* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   errmsg_.Swap(&other->errmsg_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  user_name_.Swap(&other->user_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   swap(success_, other->success_);
 }
 

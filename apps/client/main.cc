@@ -4,6 +4,7 @@
 
 int main() {
     try {
+        console::SetConsoleTitle("Chatroom App");
         boost::asio::io_service ios;
         chatroom::ChatClient client{ios, chatroom::kRemoteAddress, chatroom::kPortNum};
         client.Start();

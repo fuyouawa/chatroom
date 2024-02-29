@@ -28,6 +28,8 @@ void Print(std::string_view fmt, Args&&... args) {
 std::string GetString();
 uint32_t GetUInt32();
 
+void SetConsoleTitle(std::string_view title);
+
 int Options(std::initializer_list<std::string_view> opts, size_t cur_selection=0, bool* is_esc=nullptr);
 Keycode InputKey();
 void Clear();
