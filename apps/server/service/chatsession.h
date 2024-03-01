@@ -26,30 +26,30 @@ public:
     static constexpr int kMaxSendQueue = 1000;
 
     ChatSession(Socket&& socket, ChatServer* server);
-    ~ChatSession() noexcept;
+    ~ChatSession();
 
     void Start();
-    void Close() noexcept;
+    void Close();
 
-    void Send(uint16_t msgid, const google::protobuf::Message& data) noexcept;
+    void Send(uint16_t msgid, const google::protobuf::Message& data);
 
-    auto& socket() const noexcept { return socket_; }
-    auto client_ep() const noexcept { return socket_.remote_endpoint(); }
-    auto uuid() const noexcept { return uuid_; }
-    auto account() const noexcept { return account_; }
-    auto logging() const noexcept { return logging_; }
-    auto is_closed() const noexcept { return is_closed_.load(); }
-    void set_close_callback(CloseCallback&& cb) noexcept { close_callback_ = std::move(cb); }
-    void set_read_callback(ReadCallback&& cb) noexcept { read_callback_ = std::move(cb); }
-    void set_account(int account) noexcept { account_ = account; }
-    void set_logging(bool logging) noexcept { logging_ = logging; }
+    auto& socket() const { return socket_; }
+    auto client_ep() const { return socket_.remote_endpoint(); }
+    auto uuid() const { return uuid_; }
+    auto user_id() const { return user_id_; }
+    auto logging() const { return logging_; }
+    auto is_closed() const { return is_closed_.load(); }
+    void set_close_callback(CloseCallback&& cb) { close_callback_ = std::move(cb); }
+    void set_read_callback(ReadCallback&& cb) { read_callback_ = std::move(cb); }
+    void set_user_id(int user_id) { user_id_ = user_id; }
+    void set_logging(bool logging) { logging_ = logging; }
     //TODO 超时关闭连接功能
 
 private:
     void HandleWrited(const boost::system::error_code& ec);
 
     bool logging_;
-    int account_;
+    int user_id_;
     std::atomic_bool is_closed_;
     Socket socket_;
     ChatServer* server_;

@@ -1,6 +1,5 @@
 #pragma once
 #include <cppconn/resultset.h>
-#include <chrono>
 #include "common/core/singleton.h"
 #include "common/tools/format.h"
 
@@ -34,8 +33,5 @@ auto Update(std::string_view sql_fmt, Args&&... args) {
 }
 
 int64_t GetLastInsertId();
-
-std::string ToString(const std::chrono::system_clock::time_point& tp);
-std::chrono::system_clock::time_point StringToTimepoint(std::string_view str);
 }   // namespace mysql
 }   // namespace chatroom

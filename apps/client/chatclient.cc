@@ -35,7 +35,7 @@ void TipContinue() {
 ChatClient::ChatClient(boost::asio::io_service& ios, std::string_view remote_address, uint16_t port)
     : socket_{ios},
     remote_ep_{boost::asio::ip::address::from_string(remote_address.data()), port},
-    account_{0}
+    user_id_{0}
 {
 }
 
@@ -49,8 +49,8 @@ void ChatClient::RunLoop() {
     boost::asio::co_spawn(socket_.get_executor(), [this]()->boost::asio::awaitable<void> {
         try
         {
-            while (co_await AskAccountAndPassword()) {
-                assert(account_);
+            while (co_await AskUserIdAndPassword()) {
+                assert(user_id_);
                 co_await BasicPanel();
             }
         }
@@ -63,23 +63,23 @@ void ChatClient::RunLoop() {
     }, boost::asio::detached);
 }
 
-boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
+boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
     auto opt = console::Options({"登录", "注册", "退出"});
     switch (opt)
     {
     case 0:     // 登录
     {
     re_login:
-        console::Print("账号:"); auto account = console::GetUInt32();
+        console::Print("账号:"); auto user_id = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
         msgpb::Login login;
-        login.set_account(account);
+        login.set_user_id(user_id);
         login.set_password(password);
         co_await Send(msgid::kMsgLogin, login);
         auto ack = co_await Receive<msgpb::LoginAck>();
         if (ack.success()) {
             console::Print("登录成功!\n");
-            account_ = account;
+            user_id_ = user_id;
             user_name_ = ack.user_name();
             console::SetConsoleTitle(std::format("Chatroom App({})", user_name_));
         }
@@ -106,7 +106,7 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
         co_await Send(msgid::kMsgRegister, reg);
         auto ack = co_await Receive<msgpb::RegisterAck>();
         if (ack.success()) {
-            console::Print("注册成功! 你的账号是:{}\n", ack.account());
+            console::Print("注册成功! 你的账号是:{}\n", ack.user_id());
             TipBack();
             goto re_login;
         }
@@ -135,7 +135,7 @@ re_panel:
     case 1:     // 查看好友列表
     {
         msgpb::GetFriends msg;
-        msg.set_user_id(account_);
+        msg.set_user_id(user_id_);
         co_await Send(msgid::kMsgGetFriends, msg);
         auto ack = co_await Receive<msgpb::GetFriendsAck>();
         if (ack.success()) {
@@ -169,10 +169,10 @@ re_panel:
     case 3:     // 添加好友
     {
     re_add_friend:
-        console::Print("输入要添加的好友账号:"); auto account = console::GetUInt32();
+        console::Print("输入要添加的好友账号:"); auto user_id = console::GetUInt32();
         msgpb::AddFriend msg;
-        msg.set_user_id(account_);
-        msg.set_friend_id(account);
+        msg.set_user_id(user_id_);
+        msg.set_friend_id(user_id);
         co_await Send(msgid::kMsgAddFriend, msg);
         auto ack = co_await Receive<msgpb::AddFriendAck>();
         if (ack.success()) {
@@ -189,10 +189,10 @@ re_panel:
     case 4:     // 删除好友
     {
     re_remove_friend:
-        console::Print("输入要删除的好友账号:"); auto account = console::GetUInt32();
+        console::Print("输入要删除的好友账号:"); auto user_id = console::GetUInt32();
         msgpb::RemoveFriend msg;
-        msg.set_user_id(account_);
-        msg.set_friend_id(account);
+        msg.set_user_id(user_id_);
+        msg.set_friend_id(user_id);
         co_await Send(msgid::kMsgRemoveFriend, msg);
         auto ack = co_await Receive<msgpb::RemoveFriendAck>();
         if (ack.success()) {
@@ -217,7 +217,7 @@ re_panel:
         goto re_panel;
     }
     default:    // 退出登录
-        account_ = 0;
+        user_id_ = 0;
         break;
     }
 }

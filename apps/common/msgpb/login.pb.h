@@ -183,7 +183,7 @@ class Login PROTOBUF_FINAL :
 
   enum : int {
     kPasswordFieldNumber = 2,
-    kAccountFieldNumber = 1,
+    kUserIdFieldNumber = 1,
   };
   // string password = 2;
   void clear_password();
@@ -210,13 +210,13 @@ class Login PROTOBUF_FINAL :
   std::string* _internal_mutable_password();
   public:
 
-  // int32 account = 1;
-  void clear_account();
-  ::PROTOBUF_NAMESPACE_ID::int32 account() const;
-  void set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int32 user_id = 1;
+  void clear_user_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_account() const;
-  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.Login)
@@ -227,7 +227,7 @@ class Login PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
-  ::PROTOBUF_NAMESPACE_ID::int32 account_;
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_2eproto;
 };
@@ -242,24 +242,24 @@ class Login PROTOBUF_FINAL :
 #endif  // __GNUC__
 // Login
 
-// int32 account = 1;
-inline void Login::clear_account() {
-  account_ = 0;
+// int32 user_id = 1;
+inline void Login::clear_user_id() {
+  user_id_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Login::_internal_account() const {
-  return account_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 Login::_internal_user_id() const {
+  return user_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Login::account() const {
-  // @@protoc_insertion_point(field_get:chatroom.msgpb.Login.account)
-  return _internal_account();
+inline ::PROTOBUF_NAMESPACE_ID::int32 Login::user_id() const {
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.Login.user_id)
+  return _internal_user_id();
 }
-inline void Login::_internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void Login::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  account_ = value;
+  user_id_ = value;
 }
-inline void Login::set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_account(value);
-  // @@protoc_insertion_point(field_set:chatroom.msgpb.Login.account)
+inline void Login::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_user_id(value);
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.Login.user_id)
 }
 
 // string password = 2;

@@ -1,4 +1,4 @@
-#include "chatsession.h"
+#include "service/chatsession.h"
 #include <coroutine>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -15,7 +15,7 @@ void HandleSessionError(ChatSessionPtr session, const std::exception& e) {
 
 ChatSession::ChatSession(Socket&& socket, ChatServer* server)
     : logging_{false},
-    account_{0},
+    user_id_{0},
     is_closed_{false},
     socket_{std::move(socket)},
     server_{server},
@@ -23,11 +23,11 @@ ChatSession::ChatSession(Socket&& socket, ChatServer* server)
 {
 }
 
-ChatSession::~ChatSession() noexcept {
+ChatSession::~ChatSession() {
     Close();
 }
 
-void ChatSession::Close() noexcept {
+void ChatSession::Close() {
     try
     {
         bool expect = false;
@@ -87,7 +87,7 @@ void ChatSession::Start() {
     }, boost::asio::detached);
 }
 
-void ChatSession::Send(uint16_t msgid, const google::protobuf::Message& data) noexcept {
+void ChatSession::Send(uint16_t msgid, const google::protobuf::Message& data) {
     try
     {
         if (is_closed()) {

@@ -1,4 +1,4 @@
-#include "model/friends_model.h"
+#include "model/friends.h"
 #include "tools/mysql.h"
 
 namespace chatroom {

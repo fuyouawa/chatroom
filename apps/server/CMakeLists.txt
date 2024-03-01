@@ -1,9 +1,6 @@
 SET(SERVER_NAME chat-server)
 
 include_directories(.)
-include_directories(./model)
-include_directories(./service)
-include_directories(./tools)
 
 file(GLOB_RECURSE SOURCES "*.cc")
 

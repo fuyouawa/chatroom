@@ -1,9 +1,7 @@
-#include "chatservice.h"
+#include "service/chatservice.h"
 #include "tools/logger.h"
-#include "model/user_model.h"
-#include "model/friends_model.h"
+#include "model/friends.h"
 
-#include "common/tools/converter.h"
 #include "common/core/msg_id.h"
 
 #include "common/msgpb/login.pb.h"
@@ -28,18 +26,18 @@ namespace chatroom {
 namespace {
 void HandleRegister(ChatSessionPtr session, const msgpb::Register& msg) {
     CHATROOM_LOG_INFO("Register({}): Name:{}, Password:{}", session->client_ep(), msg.name(), msg.password());
-    User register_user{};
-    register_user.set_name(msg.name());
-    register_user.set_password(msg.password());
-    register_user.set_register_time(std::chrono::system_clock::now());
-
+    model::UserInfo register_user {
+        .name = msg.name(),
+        .password = msg.password(),
+        .online = false
+    };
     msgpb::RegisterAck register_ack;
     try
     {
-        const auto account = model::InsertUser(register_user);
+        const auto user_id = model::InsertUser(register_user);
         register_ack.set_success(true);
-        register_ack.set_account(account);
-        CHATROOM_LOG_INFO("Register success({}): Name:{}, Account:{}", session->client_ep(), msg.name(), account);
+        register_ack.set_user_id(user_id);
+        CHATROOM_LOG_INFO("Register success({}): Name:{}, Account:{}", session->client_ep(), msg.name(), user_id);
     }
     catch(const std::exception& e)
     {
@@ -51,30 +49,30 @@ void HandleRegister(ChatSessionPtr session, const msgpb::Register& msg) {
 }
 
 void HandleLogin(ChatSessionPtr session, const msgpb::Login& msg) {
-    CHATROOM_LOG_INFO("Login({}): Account:{}, Password:{}", session->client_ep(), msg.account(), msg.password());
+    CHATROOM_LOG_INFO("Login({}): Account:{}, Password:{}", session->client_ep(), msg.user_id(), msg.password());
     msgpb::LoginAck login_ack;
     try
     {
-        auto user = model::QueryUser(msg.account());
-        if (user.password() != msg.password()) {
+        auto user_info = model::QueryUser(msg.user_id());
+        if (user_info.password != msg.password()) {
             login_ack.set_success(false);
             login_ack.set_errmsg("密码错误!");
             CHATROOM_LOG_INFO("Register faild({}): password occur!", session->client_ep());
             goto send;
         }
-        if (user.state() == UserState::kOnline) {
-            const auto logged_user = ChatService::instance().GetLoggedUserInfo(user.account());
+        if (user_info.online) {
+            const auto logged_user = ChatService::instance().GetLoggedUserInfo(user_info.id);
             CHATROOM_LOG_WARNING("One device({}({})) is already logged into the account, and the other device({}({})) is trying to log in.",
-            logged_user.name(), logged_user.account(), user.name(), user.account());
+            logged_user.name, logged_user.id, user_info.name, user_info.id);
             login_ack.set_success(false);
             login_ack.set_errmsg("一个设备正在登录这个账户!");
             goto send;
         }
-        user.set_state(UserState::kOnline);
-        ChatService::instance().Login(session, user);
+        user_info.online = true;
+        ChatService::instance().Login(session, user_info);
         login_ack.set_success(true);
-        login_ack.set_user_name(user.name());
-        CHATROOM_LOG_INFO("Login success({}): Name:{}, Account:{}", session->client_ep(), user.name(), user.account());
+        login_ack.set_user_name(user_info.name);
+        CHATROOM_LOG_INFO("Login success({}): Name:{}, Account:{}", session->client_ep(), user_info.name, user_info.id);
     }
     catch(const std::exception& e)
     {
@@ -146,7 +144,7 @@ void HandleGetFriends(ChatSessionPtr session, const msgpb::GetFriends& msg) {
             auto friend_info = model::QueryUser(id);
             auto new_elem = ack.add_friends_info();
             new_elem->set_id(id);
-            new_elem->set_name(friend_info.name());
+            new_elem->set_name(friend_info.name);
         }
         ack.set_success(true);
         CHATROOM_LOG_INFO("User({}) get friends success!", msg.user_id());
@@ -159,7 +157,21 @@ void HandleGetFriends(ChatSessionPtr session, const msgpb::GetFriends& msg) {
     }
     session->Send(msgid::kMsgGetFriendsAck, ack);
 }
+
+void HandleAddGroup(ChatSessionPtr session, const msgpb::AddGroup& msg) {
+
+}
+
+void HandleRemoveGroup(ChatSessionPtr session, const msgpb::RemoveGroup& msg) {
+    
+}
 }   // namespace
+
+
+
+
+
+
 
 void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& packet) {
     switch (packet.msgid())
@@ -179,6 +191,12 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
     case msgid::kMsgGetFriends:
         HandleGetFriends(session, packet.DeserializeData<msgpb::GetFriends>());
         break;
+    case msgid::kMsgAddGroup:
+        HandleAddGroup(session, packet.DeserializeData<msgpb::AddGroup>());
+        break;
+    case msgid::kMsgRemoveGroup:
+        HandleRemoveGroup(session, packet.DeserializeData<msgpb::RemoveGroup>());
+        break;
     default:
         break;
     }
@@ -191,17 +209,17 @@ void ChatService::HandleSessionClosed(ChatSessionPtr session) {
 
 void ChatService::Logout(ChatSessionPtr session) {
     if (session->logging()) {
-        model::UpdateUserState(session->account(), UserState::kOffline);
-        logged_session_map_.erase(session->account());
-        session->set_account(0);
+        model::UpdateUserOnline(session->user_id(), false);
+        logged_session_map_.erase(session->user_id());
+        session->set_user_id(0);
         session->set_logging(false);
     }
 }
 
-void ChatService::Login(ChatSessionPtr session, const User& user) {
-    session->set_account(user.account());
+void ChatService::Login(ChatSessionPtr session, const model::UserInfo& user) {
+    session->set_user_id(user.id);
     session->set_logging(true);
-    logged_session_map_[user.account()] = {session, user};
-    model::UpdateUserState(session->account(), UserState::kOnline);
+    logged_session_map_[user.id] = {session, user};
+    model::UpdateUserOnline(session->user_id(), true);
 }
 }   // namespace chatroom

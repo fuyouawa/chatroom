@@ -46,7 +46,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_2eproto::offsets[] PROTO
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::Login, account_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::Login, user_id_),
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::Login, password_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -59,7 +59,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_login_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\013login.proto\022\016chatroom.msgpb\"*\n\005Login\022\017"
-  "\n\007account\030\001 \001(\005\022\020\n\010password\030\002 \001(\tb\006proto"
+  "\n\007user_id\030\001 \001(\005\022\020\n\010password\030\002 \001(\tb\006proto"
   "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_2eproto_deps[1] = {
@@ -102,14 +102,14 @@ Login::Login(const Login& from)
     password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_password(),
       GetArena());
   }
-  account_ = from.account_;
+  user_id_ = from.user_id_;
   // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.Login)
 }
 
 void Login::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Login_login_2eproto.base);
   password_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  account_ = 0;
+  user_id_ = 0;
 }
 
 Login::~Login() {
@@ -145,7 +145,7 @@ void Login::Clear() {
   (void) cached_has_bits;
 
   password_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  account_ = 0;
+  user_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -157,10 +157,10 @@ const char* Login::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // int32 account = 1;
+      // int32 user_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          account_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          user_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -201,10 +201,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 account = 1;
-  if (this->account() != 0) {
+  // int32 user_id = 1;
+  if (this->user_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_account(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_user_id(), target);
   }
 
   // string password = 2;
@@ -240,11 +240,11 @@ size_t Login::ByteSizeLong() const {
         this->_internal_password());
   }
 
-  // int32 account = 1;
-  if (this->account() != 0) {
+  // int32 user_id = 1;
+  if (this->user_id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_account());
+        this->_internal_user_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -281,8 +281,8 @@ void Login::MergeFrom(const Login& from) {
   if (from.password().size() > 0) {
     _internal_set_password(from._internal_password());
   }
-  if (from.account() != 0) {
-    _internal_set_account(from._internal_account());
+  if (from.user_id() != 0) {
+    _internal_set_user_id(from._internal_user_id());
   }
 }
 
@@ -308,7 +308,7 @@ void Login::InternalSwap(Login* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   password_.Swap(&other->password_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  swap(account_, other->account_);
+  swap(user_id_, other->user_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Login::GetMetadata() const {

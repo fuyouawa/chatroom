@@ -10,10 +10,7 @@ set(APP_DIR ${PROJECT_SOURCE_DIR}/apps)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 include_directories(${APP_DIR}/)
-include_directories(${APP_DIR}/common)
-include_directories(${APP_DIR}/common/core)
 include_directories(${APP_DIR}/common/msgpb)
-include_directories(${APP_DIR}/common/tools)
 
 file(GLOB_RECURSE COMMON_SOURCES ${APP_DIR}/common/*.cc)
 

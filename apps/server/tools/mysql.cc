@@ -1,8 +1,7 @@
-#include "mysql.h"
+#include "tools/mysql.h"
 #include <mysql_driver.h>
 #include <mysql_connection.h>
 #include <cppconn/statement.h>
-#include "common/tools/converter.h"
 #include "common/core/config.h"
 
 namespace chatroom {
@@ -43,14 +42,6 @@ int MySQL::Update(const sql::SQLString& sql)
 int64_t GetLastInsertId() {
     auto res = Query("SELECT LAST_INSERT_ID()");
     return res->next(), res->getInt64(1);
-}
-
-std::string ToString(const std::chrono::system_clock::time_point& tp) {
-    return converter::ToString(tp, "%Y-%m-%d %H:%M:%S");
-}
-
-std::chrono::system_clock::time_point StringToTimepoint(std::string_view str) {
-    return converter::ToTimepoint(str, "%Y-%m-%d %H:%M:%S");
 }
 }   // namespace sql
 }   // namespace chatroom

@@ -184,7 +184,7 @@ class RegisterAck PROTOBUF_FINAL :
   enum : int {
     kErrmsgFieldNumber = 2,
     kSuccessFieldNumber = 1,
-    kAccountFieldNumber = 3,
+    kUserIdFieldNumber = 3,
   };
   // string errmsg = 2;
   void clear_errmsg();
@@ -220,13 +220,13 @@ class RegisterAck PROTOBUF_FINAL :
   void _internal_set_success(bool value);
   public:
 
-  // int32 account = 3;
-  void clear_account();
-  ::PROTOBUF_NAMESPACE_ID::int32 account() const;
-  void set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int32 user_id = 3;
+  void clear_user_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_account() const;
-  void _internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.RegisterAck)
@@ -238,7 +238,7 @@ class RegisterAck PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
   bool success_;
-  ::PROTOBUF_NAMESPACE_ID::int32 account_;
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_register_5fack_2eproto;
 };
@@ -354,24 +354,24 @@ inline void RegisterAck::unsafe_arena_set_allocated_errmsg(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.RegisterAck.errmsg)
 }
 
-// int32 account = 3;
-inline void RegisterAck::clear_account() {
-  account_ = 0;
+// int32 user_id = 3;
+inline void RegisterAck::clear_user_id() {
+  user_id_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 RegisterAck::_internal_account() const {
-  return account_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 RegisterAck::_internal_user_id() const {
+  return user_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 RegisterAck::account() const {
-  // @@protoc_insertion_point(field_get:chatroom.msgpb.RegisterAck.account)
-  return _internal_account();
+inline ::PROTOBUF_NAMESPACE_ID::int32 RegisterAck::user_id() const {
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.RegisterAck.user_id)
+  return _internal_user_id();
 }
-inline void RegisterAck::_internal_set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void RegisterAck::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  account_ = value;
+  user_id_ = value;
 }
-inline void RegisterAck::set_account(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_account(value);
-  // @@protoc_insertion_point(field_set:chatroom.msgpb.RegisterAck.account)
+inline void RegisterAck::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_user_id(value);
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.RegisterAck.user_id)
 }
 
 #ifdef __GNUC__

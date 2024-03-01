@@ -26,11 +26,11 @@ public:
     RecvPacket(const RecvPacket&) = delete;
     RecvPacket(RecvPacket&& right);
 
-    auto total_size() const noexcept { return packet_->total_size; }
-    auto data_size() const noexcept { return packet_->total_size - sizeof(PacketHeader); }
-    auto data() const noexcept { return packet_->data; }
-    auto data() noexcept { return packet_->data; }
-    auto msgid() const noexcept { return packet_->msgid; }
+    auto total_size() const { return packet_->total_size; }
+    auto data_size() const { return packet_->total_size - sizeof(PacketHeader); }
+    auto data() const { return packet_->data; }
+    auto data() { return packet_->data; }
+    auto msgid() const { return packet_->msgid; }
 
     template<ConvertiableToMessage T>
     T DeserializeData() const {
@@ -48,7 +48,7 @@ private:
 
 class SendPacket {
 public:
-    SendPacket(uint16_t msgid, std::vector<char>&& data) noexcept;
+    SendPacket(uint16_t msgid, std::vector<char>&& data);
     SendPacket(uint16_t msgid, const google::protobuf::Message& model);
 
     std::vector<char> Pack() const;

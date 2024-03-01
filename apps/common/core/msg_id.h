@@ -14,10 +14,14 @@ enum ID {
     kMsgRemoveFriendAck,
     kMsgGetFriends,
     kMsgGetFriendsAck,
+    kMsgAddGroup,
+    kMsgAddGroupAck,
+    kMsgRemoveGroup,
+    kMsgRemoveGroupAck,
     kMsgEndFlag
 };
-bool IsValid(uint16_t msgid) noexcept;
-bool IsAck(uint16_t msgid) noexcept;
-uint16_t MapToAck(uint16_t msgid) noexcept;
+bool IsValid(uint16_t msgid);
+bool IsAck(uint16_t msgid);
+uint16_t MapToAck(uint16_t msgid);
 }   // namespace msgid
 }   // namespace chatroom

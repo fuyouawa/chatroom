@@ -48,7 +48,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_register_5fack_2eproto::offset
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::RegisterAck, success_),
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::RegisterAck, errmsg_),
-  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::RegisterAck, account_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::RegisterAck, user_id_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::chatroom::msgpb::RegisterAck)},
@@ -61,7 +61,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_register_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022register_ack.proto\022\016chatroom.msgpb\"\?\n\013"
   "RegisterAck\022\017\n\007success\030\001 \001(\010\022\016\n\006errmsg\030\002"
-  " \001(\t\022\017\n\007account\030\003 \001(\005b\006proto3"
+  " \001(\t\022\017\n\007user_id\030\003 \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_register_5fack_2eproto_deps[1] = {
 };
@@ -104,8 +104,8 @@ RegisterAck::RegisterAck(const RegisterAck& from)
       GetArena());
   }
   ::memcpy(&success_, &from.success_,
-    static_cast<size_t>(reinterpret_cast<char*>(&account_) -
-    reinterpret_cast<char*>(&success_)) + sizeof(account_));
+    static_cast<size_t>(reinterpret_cast<char*>(&user_id_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(user_id_));
   // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.RegisterAck)
 }
 
@@ -113,8 +113,8 @@ void RegisterAck::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_RegisterAck_register_5fack_2eproto.base);
   errmsg_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&success_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&account_) -
-      reinterpret_cast<char*>(&success_)) + sizeof(account_));
+      reinterpret_cast<char*>(&user_id_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(user_id_));
 }
 
 RegisterAck::~RegisterAck() {
@@ -151,8 +151,8 @@ void RegisterAck::Clear() {
 
   errmsg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::memset(&success_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&account_) -
-      reinterpret_cast<char*>(&success_)) + sizeof(account_));
+      reinterpret_cast<char*>(&user_id_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(user_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -180,10 +180,10 @@ const char* RegisterAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 account = 3;
+      // int32 user_id = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          account_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          user_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -231,10 +231,10 @@ failure:
         2, this->_internal_errmsg(), target);
   }
 
-  // int32 account = 3;
-  if (this->account() != 0) {
+  // int32 user_id = 3;
+  if (this->user_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_account(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_user_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -265,11 +265,11 @@ size_t RegisterAck::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // int32 account = 3;
-  if (this->account() != 0) {
+  // int32 user_id = 3;
+  if (this->user_id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_account());
+        this->_internal_user_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -309,8 +309,8 @@ void RegisterAck::MergeFrom(const RegisterAck& from) {
   if (from.success() != 0) {
     _internal_set_success(from._internal_success());
   }
-  if (from.account() != 0) {
-    _internal_set_account(from._internal_account());
+  if (from.user_id() != 0) {
+    _internal_set_user_id(from._internal_user_id());
   }
 }
 
@@ -337,8 +337,8 @@ void RegisterAck::InternalSwap(RegisterAck* other) {
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   errmsg_.Swap(&other->errmsg_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RegisterAck, account_)
-      + sizeof(RegisterAck::account_)
+      PROTOBUF_FIELD_OFFSET(RegisterAck, user_id_)
+      + sizeof(RegisterAck::user_id_)
       - PROTOBUF_FIELD_OFFSET(RegisterAck, success_)>(
           reinterpret_cast<char*>(&success_),
           reinterpret_cast<char*>(&other->success_));

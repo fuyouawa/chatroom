@@ -3,6 +3,6 @@ syntax = "proto3";
 package chatroom.msgpb;
 
 message Login {
-    int32 account = 1;
+    int32 user_id = 1;
     string password = 2;
 }
