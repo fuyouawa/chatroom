@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message Register {
+    string name = 1;
+    string password = 2;
+}

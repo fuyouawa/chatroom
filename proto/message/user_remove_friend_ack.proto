@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package chatroom.msgpb;
-
-message UserRemoveFriendAck {
-    bool success = 1;
-    string errmsg = 2;
-}

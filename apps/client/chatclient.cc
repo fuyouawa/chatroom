@@ -1,17 +1,17 @@
 #include "chatclient.h"
 #include "common/core/msg_id.h"
 #include "common/core/packet.h"
-#include "common/msgpb/user_register.pb.h"
-#include "common/msgpb/user_login.pb.h"
-#include "common/msgpb/user_add_friend.pb.h"
-#include "common/msgpb/user_remove_friend.pb.h"
-#include "common/msgpb/user_get_friends.pb.h"
+#include "common/msgpb/register.pb.h"
+#include "common/msgpb/login.pb.h"
+#include "common/msgpb/add_friend.pb.h"
+#include "common/msgpb/remove_friend.pb.h"
+#include "common/msgpb/get_friends.pb.h"
 
-#include "common/msgpb/user_register_ack.pb.h"
-#include "common/msgpb/user_login_ack.pb.h"
-#include "common/msgpb/user_add_friend_ack.pb.h"
-#include "common/msgpb/user_remove_friend_ack.pb.h"
-#include "common/msgpb/user_get_friends_ack.pb.h"
+#include "common/msgpb/register_ack.pb.h"
+#include "common/msgpb/login_ack.pb.h"
+#include "common/msgpb/add_friend_ack.pb.h"
+#include "common/msgpb/remove_friend_ack.pb.h"
+#include "common/msgpb/get_friends_ack.pb.h"
 
 #include "tools/console.h"
 
@@ -72,11 +72,11 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
     re_login:
         console::Print("账号:"); auto account = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
-        msgpb::UserLogin login;
+        msgpb::Login login;
         login.set_account(account);
         login.set_password(password);
-        co_await Send(msgid::kMsgUserLogin, login);
-        auto ack = co_await Receive<msgpb::UserLoginAck>();
+        co_await Send(msgid::kMsgLogin, login);
+        auto ack = co_await Receive<msgpb::LoginAck>();
         if (ack.success()) {
             console::Print("登录成功!\n");
             account_ = account;
@@ -100,11 +100,11 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
             console::Print("两次密码不正确, 请重新输入!\n");
             goto re_pwd;
         }
-        msgpb::UserRegister reg;
+        msgpb::Register reg;
         reg.set_name(name);
         reg.set_password(password);
-        co_await Send(msgid::kMsgUserRegister, reg);
-        auto ack = co_await Receive<msgpb::UserRegisterAck>();
+        co_await Send(msgid::kMsgRegister, reg);
+        auto ack = co_await Receive<msgpb::RegisterAck>();
         if (ack.success()) {
             console::Print("注册成功! 你的账号是:{}\n", ack.account());
             TipBack();
@@ -134,10 +134,10 @@ re_panel:
     }
     case 1:     // 查看好友列表
     {
-        msgpb::UserGetFriends msg;
+        msgpb::GetFriends msg;
         msg.set_user_id(account_);
-        co_await Send(msgid::kMsgUserGetFriends, msg);
-        auto ack = co_await Receive<msgpb::UserGetFriendsAck>();
+        co_await Send(msgid::kMsgGetFriends, msg);
+        auto ack = co_await Receive<msgpb::GetFriendsAck>();
         if (ack.success()) {
             if (ack.friends_info_size()) {
                 std::vector<std::string> opts;
@@ -170,11 +170,11 @@ re_panel:
     {
     re_add_friend:
         console::Print("输入要添加的好友账号:"); auto account = console::GetUInt32();
-        msgpb::UserAddFriend msg;
+        msgpb::AddFriend msg;
         msg.set_user_id(account_);
         msg.set_friend_id(account);
-        co_await Send(msgid::kMsgUserAddFriend, msg);
-        auto ack = co_await Receive<msgpb::UserAddFriendAck>();
+        co_await Send(msgid::kMsgAddFriend, msg);
+        auto ack = co_await Receive<msgpb::AddFriendAck>();
         if (ack.success()) {
             console::Print("好友添加成功!\n");
             TipBack();
@@ -190,11 +190,11 @@ re_panel:
     {
     re_remove_friend:
         console::Print("输入要删除的好友账号:"); auto account = console::GetUInt32();
-        msgpb::UserRemoveFriend msg;
+        msgpb::RemoveFriend msg;
         msg.set_user_id(account_);
         msg.set_friend_id(account);
-        co_await Send(msgid::kMsgUserRemoveFriend, msg);
-        auto ack = co_await Receive<msgpb::UserRemoveFriendAck>();
+        co_await Send(msgid::kMsgRemoveFriend, msg);
+        auto ack = co_await Receive<msgpb::RemoveFriendAck>();
         if (ack.success()) {
             console::Print("好友删除成功!\n");
             TipBack();

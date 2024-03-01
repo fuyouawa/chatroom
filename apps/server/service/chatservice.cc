@@ -6,30 +6,34 @@
 #include "common/tools/converter.h"
 #include "common/core/msg_id.h"
 
-#include "common/msgpb/user_login.pb.h"
-#include "common/msgpb/user_register.pb.h"
-#include "common/msgpb/user_add_friend.pb.h"
-#include "common/msgpb/user_remove_friend.pb.h"
-#include "common/msgpb/user_get_friends.pb.h"
+#include "common/msgpb/login.pb.h"
+#include "common/msgpb/register.pb.h"
+#include "common/msgpb/add_friend.pb.h"
+#include "common/msgpb/remove_friend.pb.h"
+#include "common/msgpb/get_friends.pb.h"
+#include "common/msgpb/add_group.pb.h"
+#include "common/msgpb/remove_group.pb.h"
 
-#include "common/msgpb/user_register_ack.pb.h"
-#include "common/msgpb/user_login_ack.pb.h"
-#include "common/msgpb/user_add_friend_ack.pb.h"
-#include "common/msgpb/user_remove_friend_ack.pb.h"
-#include "common/msgpb/user_get_friends_ack.pb.h"
+#include "common/msgpb/register_ack.pb.h"
+#include "common/msgpb/login_ack.pb.h"
+#include "common/msgpb/add_friend_ack.pb.h"
+#include "common/msgpb/remove_friend_ack.pb.h"
+#include "common/msgpb/get_friends_ack.pb.h"
+#include "common/msgpb/add_group_ack.pb.h"
+#include "common/msgpb/remove_group_ack.pb.h"
 
 #include <ranges>
 
 namespace chatroom {
 namespace {
-void HandleRegister(ChatSessionPtr session, const msgpb::UserRegister& msg) {
+void HandleRegister(ChatSessionPtr session, const msgpb::Register& msg) {
     CHATROOM_LOG_INFO("Register({}): Name:{}, Password:{}", session->client_ep(), msg.name(), msg.password());
     User register_user{};
     register_user.set_name(msg.name());
     register_user.set_password(msg.password());
     register_user.set_register_time(std::chrono::system_clock::now());
 
-    msgpb::UserRegisterAck register_ack;
+    msgpb::RegisterAck register_ack;
     try
     {
         const auto account = model::InsertUser(register_user);
@@ -43,12 +47,12 @@ void HandleRegister(ChatSessionPtr session, const msgpb::UserRegister& msg) {
         register_ack.set_errmsg(e.what());
         CHATROOM_LOG_INFO("Register faild({}): {}", session->client_ep(), e.what());
     }
-    session->Send(msgid::kMsgUserRegisterAck, register_ack);
+    session->Send(msgid::kMsgRegisterAck, register_ack);
 }
 
-void HandleLogin(ChatSessionPtr session, const msgpb::UserLogin& msg) {
+void HandleLogin(ChatSessionPtr session, const msgpb::Login& msg) {
     CHATROOM_LOG_INFO("Login({}): Account:{}, Password:{}", session->client_ep(), msg.account(), msg.password());
-    msgpb::UserLoginAck login_ack;
+    msgpb::LoginAck login_ack;
     try
     {
         auto user = model::QueryUser(msg.account());
@@ -80,12 +84,12 @@ void HandleLogin(ChatSessionPtr session, const msgpb::UserLogin& msg) {
     }
     
 send:
-    session->Send(msgid::kMsgUserLoginAck, login_ack);
+    session->Send(msgid::kMsgLoginAck, login_ack);
 }
 
-void HandleAddFriend(ChatSessionPtr session, const msgpb::UserAddFriend& msg) {
+void HandleAddFriend(ChatSessionPtr session, const msgpb::AddFriend& msg) {
     CHATROOM_LOG_INFO("User({}) try to add friend({})", msg.user_id(), msg.friend_id());
-    msgpb::UserAddFriendAck ack;
+    msgpb::AddFriendAck ack;
     if (msg.user_id() == msg.friend_id()) {
         ack.set_success(false);
         ack.set_errmsg("不可添加自己为好友!");
@@ -111,12 +115,12 @@ void HandleAddFriend(ChatSessionPtr session, const msgpb::UserAddFriend& msg) {
         CHATROOM_LOG_INFO("User({}) add friend({}) faild:", msg.user_id(), msg.friend_id(), e.what());
     }
 send:
-    session->Send(msgid::kMsgUserAddFriendAck, ack);
+    session->Send(msgid::kMsgAddFriendAck, ack);
 }
 
-void HandleRemoveFriend(ChatSessionPtr session, const msgpb::UserRemoveFriend& msg) {
+void HandleRemoveFriend(ChatSessionPtr session, const msgpb::RemoveFriend& msg) {
     CHATROOM_LOG_INFO("User({}) try to remove friend({})", msg.user_id(), msg.friend_id());
-    msgpb::UserRemoveFriendAck ack;
+    msgpb::RemoveFriendAck ack;
     try
     {
         model::RemoveFriend(msg.user_id(), msg.friend_id());
@@ -129,12 +133,12 @@ void HandleRemoveFriend(ChatSessionPtr session, const msgpb::UserRemoveFriend& m
         ack.set_errmsg(e.what());
         CHATROOM_LOG_INFO("User({}) remove friend({}) faild:", msg.user_id(), msg.friend_id(), e.what());
     }
-    session->Send(msgid::kMsgUserRemoveFriendAck, ack);
+    session->Send(msgid::kMsgRemoveFriendAck, ack);
 }
 
-void HandleGetFriends(ChatSessionPtr session, const msgpb::UserGetFriends& msg) {
+void HandleGetFriends(ChatSessionPtr session, const msgpb::GetFriends& msg) {
     CHATROOM_LOG_INFO("User({}) try to get friends", msg.user_id());
-    msgpb::UserGetFriendsAck ack;
+    msgpb::GetFriendsAck ack;
     try
     {
         auto friends_id = model::QueryFriends(msg.user_id());
@@ -153,27 +157,27 @@ void HandleGetFriends(ChatSessionPtr session, const msgpb::UserGetFriends& msg) 
         ack.set_errmsg(e.what());
         CHATROOM_LOG_INFO("User({}) get friends failed:{}", msg.user_id(), e.what());
     }
-    session->Send(msgid::kMsgUserGetFriendsAck, ack);
+    session->Send(msgid::kMsgGetFriendsAck, ack);
 }
 }   // namespace
 
 void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& packet) {
     switch (packet.msgid())
     {
-    case msgid::kMsgUserRegister:
-        HandleRegister(session, packet.DeserializeData<msgpb::UserRegister>());
+    case msgid::kMsgRegister:
+        HandleRegister(session, packet.DeserializeData<msgpb::Register>());
         break;
-    case msgid::kMsgUserLogin:
-        HandleLogin(session, packet.DeserializeData<msgpb::UserLogin>());
+    case msgid::kMsgLogin:
+        HandleLogin(session, packet.DeserializeData<msgpb::Login>());
         break;
-    case msgid::kMsgUserAddFriend:
-        HandleAddFriend(session, packet.DeserializeData<msgpb::UserAddFriend>());
+    case msgid::kMsgAddFriend:
+        HandleAddFriend(session, packet.DeserializeData<msgpb::AddFriend>());
         break;
-    case msgid::kMsgUserRemoveFriend:
-        HandleRemoveFriend(session, packet.DeserializeData<msgpb::UserRemoveFriend>());
+    case msgid::kMsgRemoveFriend:
+        HandleRemoveFriend(session, packet.DeserializeData<msgpb::RemoveFriend>());
         break;
-    case msgid::kMsgUserGetFriends:
-        HandleGetFriends(session, packet.DeserializeData<msgpb::UserGetFriends>());
+    case msgid::kMsgGetFriends:
+        HandleGetFriends(session, packet.DeserializeData<msgpb::GetFriends>());
         break;
     default:
         break;

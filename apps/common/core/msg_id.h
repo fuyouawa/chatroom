@@ -4,16 +4,16 @@
 namespace chatroom {
 namespace msgid {
 enum ID {
-    kMsgUserRegister,
-    kMsgUserRegisterAck,
-    kMsgUserLogin,
-    kMsgUserLoginAck,
-    kMsgUserAddFriend,
-    kMsgUserAddFriendAck,
-    kMsgUserRemoveFriend,
-    kMsgUserRemoveFriendAck,
-    kMsgUserGetFriends,
-    kMsgUserGetFriendsAck,
+    kMsgRegister,
+    kMsgRegisterAck,
+    kMsgLogin,
+    kMsgLoginAck,
+    kMsgAddFriend,
+    kMsgAddFriendAck,
+    kMsgRemoveFriend,
+    kMsgRemoveFriendAck,
+    kMsgGetFriends,
+    kMsgGetFriendsAck,
     kMsgEndFlag
 };
 bool IsValid(uint16_t msgid) noexcept;

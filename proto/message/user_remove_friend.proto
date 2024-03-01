@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package chatroom.msgpb;
-
-message UserRemoveFriend {
-    int32 user_id = 1;
-    int32 friend_id = 2;
-}

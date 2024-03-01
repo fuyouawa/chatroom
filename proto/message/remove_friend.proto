@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message RemoveFriend {
+    int32 user_id = 1;
+    int32 friend_id = 2;
+}
