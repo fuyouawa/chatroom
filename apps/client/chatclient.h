@@ -5,7 +5,6 @@
 #include <google/protobuf/message.h>
 #include <vector>
 #include "common/core/packet.h"
-#include "common/core/msg_id.h"
 
 namespace chatroom {
 class ChatClient {
@@ -20,7 +19,7 @@ private:
     boost::asio::awaitable<bool> AskAccountAndPassword();
     boost::asio::awaitable<void> BasicPanel();
 
-    boost::asio::awaitable<size_t> Send(MessageID msgid, const google::protobuf::Message& msg);
+    boost::asio::awaitable<size_t> Send(uint16_t msgid, const google::protobuf::Message& msg);
     boost::asio::awaitable<RecvPacket> InternalReceive();
 
     template<ConvertiableToMessage T>

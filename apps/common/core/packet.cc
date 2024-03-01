@@ -2,6 +2,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <format>
+#include "common/core/msg_id.h"
 
 #include <common/tools/net_util.h>
 
@@ -17,8 +18,8 @@ void CheckTotalSize(size_t total_size) {
         throw std::invalid_argument(std::format("The input 'total_size'({}) is less than 'HeaderSize'({})!", total_size, sizeof(PacketHeader)));
 }
 
-void CheckMsgID(MessageID msgid) {
-    if (!IsValidMsgID(msgid))
+void CheckMsgID(uint16_t msgid) {
+    if (!msgid::IsValid(msgid))
         throw std::invalid_argument("Invalid message id!");
 }
 
@@ -46,12 +47,12 @@ void RecvPacket::set_total_size_safety(uint16_t total_size) {
 }
 
 void RecvPacket::set_msgid_safety(uint16_t msgid) {
-    CheckMsgID(static_cast<MessageID>(msgid));
+    CheckMsgID(msgid);
     assert(packet_ != nullptr);
     packet_->msgid = msgid;
 }
 
-SendPacket::SendPacket(MessageID msgid, const google::protobuf::Message& model)
+SendPacket::SendPacket(uint16_t msgid, const google::protobuf::Message& model)
     : msgid_{msgid},
     data_(model.ByteSizeLong())
 {
@@ -67,7 +68,7 @@ std::vector<char> SendPacket::Pack() const {
 
     const auto packet = (Packet*)buffer.data();
     packet->total_size = socket::htons(static_cast<uint16_t>(total_size));
-    packet->msgid = socket::htons(static_cast<uint16_t>(msgid_));
+    packet->msgid = socket::htons(msgid_);
 
     std::memcpy(packet->data, data_.data(), data_.size());
     return buffer;

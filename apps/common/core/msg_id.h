@@ -2,20 +2,22 @@
 #include <stdint.h>
 
 namespace chatroom {
-enum class MessageID: uint16_t {
-    kUserRegister,
-    kUserRegisterAck,
-    kUserLogin,
-    kUserLoginAck,
-    kUserAddFriend,
-    kUserAddFriendAck,
-    kUserRemoveFriend,
-    kUserRemoveFriendAck,
-    kUserGetFriends,
-    kUserGetFriendsAck,
+namespace msgid {
+enum ID {
+    kMsgUserRegister,
+    kMsgUserRegisterAck,
+    kMsgUserLogin,
+    kMsgUserLoginAck,
+    kMsgUserAddFriend,
+    kMsgUserAddFriendAck,
+    kMsgUserRemoveFriend,
+    kMsgUserRemoveFriendAck,
+    kMsgUserGetFriends,
+    kMsgUserGetFriendsAck,
+    kMsgEndFlag
 };
-
-bool IsValidMsgID(MessageID msgid) noexcept;
-bool IsMsgAckID(MessageID msgid) noexcept;
-MessageID MapToMsgAckID(MessageID msgid) noexcept;
+bool IsValid(uint16_t msgid) noexcept;
+bool IsAck(uint16_t msgid) noexcept;
+uint16_t MapToAck(uint16_t msgid) noexcept;
+}   // namespace msgid
 }   // namespace chatroom

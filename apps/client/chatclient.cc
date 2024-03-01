@@ -16,6 +16,22 @@
 #include "tools/console.h"
 
 namespace chatroom {
+namespace {
+void TipBack() {
+    console::Print("(按下任意键回退上一级)\n");
+    console::InputKey();
+}
+void TipRetry() {
+    console::Print("(按下任意键重新操作)\n");
+    console::InputKey();
+}
+void TipContinue() {
+    console::Print("(按下任意键继续)\n");
+    console::InputKey();
+}
+}   // namespace
+
+
 ChatClient::ChatClient(boost::asio::io_service& ios, std::string_view remote_address, uint16_t port)
     : socket_{ios},
     remote_ep_{boost::asio::ip::address::from_string(remote_address.data()), port},
@@ -31,10 +47,19 @@ void ChatClient::Start() {
 
 void ChatClient::RunLoop() {
     boost::asio::co_spawn(socket_.get_executor(), [this]()->boost::asio::awaitable<void> {
-        while (co_await AskAccountAndPassword()) {
-            assert(account_);
-            co_await BasicPanel();
+        try
+        {
+            while (co_await AskAccountAndPassword()) {
+                assert(account_);
+                co_await BasicPanel();
+            }
         }
+        catch(const std::exception& e)
+        {
+            console::PrintError("Error occur:{}\n", e.what());
+            TipContinue();
+        }
+        
     }, boost::asio::detached);
 }
 
@@ -50,7 +75,7 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
         msgpb::UserLogin login;
         login.set_account(account);
         login.set_password(password);
-        co_await Send(MessageID::kUserLogin, login);
+        co_await Send(msgid::kMsgUserLogin, login);
         auto ack = co_await Receive<msgpb::UserLoginAck>();
         if (ack.success()) {
             console::Print("登录成功!\n");
@@ -78,15 +103,16 @@ boost::asio::awaitable<bool> ChatClient::AskAccountAndPassword() {
         msgpb::UserRegister reg;
         reg.set_name(name);
         reg.set_password(password);
-        co_await Send(MessageID::kUserRegister, reg);
+        co_await Send(msgid::kMsgUserRegister, reg);
         auto ack = co_await Receive<msgpb::UserRegisterAck>();
         if (ack.success()) {
-            console::Print("注册成功! 你的账号是:{}(按下任意键回退上一级)\n", ack.account());
-            console::InputKey();
+            console::Print("注册成功! 你的账号是:{}\n", ack.account());
+            TipBack();
             goto re_login;
         }
         else {
             console::PrintError("注册失败! 原因:{}\n", ack.errmsg());
+            TipRetry();
             goto re_reg;
         }
         co_return true;
@@ -110,13 +136,28 @@ re_panel:
     {
         msgpb::UserGetFriends msg;
         msg.set_user_id(account_);
-        co_await Send(MessageID::kUserGetFriends, msg);
+        co_await Send(msgid::kMsgUserGetFriends, msg);
         auto ack = co_await Receive<msgpb::UserGetFriendsAck>();
         if (ack.success()) {
-            
+            if (ack.friends_info_size()) {
+                std::vector<std::string> opts;
+                for (auto &info : ack.friends_info()) {
+                    opts.push_back(std::format("{}({})", info.name(), info.id()));
+                }
+                bool is_esc = false;
+                auto idx = console::Options(opts, "[好友列表(按下Enter选择聊天, 按下Esc回退上一级)]", 0, &is_esc);
+                if (is_esc) {
+                    goto re_panel;
+                }
+            }
+            else {
+                console::Print("暂无好友\n");
+                TipBack();
+            }
         }
         else {
-            
+            console::PrintError("查看失败! 原因:{}\n", ack.errmsg());
+            TipBack();
         }
         goto re_panel;
     }
@@ -132,14 +173,15 @@ re_panel:
         msgpb::UserAddFriend msg;
         msg.set_user_id(account_);
         msg.set_friend_id(account);
-        co_await Send(MessageID::kUserAddFriend, msg);
+        co_await Send(msgid::kMsgUserAddFriend, msg);
         auto ack = co_await Receive<msgpb::UserAddFriendAck>();
         if (ack.success()) {
-            console::Print("好友添加成功!(按下任意键回退上一级)");
-            console::InputKey();
+            console::Print("好友添加成功!\n");
+            TipBack();
         }
         else {
-            console::PrintError("好友添加失败! 原因: {}", ack.errmsg());
+            console::PrintError("好友添加失败! 原因: {}\n", ack.errmsg());
+            TipRetry();
             goto re_add_friend;
         }
         goto re_panel;
@@ -151,14 +193,15 @@ re_panel:
         msgpb::UserRemoveFriend msg;
         msg.set_user_id(account_);
         msg.set_friend_id(account);
-        co_await Send(MessageID::kUserRemoveFriend, msg);
+        co_await Send(msgid::kMsgUserRemoveFriend, msg);
         auto ack = co_await Receive<msgpb::UserRemoveFriendAck>();
         if (ack.success()) {
-            console::Print("好友删除成功!(按下任意键回退上一级)");
-            console::InputKey();
+            console::Print("好友删除成功!\n");
+            TipBack();
         }
         else {
-            console::PrintError("好友删除失败! 原因: {}", ack.errmsg());
+            console::PrintError("好友删除失败! 原因: {}\n", ack.errmsg());
+            TipRetry();
             goto re_remove_friend;
         }
         goto re_panel;
@@ -179,7 +222,7 @@ re_panel:
     }
 }
 
-boost::asio::awaitable<size_t> ChatClient::Send(MessageID msgid, const google::protobuf::Message &msg) {
+boost::asio::awaitable<size_t> ChatClient::Send(uint16_t msgid, const google::protobuf::Message &msg) {
     SendPacket packet{msgid, msg};
     auto n = co_await boost::asio::async_write(socket_, boost::asio::buffer(packet.Pack()), boost::asio::use_awaitable);
     co_return n;

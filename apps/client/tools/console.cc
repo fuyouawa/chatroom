@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <termios.h>
+#include <vector>
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -20,9 +21,12 @@ void Print(std::string_view fmt) {
 }
 }   // namespace internal
 
-int Options(std::span<const std::string_view> opts, size_t cur_selection, bool* is_esc) {
+int Options(const std::vector<std::string>& opts, std::string_view text, size_t cur_selection, bool* is_esc) {
 re_print:
     Clear();
+    if (!text.empty()) {
+        Print("{}\n", text);
+    }
     size_t i = 0;
     for (const auto& opt : opts) {
         bool is_selection = cur_selection == i;
@@ -62,10 +66,6 @@ get_input:
             goto get_input;
     }
     return cur_selection;
-}
-
-int Options(std::initializer_list<std::string_view> opts, size_t cur_selection, bool* is_esc) {
-    return Options(std::span{opts.begin(), opts.end()}, cur_selection, is_esc);
 }
 
 Keycode InputKey() {
@@ -109,6 +109,8 @@ namespace {
 std::string_view GetColorAnsi(Color color) {
     switch (color)
     {
+    case Color::kRed:
+        return "\x1b[31m";
     case Color::kGreen:
         return "\x1b[32m";
     case Color::kWhite:

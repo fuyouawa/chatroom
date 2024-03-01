@@ -20,10 +20,10 @@ std::vector<int> QueryFriends(int user_id) {
     auto res = mysql::Query("SELECT friend_id FROM Friends WHERE user_id = {}", user_id);
     auto res2 = mysql::Query("SELECT user_id FROM Friends WHERE friend_id = {}", user_id);
     while (res->next()) {
-        total.push_back(res->getInt(0));
+        total.push_back(res->getInt(1));
     }
     while (res2->next()) {
-        total.push_back(res2->getInt(0));
+        total.push_back(res2->getInt(1));
     }
     return total;
 }

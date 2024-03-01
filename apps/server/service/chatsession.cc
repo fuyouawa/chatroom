@@ -87,7 +87,7 @@ void ChatSession::Start() {
     }, boost::asio::detached);
 }
 
-void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, bool is_emergency) noexcept {
+void ChatSession::Send(uint16_t msgid, const google::protobuf::Message& data) noexcept {
     try
     {
         if (is_closed()) {
@@ -96,28 +96,18 @@ void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, b
         }
         const auto send_packet = std::make_shared<SendPacket>(msgid, data);
         std::unique_lock<std::mutex> lock{mutex_};
-        const auto old_deque_size = send_deque_.size();
-        if (old_deque_size >= kMaxSendQueue) {
+        const auto old_queue_size = send_queue_.size();
+        if (old_queue_size >= kMaxSendQueue) {
             CHATROOM_LOG_ERROR("Send message's queue fulled!");
             Close();
             //TODO: 高水位处理
             return;
         }
-        if (is_emergency) {
-            if (old_deque_size <= 1) {
-                send_deque_.push_back(send_packet);
-            }
-            else {
-                send_deque_.insert(send_deque_.begin() + 1, send_packet);
-            }
-        }
-        else {
-            send_deque_.push_back(send_packet);
-        }
-        if (old_deque_size > 0) {
+        send_queue_.push(send_packet);
+        if (old_queue_size > 0) {
             return;
         }
-        const auto packet = send_deque_.front();
+        const auto packet = send_queue_.front();
         lock.unlock();
 
         boost::asio::async_write(socket_,
@@ -130,23 +120,15 @@ void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data, b
     }
 }
 
-void ChatSession::Send(MessageID msgid, const google::protobuf::Message& data) noexcept {
-    Send(msgid, data, false);
-}
-
-void ChatSession::SendEmergency(MessageID msgid, const google::protobuf::Message& data) noexcept {
-    Send(msgid, data, true);
-}
-
 
 void ChatSession::HandleWrited(const boost::system::error_code& ec) {
     try
     {
         if (!ec) {
             std::unique_lock<std::mutex> lock{mutex_};
-            send_deque_.pop_front();
-            if (!send_deque_.empty()) {
-                const auto packet = send_deque_.front();
+            send_queue_.pop();
+            if (!send_queue_.empty()) {
+                const auto packet = send_queue_.front();
                 lock.unlock();
 
                 boost::asio::async_write(socket_,

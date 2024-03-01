@@ -3,14 +3,13 @@
 #include <boost/asio.hpp>
 #include <string>
 #include <mutex>
-#include <deque>
+#include <queue>
 #include <atomic>
 #include <functional>
 #include "model/user.h"
 
 #include "common/core/packet.h"
 #include "common/core/noncopyable.h"
-#include "common/core/msg_id.h"
 
 namespace chatroom {
 class ChatSession;
@@ -32,8 +31,7 @@ public:
     void Start();
     void Close() noexcept;
 
-    void Send(MessageID msgid, const google::protobuf::Message& data) noexcept;
-    void SendEmergency(MessageID msgid, const google::protobuf::Message& data) noexcept;
+    void Send(uint16_t msgid, const google::protobuf::Message& data) noexcept;
 
     auto& socket() const noexcept { return socket_; }
     auto client_ep() const noexcept { return socket_.remote_endpoint(); }
@@ -48,7 +46,6 @@ public:
     //TODO 超时关闭连接功能
 
 private:
-    void Send(MessageID msgid, const google::protobuf::Message& data, bool is_emergency) noexcept;
     void HandleWrited(const boost::system::error_code& ec);
 
     bool logging_;
@@ -58,7 +55,7 @@ private:
     ChatServer* server_;
     std::string uuid_;
     std::mutex mutex_;
-    std::deque<std::shared_ptr<SendPacket>> send_deque_;
+    std::queue<std::shared_ptr<SendPacket>> send_queue_;
     CloseCallback close_callback_;
     ReadCallback read_callback_;
 };

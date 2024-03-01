@@ -1,17 +1,16 @@
 #include "msg_id.h"
 
 namespace chatroom {
-bool IsValidMsgID(MessageID msgid) noexcept {
-    constexpr auto kMaxMsgID = static_cast<uint16_t>(MessageID::kUserRemoveFriendAck);
-    return static_cast<uint16_t>(msgid) <= kMaxMsgID;
+namespace msgid {
+bool IsValid(uint16_t msgid) noexcept {
+    return msgid::kMsgEndFlag > msgid;
 }
-
-bool IsMsgAckID(MessageID msgid) noexcept {
-    return static_cast<uint16_t>(msgid) % 2 == 1;
+bool IsAck(uint16_t msgid) noexcept {
+    return msgid % 2 == 1;
 }
-
-MessageID MapToMsgAckID(MessageID msgid) noexcept {
-    if (IsMsgAckID(msgid)) return msgid;
-    return static_cast<MessageID>(static_cast<uint16_t>(msgid) + 1);
+uint16_t MapToAck(uint16_t msgid) noexcept {
+    if (IsAck(msgid)) return msgid;
+    return msgid + 1;
 }
+}   // namespace msgid
 }   // namespace chatroom

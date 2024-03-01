@@ -1,6 +1,6 @@
 #pragma once
 #include <format>
-#include <span>
+#include <vector>
 #include <cstdint>
 #include <initializer_list>
 
@@ -16,9 +16,9 @@ enum class Keycode {
 };
 
 enum class Color {
+    kRed,
     kGreen,
     kWhite,
-    kRed,
 };
 
 namespace internal {
@@ -38,8 +38,7 @@ void EndColor();
 void ResetColor();
 
 
-int Options(std::span<const std::string_view> opts, size_t cur_selection=0, bool* is_esc=nullptr);
-int Options(std::initializer_list<std::string_view> opts, size_t cur_selection=0, bool* is_esc=nullptr);
+int Options(const std::vector<std::string>& opts, std::string_view text="", size_t cur_selection=0, bool* is_esc=nullptr);
 
 template<typename... Args>
 void Print(std::string_view fmt, Args&&... args) {
