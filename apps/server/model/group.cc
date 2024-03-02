@@ -39,7 +39,9 @@ std::vector<uint32_t> GetJoinedGroups(uint32_t user_id) {
 }
 
 void JoinGroup(uint32_t user_id, uint32_t group_id) {
-
+    auto res = mysql::Update("INSERT INTO `GroupMember`(`group_id`,`user_id`,`user_privilege`) VALUES({},{},{})",
+                                group_id, user_id, static_cast<int>(kGroupMember));
+    assert(res);
 }
 
 void QuitGroup(uint32_t user_id, uint32_t group_id) {

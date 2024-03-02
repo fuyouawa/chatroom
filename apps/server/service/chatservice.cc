@@ -14,6 +14,7 @@
 #include "common/msgpb/remove_group.pb.h"
 #include "common/msgpb/get_joined_groups.pb.h"
 #include "common/msgpb/join_group.pb.h"
+#include "common/msgpb/quit_group.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -24,6 +25,7 @@
 #include "common/msgpb/remove_group_ack.pb.h"
 #include "common/msgpb/get_joined_groups_ack.pb.h"
 #include "common/msgpb/join_group_ack.pb.h"
+#include "common/msgpb/quit_group_ack.pb.h"
 
 #include <ranges>
 
@@ -82,7 +84,7 @@ void HandleLogin(ChatSessionPtr session, const msgpb::Login& msg) {
     catch(const std::exception& e)
     {
         login_ack.set_success(false);
-        login_ack.set_errmsg("账号不存在!");
+        login_ack.set_errmsg(e.what());
         CHATROOM_LOG_ERROR("Login faild({}): {}", session->client_ep(), e.what());
     }
     
@@ -224,7 +226,37 @@ void HandleGetJoinedGroups(ChatSessionPtr session, const msgpb::GetJoinedGroups&
     }
     session->Send(msgid::kMsgGetJoinedGroupsAck, ack);
 }
+
+void HandleJoinGroup(ChatSessionPtr session, const msgpb::JoinGroup& msg) {
+    CHATROOM_LOG_INFO("User({}) try to add group(id:{})", msg.user_id(), msg.group_id());
+    msgpb::JoinGroupAck ack;
+    try
+    {
+        model::JoinGroup(msg.user_id(), msg.group_id());
+        auto info = model::QueryGroup(msg.group_id());
+        ack.set_success(true);
+        ack.set_group_name(info.name);
+        CHATROOM_LOG_INFO("User({}) add group(id:{}) success!", msg.user_id(), msg.group_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User({}) add group(id:{}) faild:{}", msg.user_id(), msg.group_id(), e.what());
+    }
+    session->Send(msgid::kMsgJoinGroupAck, ack);
+}
+
+
+void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
+}
 }   // namespace
+
+
+
+
+
+
 
 
 
@@ -258,6 +290,12 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgGetJoinedGroups:
         HandleGetJoinedGroups(session, packet.DeserializeData<msgpb::GetJoinedGroups>());
+        break;
+    case msgid::kMsgJoinGroup:
+        HandleJoinGroup(session, packet.DeserializeData<msgpb::JoinGroup>());
+        break;
+    case msgid::kMsgQuitGroup:
+        HandleQuitGroup(session, packet.DeserializeData<msgpb::QuitGroup>());
         break;
     default:
         break;

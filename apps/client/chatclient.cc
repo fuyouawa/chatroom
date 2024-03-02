@@ -1,14 +1,17 @@
 #include "chatclient.h"
 #include "common/core/msg_id.h"
 #include "common/core/packet.h"
-#include "common/msgpb/register.pb.h"
+
 #include "common/msgpb/login.pb.h"
+#include "common/msgpb/register.pb.h"
 #include "common/msgpb/add_friend.pb.h"
 #include "common/msgpb/remove_friend.pb.h"
 #include "common/msgpb/get_friends.pb.h"
 #include "common/msgpb/create_group.pb.h"
 #include "common/msgpb/remove_group.pb.h"
 #include "common/msgpb/get_joined_groups.pb.h"
+#include "common/msgpb/join_group.pb.h"
+#include "common/msgpb/quit_group.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -18,6 +21,8 @@
 #include "common/msgpb/create_group_ack.pb.h"
 #include "common/msgpb/remove_group_ack.pb.h"
 #include "common/msgpb/get_joined_groups_ack.pb.h"
+#include "common/msgpb/join_group_ack.pb.h"
+#include "common/msgpb/quit_group_ack.pb.h"
 
 #include "tools/console.h"
 
@@ -255,7 +260,7 @@ main_panel:
         co_await Send(msgid::kMsgCreateGroup, msg);
         auto ack = co_await Receive<msgpb::CreateGroupAck>();
         if (ack.success()) {
-            console::Print("群组创建成功! 群组id:{}\n", ack.group_id());
+            console::Print("群组创建成功! 群组ID:{}\n", ack.group_id());
             TipBack();
         }
         else {
@@ -268,7 +273,7 @@ main_panel:
     case 6:     // 删除群组
     {
     remove_group_panel:
-        console::Print("输入要删除的群组id:"); auto group_id = console::GetUInt32();
+        console::Print("输入要删除的群组ID:"); auto group_id = console::GetUInt32();
         msgpb::RemoveGroup msg;
         msg.set_user_id(user_id_);
         msg.set_group_id(group_id);
@@ -287,7 +292,22 @@ main_panel:
     }
     case 7:     // 加入群组
     {
-
+    join_group_panel:
+        console::Print("输入要加入的群组ID:"); auto group_id = console::GetUInt32();
+        msgpb::JoinGroup msg;
+        msg.set_user_id(user_id_);
+        msg.set_group_id(group_id);
+        co_await Send(msgid::kMsgJoinGroup, msg);
+        auto ack = co_await Receive<msgpb::JoinGroupAck>();
+        if (ack.success()) {
+            console::Print("群组加入成功!\n");
+            TipBack();
+        }
+        else {
+            console::PrintError("群组加入失败! 原因: {}\n", ack.errmsg());
+            TipRetry();
+            goto join_group_panel;
+        }
         goto main_panel;
     }
     default:    // 退出登录

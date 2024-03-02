@@ -36,5 +36,11 @@ void RemoveUser(std::initializer_list<int> users_id) {
     auto res = mysql::Update("DELETE FROM `User` WHERE `id` IN ({:`, `<>})", users_id);
     assert(res);
 }
+
+
+void OfflineAll() {
+    auto res = mysql::Update("UPDATE `User` SET online=0");
+    assert(res);
+}
 }   // namespace model
 }   // namespace chatroom
