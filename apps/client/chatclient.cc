@@ -232,7 +232,22 @@ re_panel:
     }
     case 6:     // 删除群组
     {
-
+    re_remove_group:
+        console::Print("输入要删除的群组id:"); auto group_id = console::GetUInt32();
+        msgpb::RemoveGroup msg;
+        msg.set_user_id(user_id_);
+        msg.set_group_id(group_id);
+        co_await Send(msgid::kMsgRemoveGroup, msg);
+        auto ack = co_await Receive<msgpb::RemoveGroupAck>();
+        if (ack.success()) {
+            console::Print("群组删除成功!\n");
+            TipBack();
+        }
+        else {
+            console::PrintError("群组删除失败! 原因: {}\n", ack.errmsg());
+            TipRetry();
+            goto re_remove_group;
+        }
         goto re_panel;
     }
     case 7:     // 加入群组

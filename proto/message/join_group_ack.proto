@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message JoinGroupAck {
+    bool success = 1;
+    string errmsg = 2;
+    string group_name = 3;
+}

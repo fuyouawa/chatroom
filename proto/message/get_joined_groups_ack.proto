@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message GroupInfo {
+    uint32 id = 1;
+    uint32 name = 2;
+}
+
+message GetJoinedGroupsAck {
+    bool success = 1;
+    string errmsg = 2;
+    repeated GroupInfo groups_info = 3;
+}
