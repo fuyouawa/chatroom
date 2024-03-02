@@ -10,7 +10,7 @@ int InsertUser(const UserInfo& user) {
     return mysql::GetLastInsertId();
 }
 
-UserInfo QueryUser(int id) {
+UserInfo QueryUser(uint32_t id) {
     auto res = mysql::Query("SELECT * FROM User WHERE id = {}", id);
     res->next();
     return UserInfo{
@@ -27,7 +27,7 @@ void UpdateUser(const UserInfo& user) {
     assert(res);
 }
 
-void UpdateUserOnline(int id, bool b) {
+void UpdateUserOnline(uint32_t id, bool b) {
     auto res = mysql::Update("UPDATE `User` SET online={} WHERE `id`={}", b, id);
     assert(res);
 }

@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package chatroom.msgpb;
 
-message AddGroupAck {
+message CreateGroupAck {
     bool success = 1;
     string errmsg = 2;
+    uint32 group_id = 3;
 }

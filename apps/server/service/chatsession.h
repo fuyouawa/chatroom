@@ -41,7 +41,7 @@ public:
     auto is_closed() const { return is_closed_.load(); }
     void set_close_callback(CloseCallback&& cb) { close_callback_ = std::move(cb); }
     void set_read_callback(ReadCallback&& cb) { read_callback_ = std::move(cb); }
-    void set_user_id(int user_id) { user_id_ = user_id; }
+    void set_user_id(uint32_t user_id) { user_id_ = user_id; }
     void set_logging(bool logging) { logging_ = logging; }
     //TODO 超时关闭连接功能
 
@@ -49,7 +49,7 @@ private:
     void HandleWrited(const boost::system::error_code& ec);
 
     bool logging_;
-    int user_id_;
+    uint32_t user_id_;
     std::atomic_bool is_closed_;
     Socket socket_;
     ChatServer* server_;

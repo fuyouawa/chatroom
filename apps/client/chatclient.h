@@ -30,7 +30,7 @@ private:
 
     boost::asio::ip::tcp::socket socket_;
     boost::asio::ip::tcp::endpoint remote_ep_;
-    int user_id_;
+    uint32_t user_id_;
     std::string user_name_;
 };
 }   // namespace chatroom

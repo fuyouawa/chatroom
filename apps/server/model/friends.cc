@@ -3,22 +3,22 @@
 
 namespace chatroom {
 namespace model {
-void InsertFriend(int user_id, int friend_id) {
-    auto res = mysql::Update("INSERT INTO Friends (user_id, friend_id) VALUES ({}, {})", user_id, friend_id);
+void InsertFriend(uint32_t user_id, uint32_t friend_id) {
+    auto res = mysql::Update("INSERT INTO `Friends` (user_id, friend_id) VALUES ({}, {})", user_id, friend_id);
     assert(res);
 }
 
-void RemoveFriend(int user_id, int friend_id) {
-    auto res = mysql::Update("DELETE FROM Friends \
+void RemoveFriend(uint32_t user_id, uint32_t friend_id) {
+    auto res = mysql::Update("DELETE FROM `Friends` \
                               WHERE (user_id = {} AND friend_id = {}) \
                                  OR (user_id = {} AND friend_id = {})", user_id, friend_id, friend_id, user_id);
     assert(res);
 }
 
-std::vector<int> QueryFriends(int user_id) {
+std::vector<int> QueryFriends(uint32_t user_id) {
     std::vector<int> total;
-    auto res = mysql::Query("SELECT friend_id FROM Friends WHERE user_id = {}", user_id);
-    auto res2 = mysql::Query("SELECT user_id FROM Friends WHERE friend_id = {}", user_id);
+    auto res = mysql::Query("SELECT friend_id FROM `Friends` WHERE user_id = {}", user_id);
+    auto res2 = mysql::Query("SELECT user_id FROM `Friends` WHERE friend_id = {}", user_id);
     while (res->next()) {
         total.push_back(res->getInt(1));
     }

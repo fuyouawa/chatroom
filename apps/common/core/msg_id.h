@@ -14,8 +14,8 @@ enum ID {
     kMsgRemoveFriendAck,
     kMsgGetFriends,
     kMsgGetFriendsAck,
-    kMsgAddGroup,
-    kMsgAddGroupAck,
+    kMsgCreateGroup,
+    kMsgCreateGroupAck,
     kMsgRemoveGroup,
     kMsgRemoveGroupAck,
     kMsgEndFlag

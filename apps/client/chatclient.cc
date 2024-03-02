@@ -6,12 +6,16 @@
 #include "common/msgpb/add_friend.pb.h"
 #include "common/msgpb/remove_friend.pb.h"
 #include "common/msgpb/get_friends.pb.h"
+#include "common/msgpb/create_group.pb.h"
+#include "common/msgpb/remove_group.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
 #include "common/msgpb/add_friend_ack.pb.h"
 #include "common/msgpb/remove_friend_ack.pb.h"
 #include "common/msgpb/get_friends_ack.pb.h"
+#include "common/msgpb/create_group_ack.pb.h"
+#include "common/msgpb/remove_group_ack.pb.h"
 
 #include "tools/console.h"
 
@@ -124,7 +128,7 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
 
 boost::asio::awaitable<void> ChatClient::BasicPanel() {
 re_panel:
-    auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表", "添加好友", "删除好友", "添加群组", "删除群组", "退出登录"});
+    auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表", "添加好友", "删除好友", "创建群组", "删除群组", "加入群组", "退出登录"});
     switch (idx)
     {
     case 0:     // 查看个人信息
@@ -208,10 +212,30 @@ re_panel:
     }
     case 5:     // 添加群组
     {
-
+    re_create_group:
+        console::Print("输入要创建的群组名称:"); auto name = console::GetString();
+        msgpb::CreateGroup msg;
+        msg.set_user_id(user_id_);
+        msg.set_group_name(name);
+        co_await Send(msgid::kMsgCreateGroup, msg);
+        auto ack = co_await Receive<msgpb::CreateGroupAck>();
+        if (ack.success()) {
+            console::Print("群组创建成功! 群组id:{}\n", ack.group_id());
+            TipBack();
+        }
+        else {
+            console::PrintError("群组创建失败! 原因: {}\n", ack.errmsg());
+            TipRetry();
+            goto re_create_group;
+        }
         goto re_panel;
     }
     case 6:     // 删除群组
+    {
+
+        goto re_panel;
+    }
+    case 7:     // 加入群组
     {
 
         goto re_panel;
