@@ -45,7 +45,8 @@ void JoinGroup(uint32_t user_id, uint32_t group_id) {
 }
 
 void QuitGroup(uint32_t user_id, uint32_t group_id) {
-
+    auto res = mysql::Update("DELETE FROM `GroupMember` WHERE `group_id`={} AND `user_id`={}", group_id, user_id);
+    assert(res);
 }
 }
 }

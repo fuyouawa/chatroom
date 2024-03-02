@@ -249,6 +249,21 @@ void HandleJoinGroup(ChatSessionPtr session, const msgpb::JoinGroup& msg) {
 
 
 void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
+    CHATROOM_LOG_INFO("User({}) try to quit group(id:{})", msg.user_id(), msg.group_id());
+    msgpb::QuitGroupAck ack;
+    try
+    {
+        model::QuitGroup(msg.user_id(), msg.group_id());
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User({}) quit group(id:{}) success!", msg.user_id(), msg.group_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User({}) quit group(id:{}) faild:{}", msg.user_id(), msg.group_id(), e.what());
+    }
+    session->Send(msgid::kMsgQuitGroupAck, ack);
 }
 }   // namespace
 

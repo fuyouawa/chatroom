@@ -174,6 +174,7 @@ main_panel:
     }
     case 2:     // 查看群组列表
     {
+    show_groups_panel:
         msgpb::GetJoinedGroups msg;
         msg.set_user_id(user_id_);
         co_await Send(msgid::kMsgGetJoinedGroups, msg);
@@ -186,17 +187,44 @@ main_panel:
                 }
                 bool is_esc = false;
                 size_t idx = 0;
-            show_groups_panel:
                 idx = console::Options(opts, "[群组列表(Enter选中, Esc回退上一级)]", 0, &is_esc);
                 if (is_esc) {
                     goto main_panel;
                 }
+                auto select_group = ack.groups_info()[idx];
                 idx = console::Options(
                     {"进入聊天", "查看信息", "退出群聊"},
-                    std::format("当前选中的群是:{}(Enter选中, Esc回退上一级)", ack.groups_info()[idx].name()),
+                    std::format("当前选中的群是:{}(Enter选中, Esc回退上一级)", select_group.name()),
                     0, &is_esc);
                 if (is_esc) {
                     goto show_groups_panel;
+                }
+                switch (idx)
+                {
+                case 0:     // 进入聊天
+                {
+                    break;
+                }
+                case 1:     // 查看信息
+                {
+                    break;
+                }
+                default:    // 退出群聊
+                {
+                    msgpb::QuitGroup msg;
+                    msg.set_user_id(user_id_);
+                    msg.set_group_id(select_group.id());
+                    co_await Send(msgid::kMsgQuitGroup, msg);
+                    auto ack = co_await Receive<msgpb::QuitGroupAck>();
+                    if (ack.success()) {
+                        console::Print("群组删除成功!\n");
+                    }
+                    else {
+                        console::PrintError("群组删除失败! 原因: {}\n", ack.errmsg());
+                    }
+                    TipBack();
+                    goto show_groups_panel;
+                }
                 }
             }
             else {
