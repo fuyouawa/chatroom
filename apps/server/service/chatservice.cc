@@ -166,6 +166,7 @@ void HandleGetFriends(ChatSessionPtr session, const msgpb::GetFriends& msg) {
     session->Send(msgid::kMsgGetFriendsAck, ack);
 }
 
+//TODO 重复创建群组的处理
 void HandleCreateGroup(ChatSessionPtr session, const msgpb::CreateGroup& msg) {
     CHATROOM_LOG_INFO("User({}) try to add group({})", msg.user_id(), msg.group_name());
     msgpb::CreateGroupAck ack;
@@ -227,6 +228,7 @@ void HandleGetJoinedGroups(ChatSessionPtr session, const msgpb::GetJoinedGroups&
     session->Send(msgid::kMsgGetJoinedGroupsAck, ack);
 }
 
+//TODO 重复加入群组的处理
 void HandleJoinGroup(ChatSessionPtr session, const msgpb::JoinGroup& msg) {
     CHATROOM_LOG_INFO("User({}) try to add group(id:{})", msg.user_id(), msg.group_id());
     msgpb::JoinGroupAck ack;
@@ -247,7 +249,7 @@ void HandleJoinGroup(ChatSessionPtr session, const msgpb::JoinGroup& msg) {
     session->Send(msgid::kMsgJoinGroupAck, ack);
 }
 
-
+//TODO 退出自己创建群组的处理
 void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
     CHATROOM_LOG_INFO("User({}) try to quit group(id:{})", msg.user_id(), msg.group_id());
     msgpb::QuitGroupAck ack;
