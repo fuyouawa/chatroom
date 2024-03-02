@@ -186,9 +186,34 @@ class GroupInfo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIdFieldNumber = 1,
     kNameFieldNumber = 2,
+    kIdFieldNumber = 1,
   };
+  // string name = 2;
+  void clear_name();
+  const std::string& name() const;
+  void set_name(const std::string& value);
+  void set_name(std::string&& value);
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  std::string* mutable_name();
+  std::string* release_name();
+  void set_allocated_name(std::string* name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_name(
+      std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
   // uint32 id = 1;
   void clear_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
@@ -198,15 +223,6 @@ class GroupInfo PROTOBUF_FINAL :
   void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 name = 2;
-  void clear_name();
-  ::PROTOBUF_NAMESPACE_ID::uint32 name() const;
-  void set_name(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_name() const;
-  void _internal_set_name(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.GroupInfo)
  private:
   class _Internal;
@@ -214,8 +230,8 @@ class GroupInfo PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 name_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_get_5fjoined_5fgroups_5fack_2eproto;
 };
@@ -434,24 +450,85 @@ inline void GroupInfo::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:chatroom.msgpb.GroupInfo.id)
 }
 
-// uint32 name = 2;
+// string name = 2;
 inline void GroupInfo::clear_name() {
-  name_ = 0u;
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 GroupInfo::_internal_name() const {
-  return name_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 GroupInfo::name() const {
+inline const std::string& GroupInfo::name() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.GroupInfo.name)
   return _internal_name();
 }
-inline void GroupInfo::_internal_set_name(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  name_ = value;
-}
-inline void GroupInfo::set_name(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void GroupInfo::set_name(const std::string& value) {
   _internal_set_name(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.GroupInfo.name)
+}
+inline std::string* GroupInfo::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.GroupInfo.name)
+  return _internal_mutable_name();
+}
+inline const std::string& GroupInfo::_internal_name() const {
+  return name_.Get();
+}
+inline void GroupInfo::_internal_set_name(const std::string& value) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void GroupInfo::set_name(std::string&& value) {
+  
+  name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:chatroom.msgpb.GroupInfo.name)
+}
+inline void GroupInfo::set_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.GroupInfo.name)
+}
+inline void GroupInfo::set_name(const char* value,
+    size_t size) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.GroupInfo.name)
+}
+inline std::string* GroupInfo::_internal_mutable_name() {
+  
+  return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* GroupInfo::release_name() {
+  // @@protoc_insertion_point(field_release:chatroom.msgpb.GroupInfo.name)
+  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void GroupInfo::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:chatroom.msgpb.GroupInfo.name)
+}
+inline std::string* GroupInfo::unsafe_arena_release_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.msgpb.GroupInfo.name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void GroupInfo::unsafe_arena_set_allocated_name(
+    std::string* name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.GroupInfo.name)
 }
 
 // -------------------------------------------------------------------

@@ -90,7 +90,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_get_5fjoined_5fgroups_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\033get_joined_groups_ack.proto\022\016chatroom."
   "msgpb\"%\n\tGroupInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004name\030\002"
-  " \001(\r\"e\n\022GetJoinedGroupsAck\022\017\n\007success\030\001 "
+  " \001(\t\"e\n\022GetJoinedGroupsAck\022\017\n\007success\030\001 "
   "\001(\010\022\016\n\006errmsg\030\002 \001(\t\022.\n\013groups_info\030\003 \003(\013"
   "2\031.chatroom.msgpb.GroupInfob\006proto3"
   ;
@@ -130,16 +130,19 @@ GroupInfo::GroupInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 GroupInfo::GroupInfo(const GroupInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&name_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(name_));
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name().empty()) {
+    name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_name(),
+      GetArena());
+  }
+  id_ = from.id_;
   // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.GroupInfo)
 }
 
 void GroupInfo::SharedCtor() {
-  ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&name_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(name_));
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_GroupInfo_get_5fjoined_5fgroups_5fack_2eproto.base);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  id_ = 0u;
 }
 
 GroupInfo::~GroupInfo() {
@@ -150,6 +153,7 @@ GroupInfo::~GroupInfo() {
 
 void GroupInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void GroupInfo::ArenaDtor(void* object) {
@@ -173,9 +177,8 @@ void GroupInfo::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&name_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(name_));
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  id_ = 0u;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -194,10 +197,12 @@ const char* GroupInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 name = 2;
+      // string name = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          name_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.GroupInfo.name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -235,10 +240,14 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
   }
 
-  // uint32 name = 2;
-  if (this->name() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_name(), target);
+  // string name = 2;
+  if (this->name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "chatroom.msgpb.GroupInfo.name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_name(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -257,18 +266,18 @@ size_t GroupInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string name = 2;
+  if (this->name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name());
+  }
+
   // uint32 id = 1;
   if (this->id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_id());
-  }
-
-  // uint32 name = 2;
-  if (this->name() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_name());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -302,11 +311,11 @@ void GroupInfo::MergeFrom(const GroupInfo& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.name().size() > 0) {
+    _internal_set_name(from._internal_name());
+  }
   if (from.id() != 0) {
     _internal_set_id(from._internal_id());
-  }
-  if (from.name() != 0) {
-    _internal_set_name(from._internal_name());
   }
 }
 
@@ -331,12 +340,8 @@ bool GroupInfo::IsInitialized() const {
 void GroupInfo::InternalSwap(GroupInfo* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(GroupInfo, name_)
-      + sizeof(GroupInfo::name_)
-      - PROTOBUF_FIELD_OFFSET(GroupInfo, id_)>(
-          reinterpret_cast<char*>(&id_),
-          reinterpret_cast<char*>(&other->id_));
+  name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(id_, other->id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GroupInfo::GetMetadata() const {

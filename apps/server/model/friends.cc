@@ -15,15 +15,15 @@ void RemoveFriend(uint32_t user_id, uint32_t friend_id) {
     assert(res);
 }
 
-std::vector<int> QueryFriends(uint32_t user_id) {
-    std::vector<int> total;
+std::vector<uint32_t> QueryFriends(uint32_t user_id) {
+    std::vector<uint32_t> total;
     auto res = mysql::Query("SELECT friend_id FROM `Friends` WHERE user_id = {}", user_id);
     auto res2 = mysql::Query("SELECT user_id FROM `Friends` WHERE friend_id = {}", user_id);
     while (res->next()) {
-        total.push_back(res->getInt(1));
+        total.push_back(res->getUInt(1));
     }
     while (res2->next()) {
-        total.push_back(res2->getInt(1));
+        total.push_back(res2->getUInt(1));
     }
     return total;
 }

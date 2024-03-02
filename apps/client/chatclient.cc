@@ -8,6 +8,7 @@
 #include "common/msgpb/get_friends.pb.h"
 #include "common/msgpb/create_group.pb.h"
 #include "common/msgpb/remove_group.pb.h"
+#include "common/msgpb/get_joined_groups.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -16,6 +17,7 @@
 #include "common/msgpb/get_friends_ack.pb.h"
 #include "common/msgpb/create_group_ack.pb.h"
 #include "common/msgpb/remove_group_ack.pb.h"
+#include "common/msgpb/get_joined_groups_ack.pb.h"
 
 #include "tools/console.h"
 
@@ -73,7 +75,7 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
     {
     case 0:     // 登录
     {
-    re_login:
+    login_panel:
         console::Print("账号:"); auto user_id = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
         msgpb::Login login;
@@ -89,20 +91,20 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
         }
         else {
             console::PrintError("登录失败!原因:{}\n", ack.errmsg());
-            goto re_login;
+            goto login_panel;
         }
         co_return true;
     }
     case 1:     // 注册
     {
-    re_reg:
+    register_panel:
         console::Print("注册昵称:"); auto name = console::GetString();
-    re_pwd:
+    reg_pwd_panel:
         console::Print("注册密码:"); auto password = console::GetString();
         console::Print("确认密码:"); auto password2 = console::GetString();
         if (password != password2) {
             console::Print("两次密码不正确, 请重新输入!\n");
-            goto re_pwd;
+            goto reg_pwd_panel;
         }
         msgpb::Register reg;
         reg.set_name(name);
@@ -112,12 +114,12 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
         if (ack.success()) {
             console::Print("注册成功! 你的账号是:{}\n", ack.user_id());
             TipBack();
-            goto re_login;
+            goto login_panel;
         }
         else {
             console::PrintError("注册失败! 原因:{}\n", ack.errmsg());
             TipRetry();
-            goto re_reg;
+            goto register_panel;
         }
         co_return true;
     }
@@ -127,14 +129,14 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
 }
 
 boost::asio::awaitable<void> ChatClient::BasicPanel() {
-re_panel:
+main_panel:
     auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表", "添加好友", "删除好友", "创建群组", "删除群组", "加入群组", "退出登录"});
     switch (idx)
     {
     case 0:     // 查看个人信息
     {
 
-        goto re_panel;
+        goto main_panel;
     }
     case 1:     // 查看好友列表
     {
@@ -146,12 +148,12 @@ re_panel:
             if (ack.friends_info_size()) {
                 std::vector<std::string> opts;
                 for (auto &info : ack.friends_info()) {
-                    opts.push_back(std::format("{}({})", info.name(), info.id()));
+                    opts.push_back(std::format("{} (账号: {})", info.name(), info.id()));
                 }
                 bool is_esc = false;
-                auto idx = console::Options(opts, "[好友列表(按下Enter选择聊天, 按下Esc回退上一级)]", 0, &is_esc);
+                auto idx = console::Options(opts, "[好友列表(Enter选中, Esc回退上一级)]", 0, &is_esc);
                 if (is_esc) {
-                    goto re_panel;
+                    goto main_panel;
                 }
             }
             else {
@@ -163,16 +165,49 @@ re_panel:
             console::PrintError("查看失败! 原因:{}\n", ack.errmsg());
             TipBack();
         }
-        goto re_panel;
+        goto main_panel;
     }
     case 2:     // 查看群组列表
     {
-
-        goto re_panel;
+        msgpb::GetJoinedGroups msg;
+        msg.set_user_id(user_id_);
+        co_await Send(msgid::kMsgGetJoinedGroups, msg);
+        auto ack = co_await Receive<msgpb::GetJoinedGroupsAck>();
+        if (ack.success()) {
+            if (ack.groups_info_size()) {
+                std::vector<std::string> opts;
+                for (auto &info : ack.groups_info()) {
+                    opts.push_back(std::format("{} (ID: {})", info.name(), info.id()));
+                }
+                bool is_esc = false;
+                size_t idx = 0;
+            show_groups_panel:
+                idx = console::Options(opts, "[群组列表(Enter选中, Esc回退上一级)]", 0, &is_esc);
+                if (is_esc) {
+                    goto main_panel;
+                }
+                idx = console::Options(
+                    {"进入聊天", "查看信息", "退出群聊"},
+                    std::format("当前选中的群是:{}(Enter选中, Esc回退上一级)", ack.groups_info()[idx].name()),
+                    0, &is_esc);
+                if (is_esc) {
+                    goto show_groups_panel;
+                }
+            }
+            else {
+                console::Print("暂无加入的群组\n");
+                TipBack();
+            }
+        }
+        else {
+            console::PrintError("查看失败! 原因:{}\n", ack.errmsg());
+            TipBack();
+        }
+        goto main_panel;
     }
     case 3:     // 添加好友
     {
-    re_add_friend:
+    add_friend_panel:
         console::Print("输入要添加的好友账号:"); auto user_id = console::GetUInt32();
         msgpb::AddFriend msg;
         msg.set_user_id(user_id_);
@@ -186,13 +221,13 @@ re_panel:
         else {
             console::PrintError("好友添加失败! 原因: {}\n", ack.errmsg());
             TipRetry();
-            goto re_add_friend;
+            goto add_friend_panel;
         }
-        goto re_panel;
+        goto main_panel;
     }
     case 4:     // 删除好友
     {
-    re_remove_friend:
+    remove_friend_panel:
         console::Print("输入要删除的好友账号:"); auto user_id = console::GetUInt32();
         msgpb::RemoveFriend msg;
         msg.set_user_id(user_id_);
@@ -206,13 +241,13 @@ re_panel:
         else {
             console::PrintError("好友删除失败! 原因: {}\n", ack.errmsg());
             TipRetry();
-            goto re_remove_friend;
+            goto remove_friend_panel;
         }
-        goto re_panel;
+        goto main_panel;
     }
     case 5:     // 添加群组
     {
-    re_create_group:
+    create_group_panel:
         console::Print("输入要创建的群组名称:"); auto name = console::GetString();
         msgpb::CreateGroup msg;
         msg.set_user_id(user_id_);
@@ -226,13 +261,13 @@ re_panel:
         else {
             console::PrintError("群组创建失败! 原因: {}\n", ack.errmsg());
             TipRetry();
-            goto re_create_group;
+            goto create_group_panel;
         }
-        goto re_panel;
+        goto main_panel;
     }
     case 6:     // 删除群组
     {
-    re_remove_group:
+    remove_group_panel:
         console::Print("输入要删除的群组id:"); auto group_id = console::GetUInt32();
         msgpb::RemoveGroup msg;
         msg.set_user_id(user_id_);
@@ -246,14 +281,14 @@ re_panel:
         else {
             console::PrintError("群组删除失败! 原因: {}\n", ack.errmsg());
             TipRetry();
-            goto re_remove_group;
+            goto remove_group_panel;
         }
-        goto re_panel;
+        goto main_panel;
     }
     case 7:     // 加入群组
     {
 
-        goto re_panel;
+        goto main_panel;
     }
     default:    // 退出登录
         user_id_ = 0;

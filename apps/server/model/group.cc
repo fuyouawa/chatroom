@@ -20,8 +20,22 @@ void RemoveGroup(uint32_t owner_user_id, uint32_t group_id) {
     assert(res2);
 }
 
-std::vector<uint32_t> GetJoinedGroups(uint32_t user_id) {
+GroupInfo QueryGroup(uint32_t group_id) {
+    auto res = mysql::Query("SELECT * FROM `AllGroup` WHERE `id` = {}", group_id);
+    res->next();
+    return GroupInfo{
+        .id = res->getUInt("id"),
+        .name = res->getString("name")
+    };
+}
 
+std::vector<uint32_t> GetJoinedGroups(uint32_t user_id) {
+    auto res = mysql::Query("SELECT group_id FROM `GroupMember` WHERE `user_id` = {}", user_id);
+    std::vector<uint32_t> total;
+    while (res->next()) {
+        total.push_back(res->getUInt(1));
+    }
+    return total;
 }
 
 void JoinGroup(uint32_t user_id, uint32_t group_id) {

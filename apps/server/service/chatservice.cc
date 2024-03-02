@@ -148,9 +148,9 @@ void HandleGetFriends(ChatSessionPtr session, const msgpb::GetFriends& msg) {
         auto friends_id = model::QueryFriends(msg.user_id());
         for (auto& id: friends_id) {
             auto friend_info = model::QueryUser(id);
-            auto new_elem = ack.add_friends_info();
-            new_elem->set_id(id);
-            new_elem->set_name(friend_info.name);
+            auto elem = ack.add_friends_info();
+            elem->set_id(id);
+            elem->set_name(friend_info.name);
         }
         ack.set_success(true);
         CHATROOM_LOG_INFO("User({}) get friends success!", msg.user_id());
@@ -200,6 +200,30 @@ void HandleRemoveGroup(ChatSessionPtr session, const msgpb::RemoveGroup& msg) {
     }
     session->Send(msgid::kMsgRemoveFriendAck, ack);
 }
+
+void HandleGetJoinedGroups(ChatSessionPtr session, const msgpb::GetJoinedGroups& msg) {
+    CHATROOM_LOG_INFO("User({}) try to get joined groups", msg.user_id());
+    msgpb::GetJoinedGroupsAck ack;
+    try
+    {
+        auto groups_id = model::GetJoinedGroups(msg.user_id());
+        for (auto& id: groups_id) {
+            auto info = model::QueryGroup(id);
+            auto elem = ack.add_groups_info();
+            elem->set_id(info.id);
+            elem->set_name(info.name);
+        }
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User({}) get joined groups success!", msg.user_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User({}) get joined groups failed:{}", msg.user_id(), e.what());
+    }
+    session->Send(msgid::kMsgGetJoinedGroupsAck, ack);
+}
 }   // namespace
 
 
@@ -231,6 +255,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgRemoveGroup:
         HandleRemoveGroup(session, packet.DeserializeData<msgpb::RemoveGroup>());
+        break;
+    case msgid::kMsgGetJoinedGroups:
+        HandleGetJoinedGroups(session, packet.DeserializeData<msgpb::GetJoinedGroups>());
         break;
     default:
         break;
