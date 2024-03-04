@@ -26,7 +26,12 @@
 
 #include "tools/console.h"
 
+#include <chrono>
+
+using namespace std::chrono_literals;
+
 namespace chatroom {
+
 namespace {
 void TipBack() {
     console::Print("(按下任意键回退上一级)\n");
@@ -50,6 +55,9 @@ ChatClient::ChatClient(boost::asio::io_service& ios, std::string_view remote_add
 {
 }
 
+void ChatClient::Done() {
+    done_ = true;
+}
 
 void ChatClient::Start() {
     socket_.connect(remote_ep_);
@@ -70,8 +78,9 @@ void ChatClient::RunLoop() {
             console::PrintError("Error occur:{}\n", e.what());
             TipContinue();
         }
-        
     }, boost::asio::detached);
+
+    boost::asio::co_spawn(socket_.get_executor(), [this]{ return ReceiveLoop(); }, boost::asio::detached);
 }
 
 boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
@@ -87,7 +96,7 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
         login.set_user_id(user_id);
         login.set_password(password);
         co_await Send(msgid::kMsgLogin, login);
-        auto ack = co_await Receive<msgpb::LoginAck>();
+        auto ack = co_await Receive<msgpb::LoginAck>(msgid::kMsgLoginAck);
         if (ack.success()) {
             console::Print("登录成功!\n");
             user_id_ = user_id;
@@ -115,7 +124,7 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
         reg.set_name(name);
         reg.set_password(password);
         co_await Send(msgid::kMsgRegister, reg);
-        auto ack = co_await Receive<msgpb::RegisterAck>();
+        auto ack = co_await Receive<msgpb::RegisterAck>(msgid::kMsgRegisterAck);
         if (ack.success()) {
             console::Print("注册成功! 你的账号是:{}\n", ack.user_id());
             TipBack();
@@ -148,7 +157,7 @@ main_panel:
         msgpb::GetFriends msg;
         msg.set_user_id(user_id_);
         co_await Send(msgid::kMsgGetFriends, msg);
-        auto ack = co_await Receive<msgpb::GetFriendsAck>();
+        auto ack = co_await Receive<msgpb::GetFriendsAck>(msgid::kMsgGetFriendsAck);
         if (ack.success()) {
             if (ack.friends_info_size()) {
                 std::vector<std::string> opts;
@@ -178,7 +187,7 @@ main_panel:
         msgpb::GetJoinedGroups msg;
         msg.set_user_id(user_id_);
         co_await Send(msgid::kMsgGetJoinedGroups, msg);
-        auto ack = co_await Receive<msgpb::GetJoinedGroupsAck>();
+        auto ack = co_await Receive<msgpb::GetJoinedGroupsAck>(msgid::kMsgGetJoinedGroupsAck);
         if (ack.success()) {
             if (ack.groups_info_size()) {
                 std::vector<std::string> opts;
@@ -215,7 +224,7 @@ main_panel:
                     msg.set_user_id(user_id_);
                     msg.set_group_id(select_group.id());
                     co_await Send(msgid::kMsgQuitGroup, msg);
-                    auto ack = co_await Receive<msgpb::QuitGroupAck>();
+                    auto ack = co_await Receive<msgpb::QuitGroupAck>(msgid::kMsgQuitGroupAck);
                     if (ack.success()) {
                         console::Print("群组删除成功!\n");
                     }
@@ -246,7 +255,7 @@ main_panel:
         msg.set_user_id(user_id_);
         msg.set_friend_id(user_id);
         co_await Send(msgid::kMsgAddFriend, msg);
-        auto ack = co_await Receive<msgpb::AddFriendAck>();
+        auto ack = co_await Receive<msgpb::AddFriendAck>(msgid::kMsgAddFriendAck);
         if (ack.success()) {
             console::Print("好友添加成功!\n");
             TipBack();
@@ -266,7 +275,7 @@ main_panel:
         msg.set_user_id(user_id_);
         msg.set_friend_id(user_id);
         co_await Send(msgid::kMsgRemoveFriend, msg);
-        auto ack = co_await Receive<msgpb::RemoveFriendAck>();
+        auto ack = co_await Receive<msgpb::RemoveFriendAck>(msgid::kMsgRemoveFriendAck);
         if (ack.success()) {
             console::Print("好友删除成功!\n");
             TipBack();
@@ -278,7 +287,7 @@ main_panel:
         }
         goto main_panel;
     }
-    case 5:     // 添加群组
+    case 5:     // 创建群组
     {
     create_group_panel:
         console::Print("输入要创建的群组名称:"); auto name = console::GetString();
@@ -286,7 +295,7 @@ main_panel:
         msg.set_user_id(user_id_);
         msg.set_group_name(name);
         co_await Send(msgid::kMsgCreateGroup, msg);
-        auto ack = co_await Receive<msgpb::CreateGroupAck>();
+        auto ack = co_await Receive<msgpb::CreateGroupAck>(msgid::kMsgCreateGroupAck);
         if (ack.success()) {
             console::Print("群组创建成功! 群组ID:{}\n", ack.group_id());
             TipBack();
@@ -306,7 +315,7 @@ main_panel:
         msg.set_user_id(user_id_);
         msg.set_group_id(group_id);
         co_await Send(msgid::kMsgRemoveGroup, msg);
-        auto ack = co_await Receive<msgpb::RemoveGroupAck>();
+        auto ack = co_await Receive<msgpb::RemoveGroupAck>(msgid::kMsgRemoveGroupAck);
         if (ack.success()) {
             console::Print("群组删除成功!\n");
             TipBack();
@@ -326,7 +335,7 @@ main_panel:
         msg.set_user_id(user_id_);
         msg.set_group_id(group_id);
         co_await Send(msgid::kMsgJoinGroup, msg);
-        auto ack = co_await Receive<msgpb::JoinGroupAck>();
+        auto ack = co_await Receive<msgpb::JoinGroupAck>(msgid::kMsgJoinGroupAck);
         if (ack.success()) {
             console::Print("群组加入成功!\n");
             TipBack();
@@ -340,6 +349,7 @@ main_panel:
     }
     default:    // 退出登录
         user_id_ = 0;
+        Done();
         break;
     }
 }
@@ -350,24 +360,51 @@ boost::asio::awaitable<size_t> ChatClient::Send(uint16_t msgid, const google::pr
     co_return n;
 }
 
-boost::asio::awaitable<RecvPacket> ChatClient::InternalReceive() {
-    PacketHeader network_header;
-    auto n = co_await boost::asio::async_read(
-        socket_,
-        boost::asio::buffer(&network_header, sizeof(network_header)),
-        boost::asio::use_awaitable);
-    if (n == 0)
-        throw boost::system::system_error(boost::asio::error::eof);
-    assert(n == sizeof(network_header));
-    RecvPacket recv_packet{network_header};
+boost::asio::awaitable<RecvPacket> ChatClient::InternalReceive(int msgid) {
+    auto exec = socket_.get_executor();
+    boost::asio::steady_timer delayer{exec, 100ms};
+    while (true)
+    {
+        assert(!done_);
+        bool found = false;
+        auto iter = recv_packets_list_.begin();
+        for (;iter != recv_packets_list_.end(); ++iter) {
+            if (iter->msgid() == msgid) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            auto tmp = std::move(*iter);
+            recv_packets_list_.erase(iter);
+            co_return std::move(tmp);
+        }
+        co_await delayer.async_wait(boost::asio::use_awaitable);
+    }
+}
 
-    n = co_await boost::asio::async_read(
-        socket_,
-        boost::asio::buffer(recv_packet.data(), recv_packet.data_size()),
-        boost::asio::use_awaitable);
-    if (n == 0)
-        throw boost::system::system_error(boost::asio::error::eof);
-    assert(n == recv_packet.data_size());
-    co_return recv_packet;
+
+boost::asio::awaitable<void> ChatClient::ReceiveLoop() {
+    while (!done_) {
+        PacketHeader network_header;
+        auto n = co_await boost::asio::async_read(
+            socket_,
+            boost::asio::buffer(&network_header, sizeof(network_header)),
+            boost::asio::use_awaitable);
+        if (n == 0)
+            throw boost::system::system_error(boost::asio::error::eof);
+        assert(n == sizeof(network_header));
+        RecvPacket recv_packet{network_header};
+
+        n = co_await boost::asio::async_read(
+            socket_,
+            boost::asio::buffer(recv_packet.data(), recv_packet.data_size()),
+            boost::asio::use_awaitable);
+        if (n == 0)
+            throw boost::system::system_error(boost::asio::error::eof);
+        assert(n == recv_packet.data_size());
+
+        recv_packets_list_.push_back(std::move(recv_packet));
+    }
 }
 }   // namespace chatroom

@@ -3,7 +3,7 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
-#include <vector>
+#include <list>
 #include "common/core/packet.h"
 
 namespace chatroom {
@@ -20,17 +20,26 @@ private:
     boost::asio::awaitable<void> BasicPanel();
 
     boost::asio::awaitable<size_t> Send(uint16_t msgid, const google::protobuf::Message& msg);
-    boost::asio::awaitable<RecvPacket> InternalReceive();
+    boost::asio::awaitable<RecvPacket> InternalReceive(int msgid);
 
     template<ConvertiableToMessage T>
-    boost::asio::awaitable<T> Receive() {
-        const RecvPacket recv = co_await InternalReceive();
+    boost::asio::awaitable<T> Receive(int msgid) {
+        const RecvPacket recv = co_await InternalReceive(msgid);
         co_return recv.DeserializeData<T>();
     }
+
+    boost::asio::awaitable<void> ReceiveLoop();
+
+    boost::asio::awaitable<void> WaitForMsgid(int msgid);
+
+    void Done();
 
     boost::asio::ip::tcp::socket socket_;
     boost::asio::ip::tcp::endpoint remote_ep_;
     uint32_t user_id_;
     std::string user_name_;
+    int cur_msgid_;
+    std::list<RecvPacket> recv_packets_list_;
+    bool done_;
 };
 }   // namespace chatroom

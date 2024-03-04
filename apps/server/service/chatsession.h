@@ -55,7 +55,7 @@ private:
     ChatServer* server_;
     std::string uuid_;
     std::mutex mutex_;
-    std::queue<std::shared_ptr<SendPacket>> send_queue_;
+    std::queue<SendPacket> send_queue_;
     CloseCallback close_callback_;
     ReadCallback read_callback_;
 };

@@ -94,7 +94,6 @@ void ChatSession::Send(uint16_t msgid, const google::protobuf::Message& data) {
             CHATROOM_LOG_WARNING("Try to send a closed session!");
             return;
         }
-        const auto send_packet = std::make_shared<SendPacket>(msgid, data);
         std::unique_lock<std::mutex> lock{mutex_};
         const auto old_queue_size = send_queue_.size();
         if (old_queue_size >= kMaxSendQueue) {
@@ -103,15 +102,15 @@ void ChatSession::Send(uint16_t msgid, const google::protobuf::Message& data) {
             //TODO: 高水位处理
             return;
         }
-        send_queue_.push(send_packet);
+        send_queue_.emplace(msgid, data);
         if (old_queue_size > 0) {
             return;
         }
-        const auto packet = send_queue_.front();
+        const auto& packet = send_queue_.front();
         lock.unlock();
 
         boost::asio::async_write(socket_,
-            boost::asio::buffer(packet->Pack()),
+            boost::asio::buffer(packet.Pack()),
             [self=shared_from_this()](auto ec, auto){ self->HandleWrited(ec); });
     }
     catch(const std::exception& e)
@@ -128,11 +127,11 @@ void ChatSession::HandleWrited(const boost::system::error_code& ec) {
             std::unique_lock<std::mutex> lock{mutex_};
             send_queue_.pop();
             if (!send_queue_.empty()) {
-                const auto packet = send_queue_.front();
+                const auto& packet = send_queue_.front();
                 lock.unlock();
 
                 boost::asio::async_write(socket_,
-                    boost::asio::buffer(packet->Pack()),
+                    boost::asio::buffer(packet.Pack()),
                     [self=shared_from_this()](auto ec, auto){ self->HandleWrited(ec); });
             }
         }
