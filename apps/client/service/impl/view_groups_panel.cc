@@ -9,8 +9,9 @@
 
 namespace chatroom {
 boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
+    msgpb::GetJoinedGroups msg;
     while(true) {
-        msgpb::GetJoinedGroups msg;
+        console::Clear();
         msg.set_user_id(user_id_);
         co_await Send(msgid::kMsgGetJoinedGroups, msg);
         auto ack = co_await Receive<msgpb::GetJoinedGroupsAck>(msgid::kMsgGetJoinedGroupsAck);
@@ -26,7 +27,7 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
                 if (is_esc) {
                     break;
                 }
-                auto select_group = ack.groups_info()[idx];
+                auto& select_group = ack.groups_info()[idx];
                 idx = console::Options(
                     {"进入聊天", "查看信息", "退出群聊"},
                     std::format("当前选中的群是:{}(Enter选中, Esc回退上一级)", select_group.name()),
@@ -46,17 +47,7 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
                 }
                 default:    // 退出群聊
                 {
-                    msgpb::QuitGroup msg;
-                    msg.set_user_id(user_id_);
-                    msg.set_group_id(select_group.id());
-                    co_await Send(msgid::kMsgQuitGroup, msg);
-                    auto ack = co_await Receive<msgpb::QuitGroupAck>(msgid::kMsgQuitGroupAck);
-                    if (ack.success()) {
-                        console::Print("群组删除成功!\n");
-                    }
-                    else {
-                        console::PrintError("群组删除失败! 原因: {}\n", ack.errmsg());
-                    }
+                    co_await QuitGroup(user_id_, select_group.id());
                     TipBack();
                     continue;
                 }
@@ -71,6 +62,22 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
             console::PrintError("查看失败! 原因:{}\n", ack.errmsg());
             TipBack();
         }
+        break;
+    }
+}
+
+
+boost::asio::awaitable<void> ChatClient::QuitGroup(uint32_t user_id, uint32_t group_id) {
+    msgpb::QuitGroup msg;
+    msg.set_user_id(user_id);
+    msg.set_group_id(group_id);
+    co_await Send(msgid::kMsgQuitGroup, msg);
+    auto ack = co_await Receive<msgpb::QuitGroupAck>(msgid::kMsgQuitGroupAck);
+    if (ack.success()) {
+        console::Print("群组删除成功!\n");
+    }
+    else {
+        console::PrintError("群组删除失败! 原因: {}\n", ack.errmsg());
     }
 }
 }   // namespace chatroom

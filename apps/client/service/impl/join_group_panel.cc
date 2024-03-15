@@ -7,9 +7,10 @@
 
 namespace chatroom {
 boost::asio::awaitable<void> ChatClient::JoinGroupPanel() {
+    msgpb::JoinGroup msg;
     while (true) {
+        console::Clear();
         console::Print("输入要加入的群组ID:"); auto group_id = console::GetUInt32();
-        msgpb::JoinGroup msg;
         msg.set_user_id(user_id_);
         msg.set_group_id(group_id);
         co_await Send(msgid::kMsgJoinGroup, msg);

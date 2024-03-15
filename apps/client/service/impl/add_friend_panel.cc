@@ -7,9 +7,10 @@
 
 namespace chatroom {
 boost::asio::awaitable<void> ChatClient::AddFriendPanel() {
+    msgpb::AddFriend msg;
     while(true) {
+        console::Clear();
         console::Print("输入要添加的好友账号:"); auto user_id = console::GetUInt32();
-        msgpb::AddFriend msg;
         msg.set_user_id(user_id_);
         msg.set_friend_id(user_id);
         co_await Send(msgid::kMsgAddFriend, msg);

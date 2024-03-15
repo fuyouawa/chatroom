@@ -7,9 +7,10 @@
 
 namespace chatroom {
 boost::asio::awaitable<void> ChatClient::CreateGroupPanel() {
+    msgpb::CreateGroup msg;
     while (true) {
+        console::Clear();
         console::Print("输入要创建的群组名称:"); auto name = console::GetString();
-        msgpb::CreateGroup msg;
         msg.set_user_id(user_id_);
         msg.set_group_name(name);
         co_await Send(msgid::kMsgCreateGroup, msg);

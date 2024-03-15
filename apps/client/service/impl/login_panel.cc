@@ -7,10 +7,11 @@
 
 namespace chatroom {
 boost::asio::awaitable<void> ChatClient::LoginPanel() {
+    msgpb::Login login;
     while (true) {
+        console::Clear();
         console::Print("账号:"); auto user_id = console::GetUInt32();
         console::Print("密码:"); auto password = console::GetString();
-        msgpb::Login login;
         login.set_user_id(user_id);
         login.set_password(password);
         co_await Send(msgid::kMsgLogin, login);

@@ -7,9 +7,11 @@
 
 namespace chatroom {
 boost::asio::awaitable<void> ChatClient::RegisterPanel() {
+    msgpb::Register reg;
+    std::string password;
     while (true) {
+        console::Clear();
         console::Print("注册昵称:"); auto name = console::GetString();
-        std::string password;
         while (true) {
             console::Print("注册密码:"); password = console::GetString();
             console::Print("确认密码:"); auto password2 = console::GetString();
@@ -19,7 +21,6 @@ boost::asio::awaitable<void> ChatClient::RegisterPanel() {
             }
             break;
         }
-        msgpb::Register reg;
         reg.set_name(name);
         reg.set_password(password);
         co_await Send(msgid::kMsgRegister, reg);

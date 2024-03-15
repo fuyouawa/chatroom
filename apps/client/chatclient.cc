@@ -1,5 +1,4 @@
 #include "chatclient.h"
-#include "common/core/packet.h"
 #include "tools/console.h"
 
 #include <chrono>
@@ -59,7 +58,7 @@ boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
 
 boost::asio::awaitable<void> ChatClient::BasicPanel() {
     while (!done_) {
-        auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表", "添加好友", "删除好友", "创建群组", "删除群组", "加入群组", "退出登录"});
+        auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表", "添加好友", "创建群组", "加入群组", "退出登录"});
         switch (idx)
         {
         case 0:     // 查看个人信息
@@ -74,16 +73,10 @@ boost::asio::awaitable<void> ChatClient::BasicPanel() {
         case 3:     // 添加好友
             co_await AddFriendPanel();
             break;
-        case 4:     // 删除好友
-            co_await RemoveFriendPanel();
-            break;
-        case 5:     // 创建群组
+        case 4:     // 创建群组
             co_await CreateGroupPanel();
             break;
-        case 6:     // 移除群组
-            co_await RemoveGroupPanel();
-            break;
-        case 7:     // 加入群组
+        case 5:     // 加入群组
             co_await JoinGroupPanel();
             break;
         default:    // 退出登录

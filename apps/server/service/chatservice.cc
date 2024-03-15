@@ -11,7 +11,6 @@
 #include "common/msgpb/remove_friend.pb.h"
 #include "common/msgpb/get_friends.pb.h"
 #include "common/msgpb/create_group.pb.h"
-#include "common/msgpb/remove_group.pb.h"
 #include "common/msgpb/get_joined_groups.pb.h"
 #include "common/msgpb/join_group.pb.h"
 #include "common/msgpb/quit_group.pb.h"
@@ -22,7 +21,6 @@
 #include "common/msgpb/remove_friend_ack.pb.h"
 #include "common/msgpb/get_friends_ack.pb.h"
 #include "common/msgpb/create_group_ack.pb.h"
-#include "common/msgpb/remove_group_ack.pb.h"
 #include "common/msgpb/get_joined_groups_ack.pb.h"
 #include "common/msgpb/join_group_ack.pb.h"
 #include "common/msgpb/quit_group_ack.pb.h"
@@ -186,24 +184,6 @@ void HandleCreateGroup(ChatSessionPtr session, const msgpb::CreateGroup& msg) {
     session->Send(msgid::kMsgCreateGroupAck, ack);
 }
 
-void HandleRemoveGroup(ChatSessionPtr session, const msgpb::RemoveGroup& msg) {
-    CHATROOM_LOG_INFO("User({}) try to remove group({})", msg.user_id(), msg.group_id());
-    msgpb::RemoveGroupAck ack;
-    try
-    {
-        model::RemoveGroup(msg.user_id(), msg.group_id());
-        ack.set_success(true);
-        CHATROOM_LOG_INFO("User({}) remove group({}) success!", msg.user_id(), msg.group_id());
-    }
-    catch(const std::exception& e)
-    {
-        ack.set_success(false);
-        ack.set_errmsg(e.what());
-        CHATROOM_LOG_ERROR("User({}) remove group({}) faild:", msg.user_id(), msg.group_id(), e.what());
-    }
-    session->Send(msgid::kMsgRemoveFriendAck, ack);
-}
-
 void HandleGetJoinedGroups(ChatSessionPtr session, const msgpb::GetJoinedGroups& msg) {
     CHATROOM_LOG_INFO("User({}) try to get joined groups", msg.user_id());
     msgpb::GetJoinedGroupsAck ack;
@@ -301,9 +281,6 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgCreateGroup:
         HandleCreateGroup(session, packet.DeserializeData<msgpb::CreateGroup>());
-        break;
-    case msgid::kMsgRemoveGroup:
-        HandleRemoveGroup(session, packet.DeserializeData<msgpb::RemoveGroup>());
         break;
     case msgid::kMsgGetJoinedGroups:
         HandleGetJoinedGroups(session, packet.DeserializeData<msgpb::GetJoinedGroups>());
