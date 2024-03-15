@@ -20,17 +20,27 @@ private:
     boost::asio::awaitable<void> BasicPanel();
 
     boost::asio::awaitable<size_t> Send(uint16_t msgid, const google::protobuf::Message& msg);
-    boost::asio::awaitable<RecvPacket> InternalReceive(int msgid);
+    boost::asio::awaitable<RecvPacket> InternalReceive(uint16_t msgid);
 
     template<ConvertiableToMessage T>
-    boost::asio::awaitable<T> Receive(int msgid) {
+    boost::asio::awaitable<T> Receive(uint16_t msgid) {
         const RecvPacket recv = co_await InternalReceive(msgid);
         co_return recv.DeserializeData<T>();
     }
 
     boost::asio::awaitable<void> ReceiveLoop();
 
-    boost::asio::awaitable<void> WaitForMsgid(int msgid);
+    boost::asio::awaitable<void> LoginPanel();
+    boost::asio::awaitable<void> RegisterPanel();
+
+    boost::asio::awaitable<void> ViewPersonalInfoPanel();
+    boost::asio::awaitable<void> ViewFriendsPanel();
+    boost::asio::awaitable<void> ViewGroupsPanel();
+    boost::asio::awaitable<void> AddFriendPanel();
+    boost::asio::awaitable<void> RemoveFriendPanel();
+    boost::asio::awaitable<void> CreateGroupPanel();
+    boost::asio::awaitable<void> RemoveGroupPanel();
+    boost::asio::awaitable<void> JoinGroupPanel();
 
     void Done();
 
