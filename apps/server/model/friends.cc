@@ -1,5 +1,7 @@
 #include "model/friends.h"
 #include "tools/mysql.h"
+#include "common/msgpb/friend_msgs_temp.pb.h"
+#include <ranges>
 
 namespace chatroom {
 namespace model {
@@ -26,6 +28,30 @@ std::vector<uint32_t> QueryFriends(uint32_t user_id) {
         total.push_back(res2->getUInt(1));
     }
     return total;
+}
+
+void TmpStorFriendMsg(uint32_t user_id, uint32_t friend_id, std::string_view msg) {
+
+}
+
+std::vector<std::string> GetFriendMsgsTmp(uint32_t user_id, uint32_t friend_id) {
+    auto res = mysql::Query("SELECT msgs FROM `FriendsMsgsTemp` WHERE user_id = {} friend_id = {}", user_id, friend_id);
+    std::vector<std::string> total;
+    while (res->next()) {
+        auto msgs_str = res->getString(1);
+        msgpb::FriendMsgsTemp msgs_tmp;
+        msgs_tmp.ParseFromString(msgs_str.asStdString());
+        auto origin_total_end = total.end();
+        total.resize(total.size() + msgs_tmp.msgs_size());
+        std::ranges::move(std::move(msgs_tmp.msgs()), origin_total_end);
+    }
+    return total;
+}
+
+
+int FindFreeFriendMsgsTmp(uint32_t user_id, uint32_t friend_id, size_t needed_size) {
+    auto res = mysql::Query("SELECT id FROM `FriendsMsgsTemp` WHERE user_id = {} friend_id = {} res_size >= {}", user_id, friend_id, needed_size);
+    //TODO FindFreeFriendMsgsTmp
 }
 }   // namespace model
 }   // namespace chatroom

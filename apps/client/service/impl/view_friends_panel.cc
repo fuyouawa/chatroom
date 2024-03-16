@@ -28,7 +28,7 @@ boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
                 }
                 auto& select_friend = ack.friends_info()[idx];
                 idx = console::Options(
-                    {"进入聊天", "查看信息", "删除好友"},
+                    {"发送消息", "查看对方消息", "删除好友"},
                     std::format("当前选中的好友是:{}(Enter选中, Esc回退上一级)", select_friend.name()),
                     0, &is_esc);
                 if (is_esc) {
@@ -36,20 +36,16 @@ boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
                 }
                 switch (idx)
                 {
-                case 0:     // 进入聊天
-                {
-                    break;
-                }
-                case 1:     // 查看信息
-                {
-                    break;
-                }
+                case 0:     // 发送消息
+                    co_await SendMsgToFriendPanel(select_friend.id());
+                    continue;
+                case 1:     // 查看对方消息
+                    co_await GetMsgFromFriendPanel(select_friend.id());
+                    continue;
                 default:    // 删除好友
-                {
-                    co_await RemoveFriend(user_id_, select_friend.id());
+                    co_await RemoveFriend(select_friend.id());
                     TipBack();
                     continue;
-                }
                 }
             }
             else {
@@ -65,9 +61,9 @@ boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
     }
 }
 
-boost::asio::awaitable<void> ChatClient::RemoveFriend(uint32_t user_id, uint32_t friend_id) {
+boost::asio::awaitable<void> ChatClient::RemoveFriend(uint32_t friend_id) {
     msgpb::RemoveFriend msg;
-    msg.set_user_id(user_id);
+    msg.set_user_id(user_id_);
     msg.set_friend_id(friend_id);
     co_await Send(msgid::kMsgRemoveFriend, msg);
     auto ack = co_await Receive<msgpb::RemoveFriendAck>(msgid::kMsgRemoveFriendAck);
@@ -77,5 +73,13 @@ boost::asio::awaitable<void> ChatClient::RemoveFriend(uint32_t user_id, uint32_t
     else {
         console::PrintError("好友删除失败! 原因: {}\n", ack.errmsg());
     }
+}
+
+boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id) {
+
+}
+
+boost::asio::awaitable<void> ChatClient::GetMsgFromFriendPanel(uint32_t friend_id) {
+
 }
 }   // namespace chatroom

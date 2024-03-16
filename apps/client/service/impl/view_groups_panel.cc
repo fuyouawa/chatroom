@@ -47,7 +47,7 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
                 }
                 default:    // 退出群聊
                 {
-                    co_await QuitGroup(user_id_, select_group.id());
+                    co_await QuitGroup(select_group.id());
                     TipBack();
                     continue;
                 }
@@ -67,9 +67,9 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
 }
 
 
-boost::asio::awaitable<void> ChatClient::QuitGroup(uint32_t user_id, uint32_t group_id) {
+boost::asio::awaitable<void> ChatClient::QuitGroup(uint32_t group_id) {
     msgpb::QuitGroup msg;
-    msg.set_user_id(user_id);
+    msg.set_user_id(user_id_);
     msg.set_group_id(group_id);
     co_await Send(msgid::kMsgQuitGroup, msg);
     auto ack = co_await Receive<msgpb::QuitGroupAck>(msgid::kMsgQuitGroupAck);

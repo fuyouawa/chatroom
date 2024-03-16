@@ -14,6 +14,7 @@
 #include "common/msgpb/get_joined_groups.pb.h"
 #include "common/msgpb/join_group.pb.h"
 #include "common/msgpb/quit_group.pb.h"
+#include "common/msgpb/send_msg_to_friend.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -24,6 +25,7 @@
 #include "common/msgpb/get_joined_groups_ack.pb.h"
 #include "common/msgpb/join_group_ack.pb.h"
 #include "common/msgpb/quit_group_ack.pb.h"
+#include "common/msgpb/send_msg_to_friend_ack.pb.h"
 
 #include <ranges>
 
@@ -247,6 +249,11 @@ void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
     }
     session->Send(msgid::kMsgQuitGroupAck, ack);
 }
+
+
+void HandleSendMsgToFriend(ChatSessionPtr session, const msgpb::SendMsgToFriend& msg) {
+
+}
 }   // namespace
 
 
@@ -290,6 +297,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgQuitGroup:
         HandleQuitGroup(session, packet.DeserializeData<msgpb::QuitGroup>());
+        break;
+    case msgid::kMsgSendMsgToFriend:
+        HandleSendMsgToFriend(session, packet.DeserializeData<msgpb::SendMsgToFriend>());
         break;
     default:
         break;

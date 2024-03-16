@@ -39,9 +39,11 @@ private:
     boost::asio::awaitable<void> AddFriendPanel();
     boost::asio::awaitable<void> CreateGroupPanel();
     boost::asio::awaitable<void> JoinGroupPanel();
+    boost::asio::awaitable<void> SendMsgToFriendPanel(uint32_t friend_id);
+    boost::asio::awaitable<void> GetMsgFromFriendPanel(uint32_t friend_id);
 
-    boost::asio::awaitable<void> RemoveFriend(uint32_t user_id, uint32_t friend_id);
-    boost::asio::awaitable<void> QuitGroup(uint32_t user_id, uint32_t group_id);
+    boost::asio::awaitable<void> RemoveFriend(uint32_t friend_id);
+    boost::asio::awaitable<void> QuitGroup(uint32_t group_id);
 
     void Done();
 

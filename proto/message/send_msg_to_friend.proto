@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message SendMsgToFriend {
+    int32 user_id = 1;
+    int32 friend_id = 2;
+    string msg = 3;
+}

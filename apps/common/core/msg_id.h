@@ -22,6 +22,8 @@ enum ID {
     kMsgJoinGroupAck,
     kMsgQuitGroup,
     kMsgQuitGroupAck,
+    kMsgSendMsgToFriend,
+    kMsgSendMsgToFriendAck,
     kMsgEndFlag
 };
 bool IsValid(uint16_t msgid);
