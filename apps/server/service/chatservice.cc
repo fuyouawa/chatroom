@@ -252,7 +252,21 @@ void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
 
 
 void HandleSendMsgToFriend(ChatSessionPtr session, const msgpb::SendMsgToFriend& msg) {
-
+    CHATROOM_LOG_INFO("User({}) try to send msg to friend({}): {}", msg.user_id(), msg.friend_id(), msg.msg());
+    msgpb::QuitGroupAck ack;
+    try
+    {
+        model::SaveFriendMsgToTmp(msg.user_id(), msg.friend_id(), msg.msg());
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User({}) send msg to friend({}) success!", msg.user_id(), msg.friend_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User({}) try to send msg to friend({}) faild:{}", msg.user_id(), msg.friend_id(), e.what());
+    }
+    session->Send(msgid::kMsgSendMsgToFriendAck, ack);
 }
 }   // namespace
 

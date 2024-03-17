@@ -55,22 +55,22 @@ struct TableStruct_friend_5fmsgs_5ftemp_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_friend_5fmsgs_5ftemp_2eproto;
 namespace chatroom {
-namespace msgpb {
+namespace datapb {
 class FriendMsgsTemp;
 class FriendMsgsTempDefaultTypeInternal;
 extern FriendMsgsTempDefaultTypeInternal _FriendMsgsTemp_default_instance_;
-}  // namespace msgpb
+}  // namespace datapb
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> ::chatroom::msgpb::FriendMsgsTemp* Arena::CreateMaybeMessage<::chatroom::msgpb::FriendMsgsTemp>(Arena*);
+template<> ::chatroom::datapb::FriendMsgsTemp* Arena::CreateMaybeMessage<::chatroom::datapb::FriendMsgsTemp>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace chatroom {
-namespace msgpb {
+namespace datapb {
 
 // ===================================================================
 
 class FriendMsgsTemp PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chatroom.msgpb.FriendMsgsTemp) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chatroom.datapb.FriendMsgsTemp) */ {
  public:
   inline FriendMsgsTemp() : FriendMsgsTemp(nullptr) {};
   virtual ~FriendMsgsTemp();
@@ -159,7 +159,7 @@ class FriendMsgsTemp PROTOBUF_FINAL :
   void InternalSwap(FriendMsgsTemp* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "chatroom.msgpb.FriendMsgsTemp";
+    return "chatroom.datapb.FriendMsgsTemp";
   }
   protected:
   explicit FriendMsgsTemp(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -208,7 +208,7 @@ class FriendMsgsTemp PROTOBUF_FINAL :
   std::string* _internal_add_msgs();
   public:
 
-  // @@protoc_insertion_point(class_scope:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(class_scope:chatroom.datapb.FriendMsgsTemp)
  private:
   class _Internal;
 
@@ -241,66 +241,66 @@ inline void FriendMsgsTemp::clear_msgs() {
   msgs_.Clear();
 }
 inline std::string* FriendMsgsTemp::add_msgs() {
-  // @@protoc_insertion_point(field_add_mutable:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_add_mutable:chatroom.datapb.FriendMsgsTemp.msgs)
   return _internal_add_msgs();
 }
 inline const std::string& FriendMsgsTemp::_internal_msgs(int index) const {
   return msgs_.Get(index);
 }
 inline const std::string& FriendMsgsTemp::msgs(int index) const {
-  // @@protoc_insertion_point(field_get:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_get:chatroom.datapb.FriendMsgsTemp.msgs)
   return _internal_msgs(index);
 }
 inline std::string* FriendMsgsTemp::mutable_msgs(int index) {
-  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_mutable:chatroom.datapb.FriendMsgsTemp.msgs)
   return msgs_.Mutable(index);
 }
 inline void FriendMsgsTemp::set_msgs(int index, const std::string& value) {
-  // @@protoc_insertion_point(field_set:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_set:chatroom.datapb.FriendMsgsTemp.msgs)
   msgs_.Mutable(index)->assign(value);
 }
 inline void FriendMsgsTemp::set_msgs(int index, std::string&& value) {
-  // @@protoc_insertion_point(field_set:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_set:chatroom.datapb.FriendMsgsTemp.msgs)
   msgs_.Mutable(index)->assign(std::move(value));
 }
 inline void FriendMsgsTemp::set_msgs(int index, const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   msgs_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_set_char:chatroom.datapb.FriendMsgsTemp.msgs)
 }
 inline void FriendMsgsTemp::set_msgs(int index, const char* value, size_t size) {
   msgs_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_set_pointer:chatroom.datapb.FriendMsgsTemp.msgs)
 }
 inline std::string* FriendMsgsTemp::_internal_add_msgs() {
   return msgs_.Add();
 }
 inline void FriendMsgsTemp::add_msgs(const std::string& value) {
   msgs_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_add:chatroom.datapb.FriendMsgsTemp.msgs)
 }
 inline void FriendMsgsTemp::add_msgs(std::string&& value) {
   msgs_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_add:chatroom.datapb.FriendMsgsTemp.msgs)
 }
 inline void FriendMsgsTemp::add_msgs(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   msgs_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_add_char:chatroom.datapb.FriendMsgsTemp.msgs)
 }
 inline void FriendMsgsTemp::add_msgs(const char* value, size_t size) {
   msgs_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_add_pointer:chatroom.datapb.FriendMsgsTemp.msgs)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
 FriendMsgsTemp::msgs() const {
-  // @@protoc_insertion_point(field_list:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_list:chatroom.datapb.FriendMsgsTemp.msgs)
   return msgs_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
 FriendMsgsTemp::mutable_msgs() {
-  // @@protoc_insertion_point(field_mutable_list:chatroom.msgpb.FriendMsgsTemp.msgs)
+  // @@protoc_insertion_point(field_mutable_list:chatroom.datapb.FriendMsgsTemp.msgs)
   return &msgs_;
 }
 
@@ -310,7 +310,7 @@ FriendMsgsTemp::mutable_msgs() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace msgpb
+}  // namespace datapb
 }  // namespace chatroom
 
 // @@protoc_insertion_point(global_scope)

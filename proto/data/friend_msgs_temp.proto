@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package chatroom.msgpb;
+package chatroom.datapb;
 
 message FriendMsgsTemp {
     repeated string msgs = 1;

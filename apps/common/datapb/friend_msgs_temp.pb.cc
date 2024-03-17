@@ -15,22 +15,22 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 namespace chatroom {
-namespace msgpb {
+namespace datapb {
 class FriendMsgsTempDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<FriendMsgsTemp> _instance;
 } _FriendMsgsTemp_default_instance_;
-}  // namespace msgpb
+}  // namespace datapb
 }  // namespace chatroom
 static void InitDefaultsscc_info_FriendMsgsTemp_friend_5fmsgs_5ftemp_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::chatroom::msgpb::_FriendMsgsTemp_default_instance_;
-    new (ptr) ::chatroom::msgpb::FriendMsgsTemp();
+    void* ptr = &::chatroom::datapb::_FriendMsgsTemp_default_instance_;
+    new (ptr) ::chatroom::datapb::FriendMsgsTemp();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::chatroom::msgpb::FriendMsgsTemp::InitAsDefaultInstance();
+  ::chatroom::datapb::FriendMsgsTemp::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FriendMsgsTemp_friend_5fmsgs_5ftemp_2eproto =
@@ -42,23 +42,24 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_s
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_friend_5fmsgs_5ftemp_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::FriendMsgsTemp, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::datapb::FriendMsgsTemp, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::FriendMsgsTemp, msgs_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::datapb::FriendMsgsTemp, msgs_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::chatroom::msgpb::FriendMsgsTemp)},
+  { 0, -1, sizeof(::chatroom::datapb::FriendMsgsTemp)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::msgpb::_FriendMsgsTemp_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::chatroom::datapb::_FriendMsgsTemp_default_instance_),
 };
 
 const char descriptor_table_protodef_friend_5fmsgs_5ftemp_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\026friend_msgs_temp.proto\022\016chatroom.msgpb"
-  "\"\036\n\016FriendMsgsTemp\022\014\n\004msgs\030\001 \003(\tb\006proto3"
+  "\n\026friend_msgs_temp.proto\022\017chatroom.datap"
+  "b\"\036\n\016FriendMsgsTemp\022\014\n\004msgs\030\001 \003(\tb\006proto"
+  "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_friend_5fmsgs_5ftemp_2eproto_deps[1] = {
 };
@@ -67,7 +68,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_fri
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_friend_5fmsgs_5ftemp_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_friend_5fmsgs_5ftemp_2eproto = {
-  false, false, descriptor_table_protodef_friend_5fmsgs_5ftemp_2eproto, "friend_msgs_temp.proto", 80,
+  false, false, descriptor_table_protodef_friend_5fmsgs_5ftemp_2eproto, "friend_msgs_temp.proto", 81,
   &descriptor_table_friend_5fmsgs_5ftemp_2eproto_once, descriptor_table_friend_5fmsgs_5ftemp_2eproto_sccs, descriptor_table_friend_5fmsgs_5ftemp_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_friend_5fmsgs_5ftemp_2eproto::offsets,
   file_level_metadata_friend_5fmsgs_5ftemp_2eproto, 1, file_level_enum_descriptors_friend_5fmsgs_5ftemp_2eproto, file_level_service_descriptors_friend_5fmsgs_5ftemp_2eproto,
@@ -76,7 +77,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_friend
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_friend_5fmsgs_5ftemp_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_friend_5fmsgs_5ftemp_2eproto)), true);
 namespace chatroom {
-namespace msgpb {
+namespace datapb {
 
 // ===================================================================
 
@@ -91,13 +92,13 @@ FriendMsgsTemp::FriendMsgsTemp(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   msgs_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(arena_constructor:chatroom.datapb.FriendMsgsTemp)
 }
 FriendMsgsTemp::FriendMsgsTemp(const FriendMsgsTemp& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       msgs_(from.msgs_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(copy_constructor:chatroom.datapb.FriendMsgsTemp)
 }
 
 void FriendMsgsTemp::SharedCtor() {
@@ -105,7 +106,7 @@ void FriendMsgsTemp::SharedCtor() {
 }
 
 FriendMsgsTemp::~FriendMsgsTemp() {
-  // @@protoc_insertion_point(destructor:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(destructor:chatroom.datapb.FriendMsgsTemp)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -130,7 +131,7 @@ const FriendMsgsTemp& FriendMsgsTemp::default_instance() {
 
 
 void FriendMsgsTemp::Clear() {
-// @@protoc_insertion_point(message_clear_start:chatroom.msgpb.FriendMsgsTemp)
+// @@protoc_insertion_point(message_clear_start:chatroom.datapb.FriendMsgsTemp)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -155,7 +156,7 @@ const char* FriendMsgsTemp::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
             ptr += 1;
             auto str = _internal_add_msgs();
             ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-            CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.FriendMsgsTemp.msgs"));
+            CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.datapb.FriendMsgsTemp.msgs"));
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
@@ -185,7 +186,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* FriendMsgsTemp::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(serialize_to_array_start:chatroom.datapb.FriendMsgsTemp)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -195,7 +196,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       s.data(), static_cast<int>(s.length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "chatroom.msgpb.FriendMsgsTemp.msgs");
+      "chatroom.datapb.FriendMsgsTemp.msgs");
     target = stream->WriteString(1, s, target);
   }
 
@@ -203,12 +204,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(serialize_to_array_end:chatroom.datapb.FriendMsgsTemp)
   return target;
 }
 
 size_t FriendMsgsTemp::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:chatroom.msgpb.FriendMsgsTemp)
+// @@protoc_insertion_point(message_byte_size_start:chatroom.datapb.FriendMsgsTemp)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -233,22 +234,22 @@ size_t FriendMsgsTemp::ByteSizeLong() const {
 }
 
 void FriendMsgsTemp::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chatroom.msgpb.FriendMsgsTemp)
+// @@protoc_insertion_point(generalized_merge_from_start:chatroom.datapb.FriendMsgsTemp)
   GOOGLE_DCHECK_NE(&from, this);
   const FriendMsgsTemp* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<FriendMsgsTemp>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatroom.datapb.FriendMsgsTemp)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.msgpb.FriendMsgsTemp)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatroom.datapb.FriendMsgsTemp)
     MergeFrom(*source);
   }
 }
 
 void FriendMsgsTemp::MergeFrom(const FriendMsgsTemp& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.msgpb.FriendMsgsTemp)
+// @@protoc_insertion_point(class_specific_merge_from_start:chatroom.datapb.FriendMsgsTemp)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -258,14 +259,14 @@ void FriendMsgsTemp::MergeFrom(const FriendMsgsTemp& from) {
 }
 
 void FriendMsgsTemp::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chatroom.msgpb.FriendMsgsTemp)
+// @@protoc_insertion_point(generalized_copy_from_start:chatroom.datapb.FriendMsgsTemp)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void FriendMsgsTemp::CopyFrom(const FriendMsgsTemp& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.msgpb.FriendMsgsTemp)
+// @@protoc_insertion_point(class_specific_copy_from_start:chatroom.datapb.FriendMsgsTemp)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -287,11 +288,11 @@ void FriendMsgsTemp::InternalSwap(FriendMsgsTemp* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace msgpb
+}  // namespace datapb
 }  // namespace chatroom
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::chatroom::msgpb::FriendMsgsTemp* Arena::CreateMaybeMessage< ::chatroom::msgpb::FriendMsgsTemp >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::chatroom::msgpb::FriendMsgsTemp >(arena);
+template<> PROTOBUF_NOINLINE ::chatroom::datapb::FriendMsgsTemp* Arena::CreateMaybeMessage< ::chatroom::datapb::FriendMsgsTemp >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::chatroom::datapb::FriendMsgsTemp >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

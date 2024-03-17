@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <initializer_list>
 
-namespace console {
 enum class Keycode {
     W,
     A,
@@ -21,6 +20,9 @@ enum class Color {
     kWhite,
 };
 
+namespace console {
+
+
 namespace internal {
 void Print(std::string_view fmt);
 }   // namespace internal
@@ -31,6 +33,7 @@ uint32_t GetUInt32();
 void SetConsoleTitle(std::string_view title);
 
 Keycode InputKey();
+Keycode InputKey(std::initializer_list<Keycode> accept_keys);
 void Clear();
 
 void BeginColor(Color color);

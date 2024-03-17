@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <termios.h>
+#include <ranges>
 #include <vector>
 
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -101,6 +102,17 @@ Keycode InputKey() {
             return Keycode::TODO;
     }
 }
+
+
+Keycode InputKey(std::initializer_list<Keycode> accept_keys) {
+    Keycode input;
+    do {
+        input = InputKey();
+    } while (std::ranges::find(accept_keys, input) == accept_keys.end());
+    return input;
+}
+
+
 void Clear() {
     std::cout << "\033[2J\033[1;1H";
 }

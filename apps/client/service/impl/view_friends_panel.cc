@@ -5,6 +5,8 @@
 #include "common/msgpb/get_friends_ack.pb.h"
 #include "common/msgpb/remove_friend.pb.h"
 #include "common/msgpb/remove_friend_ack.pb.h"
+#include "common/msgpb/send_msg_to_friend.pb.h"
+#include "common/msgpb/send_msg_to_friend_ack.pb.h"
 #include "common/core/msg_id.h"
 
 namespace chatroom {
@@ -76,7 +78,33 @@ boost::asio::awaitable<void> ChatClient::RemoveFriend(uint32_t friend_id) {
 }
 
 boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id) {
-
+    console::Clear();
+    while (true) {
+        console::Print("输入要发送的消息:"); auto input = console::GetString();
+        if (input.empty() || input.size() > 200) {
+            console::PrintError("消息不能为空或者超过200字!");
+            continue;
+        }
+        msgpb::SendMsgToFriend msg;
+        msg.set_user_id(user_id_);
+        msg.set_friend_id(friend_id);
+        msg.set_msg(input);
+        co_await Send(msgid::kMsgSendMsgToFriend, msg);
+        auto ack = co_await Receive<msgpb::SendMsgToFriendAck>(msgid::kMsgSendMsgToFriendAck);
+        if (ack.success()) {
+            console::Print("消息发送成功!(按Enter继续, 或者Esc退出聊天)\n");
+            if (console::InputKey({Keycode::Enter, Keycode::Esc}) == Keycode::Enter) {
+                console::Clear();
+                continue;
+            }
+            break;
+        }
+        else {
+            console::PrintError("消息发送失败! 原因:{}\n", ack.errmsg());
+            TipBack();
+            break;
+        }
+    }
 }
 
 boost::asio::awaitable<void> ChatClient::GetMsgFromFriendPanel(uint32_t friend_id) {
