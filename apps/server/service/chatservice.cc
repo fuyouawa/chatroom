@@ -15,6 +15,7 @@
 #include "common/msgpb/join_group.pb.h"
 #include "common/msgpb/quit_group.pb.h"
 #include "common/msgpb/send_msg_to_friend.pb.h"
+#include "common/msgpb/get_msgs_from_friend.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -26,6 +27,7 @@
 #include "common/msgpb/join_group_ack.pb.h"
 #include "common/msgpb/quit_group_ack.pb.h"
 #include "common/msgpb/send_msg_to_friend_ack.pb.h"
+#include "common/msgpb/get_msgs_from_friend_ack.pb.h"
 
 #include <ranges>
 
@@ -264,9 +266,31 @@ void HandleSendMsgToFriend(ChatSessionPtr session, const msgpb::SendMsgToFriend&
     {
         ack.set_success(false);
         ack.set_errmsg(e.what());
-        CHATROOM_LOG_ERROR("User({}) try to send msg to friend({}) faild:{}", msg.user_id(), msg.friend_id(), e.what());
+        CHATROOM_LOG_ERROR("User({}) send msg to friend({}) faild:{}", msg.user_id(), msg.friend_id(), e.what());
     }
     session->Send(msgid::kMsgSendMsgToFriendAck, ack);
+}
+
+
+void HandleGetMsgFromFriend(ChatSessionPtr session, const msgpb::GetMsgsFromFriend& msg) {
+    CHATROOM_LOG_INFO("User({}) try to get msgs from friend({})", msg.user_id(), msg.friend_id());
+    msgpb::GetMsgsFromFriendAck ack;
+    try
+    {
+        auto msgs_vec = model::GetFriendMsgsFromTmp(msg.user_id(), msg.friend_id());
+        for (auto &msg : msgs_vec) {
+            ack.add_msgs(std::move(msg));
+        }
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User({}) get msgs from friend({}) success!", msg.user_id(), msg.friend_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User({}) get msgs from friend({}) faild:{}", msg.user_id(), msg.friend_id(), e.what());
+    }
+    session->Send(msgid::kMsgGetMsgFromFriendAck, ack);
 }
 }   // namespace
 
@@ -314,6 +338,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgSendMsgToFriend:
         HandleSendMsgToFriend(session, packet.DeserializeData<msgpb::SendMsgToFriend>());
+        break;
+    case msgid::kMsgGetMsgFromFriend:
+        HandleGetMsgFromFriend(session, packet.DeserializeData<msgpb::GetMsgsFromFriend>());
         break;
     default:
         break;

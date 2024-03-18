@@ -68,11 +68,13 @@ void SaveFriendMsgToTmp(uint32_t user_id, uint32_t friend_id, std::string_view m
     auto res = mysql::Query("SELECT msgs, res_size, msg_count FROM `FriendsMsgsTemp` WHERE id = {}", stor_id);
     res->next();
     auto msgs_str = res->getString(1);
+    auto res_size = res->getUInt(2);
     auto msg_count = res->getUInt(3);
 
     datapb::FriendMsgsTemp msgs_tmp;
     msgs_tmp.ParseFromString(msgs_str.asStdString());
-    assert(msgs_tmp.msgs_size() == static_cast<int>(msg_count));
+    assert(static_cast<uint>(msgs_tmp.msgs_size()) == msg_count);
+    assert(FriendMsgsTmpCapacity - res_size == msgs_tmp.ByteSizeLong());
     msgs_tmp.add_msgs(trans_msg.data());
     assert(msgs_tmp.SerializeAsString().size() == msgs_tmp.ByteSizeLong());
     mysql::Update("UPDATE `FriendsMsgsTemp` SET `msgs`='{}', res_size={}, msg_count={} WHERE `id`={}",
@@ -83,21 +85,27 @@ void SaveFriendMsgToTmp(uint32_t user_id, uint32_t friend_id, std::string_view m
 }
 
 
-void ClearFriendMsgsTmp(uint32_t user_id, uint32_t friend_id) {
+void ClearFriendMsgsFromTmp(uint32_t user_id, uint32_t friend_id) {
     auto suc = mysql::Update("DELETE FROM `FriendsMsgsTemp` WHERE user_id = {} AND friend_id = {}", user_id, friend_id);
     assert(suc);
 }
 
-std::vector<std::string> GetFriendMsgsTmp(uint32_t user_id, uint32_t friend_id) {
-    auto res = mysql::Query("SELECT msgs FROM `FriendsMsgsTemp` WHERE user_id = {} AND friend_id = {}", user_id, friend_id);
+std::vector<std::string> GetFriendMsgsFromTmp(uint32_t user_id, uint32_t friend_id) {
+    auto res = mysql::Query("SELECT msgs, res_size, msg_count FROM `FriendsMsgsTemp` WHERE user_id = {} AND friend_id = {}", friend_id, user_id);
     std::vector<std::string> total;
     while (res->next()) {
         auto msgs_str = res->getString(1);
+        auto res_size = res->getUInt(2);
+        auto msg_count = res->getUInt(3);
+
         datapb::FriendMsgsTemp msgs_tmp;
         msgs_tmp.ParseFromString(msgs_str.asStdString());
-        auto origin_total_end = total.end();
-        total.resize(total.size() + msgs_tmp.msgs_size());
-        std::ranges::move(std::move(msgs_tmp.msgs()), origin_total_end);
+        assert(msgs_tmp.ByteSizeLong() == FriendMsgsTmpCapacity - res_size);
+        assert(static_cast<uint>(msgs_tmp.msgs_size()) == msg_count);
+        if (msgs_tmp.msgs_size() == 0) continue;
+        for (auto &msg : *msgs_tmp.mutable_msgs()) {
+            total.push_back(std::move(msg));
+        }
     }
     return total;
 }

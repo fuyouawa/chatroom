@@ -7,6 +7,8 @@
 #include "common/msgpb/remove_friend_ack.pb.h"
 #include "common/msgpb/send_msg_to_friend.pb.h"
 #include "common/msgpb/send_msg_to_friend_ack.pb.h"
+#include "common/msgpb/get_msgs_from_friend.pb.h"
+#include "common/msgpb/get_msgs_from_friend_ack.pb.h"
 #include "common/core/msg_id.h"
 
 namespace chatroom {
@@ -39,10 +41,10 @@ boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
                 switch (idx)
                 {
                 case 0:     // 发送消息
-                    co_await SendMsgToFriendPanel(select_friend.id());
+                    co_await SendMsgToFriendPanel(select_friend.id(), select_friend.name());
                     continue;
                 case 1:     // 查看对方消息
-                    co_await GetMsgFromFriendPanel(select_friend.id());
+                    co_await GetMsgFromFriendPanel(select_friend.id(), select_friend.name());
                     continue;
                 default:    // 删除好友
                     co_await RemoveFriend(select_friend.id());
@@ -77,15 +79,16 @@ boost::asio::awaitable<void> ChatClient::RemoveFriend(uint32_t friend_id) {
     }
 }
 
-boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id) {
+boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id, std::string_view friend_name) {
     console::Clear();
+    msgpb::SendMsgToFriend msg;
     while (true) {
-        console::Print("输入要发送的消息:"); auto input = console::GetString();
+        console::Print("[发送消息给{}({})]\n", friend_name, friend_id);
+        console::Print("->"); auto input = console::GetString();
         if (input.empty() || input.size() > 200) {
-            console::PrintError("消息不能为空或者超过200字!");
+            console::PrintError("消息不能为空或者超过200字!\n");
             continue;
         }
-        msgpb::SendMsgToFriend msg;
         msg.set_user_id(user_id_);
         msg.set_friend_id(friend_id);
         msg.set_msg(input);
@@ -107,7 +110,27 @@ boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id
     }
 }
 
-boost::asio::awaitable<void> ChatClient::GetMsgFromFriendPanel(uint32_t friend_id) {
-
+boost::asio::awaitable<void> ChatClient::GetMsgFromFriendPanel(uint32_t friend_id, std::string_view friend_name) {
+    console::Clear();
+    msgpb::GetMsgsFromFriend msg;
+    msg.set_user_id(user_id_);
+    msg.set_friend_id(friend_id);
+    co_await Send(msgid::kMsgGetMsgFromFriend, msg);
+    auto ack = co_await Receive<msgpb::GetMsgsFromFriendAck>(msgid::kMsgGetMsgFromFriendAck);
+    if (ack.success()) {
+        console::Print("[与{}({})的聊天记录]\n", friend_name, friend_id);
+        if (ack.msgs_size() == 0) {
+            console::Print("暂无聊天记录\n");
+        }
+        else {
+            for (auto &msg : ack.msgs()) {
+                console::Print("-> {}\n", msg);
+            }
+        }
+    }
+    else {
+        console::PrintError("消息获取失败! 原因:{}\n", ack.errmsg());
+    }
+    TipBack();
 }
 }   // namespace chatroom

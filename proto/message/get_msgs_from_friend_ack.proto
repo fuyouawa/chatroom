@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message GetMsgsFromFriendAck {
+    bool success = 1;
+    string errmsg = 2;
+    repeated string msgs = 3;
+}

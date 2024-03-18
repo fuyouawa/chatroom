@@ -12,6 +12,6 @@ int main() {
         ios.run();
     }
     catch (const std::exception& ex) {
-        console::Print("Error occur:{}", ex.what());
+        console::Print("Error occur:{}\n", ex.what());
     }
 }
