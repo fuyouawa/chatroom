@@ -8,7 +8,6 @@ set(APP_DIR ${PROJECT_SOURCE_DIR}/apps)
 
 # Output path of the library
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-set(THIRD_PARTY_PATH ${PROJECT_SOURCE_DIR}/third-party)
 
 include_directories(${APP_DIR}/)
 include_directories(${APP_DIR}/common/msgpb)
@@ -21,4 +20,3 @@ SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb -fcoroutines")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 add_subdirectory(apps)
-add_subdirectory(third-party)

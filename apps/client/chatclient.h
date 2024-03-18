@@ -40,6 +40,10 @@ private:
     boost::asio::awaitable<void> JoinGroupPanel();
     boost::asio::awaitable<void> SendMsgToFriendPanel(uint32_t friend_id, std::string_view friend_name);
     boost::asio::awaitable<void> GetMsgFromFriendPanel(uint32_t friend_id, std::string_view friend_name);
+    
+    boost::asio::awaitable<void> SendMsgToGroupPanel(uint32_t group_id, std::string_view group_name);
+    boost::asio::awaitable<void> GetMsgFromGroupPanel(uint32_t group_id, std::string_view group_name);
+    boost::asio::awaitable<void> GetGroupInfoPanel(uint32_t group_id);
 
     boost::asio::awaitable<void> RemoveFriend(uint32_t friend_id);
     boost::asio::awaitable<void> QuitGroup(uint32_t group_id);

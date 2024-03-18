@@ -16,6 +16,7 @@
 #include "common/msgpb/quit_group.pb.h"
 #include "common/msgpb/send_msg_to_friend.pb.h"
 #include "common/msgpb/get_msgs_from_friend.pb.h"
+#include "common/msgpb/get_group_info.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -28,6 +29,7 @@
 #include "common/msgpb/quit_group_ack.pb.h"
 #include "common/msgpb/send_msg_to_friend_ack.pb.h"
 #include "common/msgpb/get_msgs_from_friend_ack.pb.h"
+#include "common/msgpb/get_group_info_ack.pb.h"
 
 #include <ranges>
 
@@ -62,7 +64,7 @@ void HandleLogin(ChatSessionPtr session, const msgpb::Login& msg) {
     msgpb::LoginAck login_ack;
     try
     {
-        auto user_info = model::QueryUser(msg.user_id());
+        auto user_info = model::GetUserInfo(msg.user_id());
         if (user_info.password != msg.password()) {
             login_ack.set_success(false);
             login_ack.set_errmsg("密码错误!");
@@ -151,7 +153,7 @@ void HandleGetFriends(ChatSessionPtr session, const msgpb::GetFriends& msg) {
     {
         auto friends_id = model::QueryFriends(msg.user_id());
         for (auto& id: friends_id) {
-            auto friend_info = model::QueryUser(id);
+            auto friend_info = model::GetUserInfo(id);
             auto elem = ack.add_friends_info();
             elem->set_id(id);
             elem->set_name(friend_info.name);
@@ -289,6 +291,32 @@ void HandleGetMsgFromFriend(ChatSessionPtr session, const msgpb::GetMsgsFromFrie
     }
     session->Send(msgid::kMsgGetMsgFromFriendAck, ack);
 }
+
+void HandleGetGroupInfo(ChatSessionPtr session, const msgpb::GetGroupInfo& msg) {
+    CHATROOM_LOG_INFO("User(ip:{}) try to get group({}) info", session->client_ep(), msg.group_id());
+    msgpb::GetGroupInfoAck ack;
+    try
+    {
+        ack.set_group_name(model::GetGroupName(msg.group_id()));
+        auto members = model::GetGroupMembers(msg.group_id());
+        for (auto &mem : members) {
+            auto elem = ack.add_members_info();
+            auto info = model::GetUserInfo(mem.id);
+            elem->set_id(info.id);
+            elem->set_name(info.name);
+            elem->set_privilege(mem.privilege);
+        }
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User(ip:{}) get group({}) info success", session->client_ep(), msg.group_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User(ip:{}) get get group({}) info faild:{}", session->client_ep(), msg.group_id(), e.what());
+    }
+    session->Send(msgid::kMsgGetGroupInfoAck, ack);
+}
 }   // namespace
 
 
@@ -338,6 +366,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgGetMsgFromFriend:
         HandleGetMsgFromFriend(session, packet.DeserializeData<msgpb::GetMsgsFromFriend>());
+        break;
+    case msgid::kMsgGetGroupInfo:
+        HandleGetGroupInfo(session, packet.DeserializeData<msgpb::GetGroupInfo>());
         break;
     default:
         break;

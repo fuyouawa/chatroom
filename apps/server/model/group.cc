@@ -66,7 +66,19 @@ void QuitGroup(uint32_t user_id, uint32_t group_id) {
 
 
 std::string GetGroupName(uint32_t group_id) {
-    
+    auto res = mysql::Query("SELECT name FROM `AllGroup` WHERE `id` = {}", group_id);
+    bool suc = res->next(); assert(suc);
+    return res->getString(1);
+}
+
+
+std::vector<GroupMemberBasicInfo> GetGroupMembers(uint32_t group_id) {
+    std::vector<GroupMemberBasicInfo> total;
+    auto res = mysql::Query("SELECT * FROM `GroupMember` WHERE `group_id` = {}", group_id);
+    while (res->next()) {
+        total.push_back({res->getUInt(2), res->getInt(3)});
+    }
+    return total;
 }
 }
 }

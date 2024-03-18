@@ -361,10 +361,12 @@ class GetGroupInfoAck PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMembersInfoFieldNumber = 2,
-    kGroupNameFieldNumber = 1,
+    kMembersInfoFieldNumber = 4,
+    kErrmsgFieldNumber = 2,
+    kGroupNameFieldNumber = 3,
+    kSuccessFieldNumber = 1,
   };
-  // repeated .chatroom.msgpb.GroupMember members_info = 2;
+  // repeated .chatroom.msgpb.GroupMember members_info = 4;
   int members_info_size() const;
   private:
   int _internal_members_info_size() const;
@@ -382,7 +384,32 @@ class GetGroupInfoAck PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::msgpb::GroupMember >&
       members_info() const;
 
-  // string group_name = 1;
+  // string errmsg = 2;
+  void clear_errmsg();
+  const std::string& errmsg() const;
+  void set_errmsg(const std::string& value);
+  void set_errmsg(std::string&& value);
+  void set_errmsg(const char* value);
+  void set_errmsg(const char* value, size_t size);
+  std::string* mutable_errmsg();
+  std::string* release_errmsg();
+  void set_allocated_errmsg(std::string* errmsg);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_errmsg();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_errmsg(
+      std::string* errmsg);
+  private:
+  const std::string& _internal_errmsg() const;
+  void _internal_set_errmsg(const std::string& value);
+  std::string* _internal_mutable_errmsg();
+  public:
+
+  // string group_name = 3;
   void clear_group_name();
   const std::string& group_name() const;
   void set_group_name(const std::string& value);
@@ -407,6 +434,15 @@ class GetGroupInfoAck PROTOBUF_FINAL :
   std::string* _internal_mutable_group_name();
   public:
 
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.GetGroupInfoAck)
  private:
   class _Internal;
@@ -415,7 +451,9 @@ class GetGroupInfoAck PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::msgpb::GroupMember > members_info_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr group_name_;
+  bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_get_5fgroup_5finfo_5fack_2eproto;
 };
@@ -555,7 +593,108 @@ inline void GroupMember::set_privilege(::PROTOBUF_NAMESPACE_ID::int32 value) {
 
 // GetGroupInfoAck
 
-// string group_name = 1;
+// bool success = 1;
+inline void GetGroupInfoAck::clear_success() {
+  success_ = false;
+}
+inline bool GetGroupInfoAck::_internal_success() const {
+  return success_;
+}
+inline bool GetGroupInfoAck::success() const {
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.GetGroupInfoAck.success)
+  return _internal_success();
+}
+inline void GetGroupInfoAck::_internal_set_success(bool value) {
+  
+  success_ = value;
+}
+inline void GetGroupInfoAck::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.GetGroupInfoAck.success)
+}
+
+// string errmsg = 2;
+inline void GetGroupInfoAck::clear_errmsg() {
+  errmsg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& GetGroupInfoAck::errmsg() const {
+  // @@protoc_insertion_point(field_get:chatroom.msgpb.GetGroupInfoAck.errmsg)
+  return _internal_errmsg();
+}
+inline void GetGroupInfoAck::set_errmsg(const std::string& value) {
+  _internal_set_errmsg(value);
+  // @@protoc_insertion_point(field_set:chatroom.msgpb.GetGroupInfoAck.errmsg)
+}
+inline std::string* GetGroupInfoAck::mutable_errmsg() {
+  // @@protoc_insertion_point(field_mutable:chatroom.msgpb.GetGroupInfoAck.errmsg)
+  return _internal_mutable_errmsg();
+}
+inline const std::string& GetGroupInfoAck::_internal_errmsg() const {
+  return errmsg_.Get();
+}
+inline void GetGroupInfoAck::_internal_set_errmsg(const std::string& value) {
+  
+  errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void GetGroupInfoAck::set_errmsg(std::string&& value) {
+  
+  errmsg_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:chatroom.msgpb.GetGroupInfoAck.errmsg)
+}
+inline void GetGroupInfoAck::set_errmsg(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:chatroom.msgpb.GetGroupInfoAck.errmsg)
+}
+inline void GetGroupInfoAck::set_errmsg(const char* value,
+    size_t size) {
+  
+  errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:chatroom.msgpb.GetGroupInfoAck.errmsg)
+}
+inline std::string* GetGroupInfoAck::_internal_mutable_errmsg() {
+  
+  return errmsg_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* GetGroupInfoAck::release_errmsg() {
+  // @@protoc_insertion_point(field_release:chatroom.msgpb.GetGroupInfoAck.errmsg)
+  return errmsg_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void GetGroupInfoAck::set_allocated_errmsg(std::string* errmsg) {
+  if (errmsg != nullptr) {
+    
+  } else {
+    
+  }
+  errmsg_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), errmsg,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:chatroom.msgpb.GetGroupInfoAck.errmsg)
+}
+inline std::string* GetGroupInfoAck::unsafe_arena_release_errmsg() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:chatroom.msgpb.GetGroupInfoAck.errmsg)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return errmsg_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void GetGroupInfoAck::unsafe_arena_set_allocated_errmsg(
+    std::string* errmsg) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (errmsg != nullptr) {
+    
+  } else {
+    
+  }
+  errmsg_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      errmsg, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.GetGroupInfoAck.errmsg)
+}
+
+// string group_name = 3;
 inline void GetGroupInfoAck::clear_group_name() {
   group_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -636,7 +775,7 @@ inline void GetGroupInfoAck::unsafe_arena_set_allocated_group_name(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.GetGroupInfoAck.group_name)
 }
 
-// repeated .chatroom.msgpb.GroupMember members_info = 2;
+// repeated .chatroom.msgpb.GroupMember members_info = 4;
 inline int GetGroupInfoAck::_internal_members_info_size() const {
   return members_info_.size();
 }

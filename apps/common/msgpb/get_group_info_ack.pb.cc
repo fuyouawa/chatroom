@@ -74,6 +74,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_get_5fgroup_5finfo_5fack_2epro
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::GetGroupInfoAck, success_),
+  PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::GetGroupInfoAck, errmsg_),
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::GetGroupInfoAck, group_name_),
   PROTOBUF_FIELD_OFFSET(::chatroom::msgpb::GetGroupInfoAck, members_info_),
 };
@@ -90,9 +92,10 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_get_5fgroup_5finfo_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\030get_group_info_ack.proto\022\016chatroom.msg"
   "pb\":\n\013GroupMember\022\014\n\004name\030\001 \001(\t\022\n\n\002id\030\002 "
-  "\001(\r\022\021\n\tprivilege\030\003 \001(\005\"X\n\017GetGroupInfoAc"
-  "k\022\022\n\ngroup_name\030\001 \001(\t\0221\n\014members_info\030\002 "
-  "\003(\0132\033.chatroom.msgpb.GroupMemberb\006proto3"
+  "\001(\r\022\021\n\tprivilege\030\003 \001(\005\"y\n\017GetGroupInfoAc"
+  "k\022\017\n\007success\030\001 \001(\010\022\016\n\006errmsg\030\002 \001(\t\022\022\n\ngr"
+  "oup_name\030\003 \001(\t\0221\n\014members_info\030\004 \003(\0132\033.c"
+  "hatroom.msgpb.GroupMemberb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_get_5fgroup_5finfo_5fack_2eproto_deps[1] = {
 };
@@ -102,7 +105,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_get
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_get_5fgroup_5finfo_5fack_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_get_5fgroup_5finfo_5fack_2eproto = {
-  false, false, descriptor_table_protodef_get_5fgroup_5finfo_5fack_2eproto, "get_group_info_ack.proto", 200,
+  false, false, descriptor_table_protodef_get_5fgroup_5finfo_5fack_2eproto, "get_group_info_ack.proto", 233,
   &descriptor_table_get_5fgroup_5finfo_5fack_2eproto_once, descriptor_table_get_5fgroup_5finfo_5fack_2eproto_sccs, descriptor_table_get_5fgroup_5finfo_5fack_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_get_5fgroup_5finfo_5fack_2eproto::offsets,
   file_level_metadata_get_5fgroup_5finfo_5fack_2eproto, 2, file_level_enum_descriptors_get_5fgroup_5finfo_5fack_2eproto, file_level_service_descriptors_get_5fgroup_5finfo_5fack_2eproto,
@@ -402,17 +405,25 @@ GetGroupInfoAck::GetGroupInfoAck(const GetGroupInfoAck& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       members_info_(from.members_info_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  errmsg_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_errmsg().empty()) {
+    errmsg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_errmsg(),
+      GetArena());
+  }
   group_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_group_name().empty()) {
     group_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_group_name(),
       GetArena());
   }
+  success_ = from.success_;
   // @@protoc_insertion_point(copy_constructor:chatroom.msgpb.GetGroupInfoAck)
 }
 
 void GetGroupInfoAck::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_GetGroupInfoAck_get_5fgroup_5finfo_5fack_2eproto.base);
+  errmsg_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   group_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  success_ = false;
 }
 
 GetGroupInfoAck::~GetGroupInfoAck() {
@@ -423,6 +434,7 @@ GetGroupInfoAck::~GetGroupInfoAck() {
 
 void GetGroupInfoAck::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  errmsg_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   group_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -448,7 +460,9 @@ void GetGroupInfoAck::Clear() {
   (void) cached_has_bits;
 
   members_info_.Clear();
+  errmsg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   group_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  success_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -460,25 +474,41 @@ const char* GetGroupInfoAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // string group_name = 1;
+      // bool success = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string errmsg = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_errmsg();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.GetGroupInfoAck.errmsg"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string group_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           auto str = _internal_mutable_group_name();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "chatroom.msgpb.GetGroupInfoAck.group_name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .chatroom.msgpb.GroupMember members_info = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // repeated .chatroom.msgpb.GroupMember members_info = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_members_info(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -509,22 +539,38 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string group_name = 1;
+  // bool success = 1;
+  if (this->success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // string errmsg = 2;
+  if (this->errmsg().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_errmsg().data(), static_cast<int>(this->_internal_errmsg().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "chatroom.msgpb.GetGroupInfoAck.errmsg");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_errmsg(), target);
+  }
+
+  // string group_name = 3;
   if (this->group_name().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_group_name().data(), static_cast<int>(this->_internal_group_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "chatroom.msgpb.GetGroupInfoAck.group_name");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_group_name(), target);
+        3, this->_internal_group_name(), target);
   }
 
-  // repeated .chatroom.msgpb.GroupMember members_info = 2;
+  // repeated .chatroom.msgpb.GroupMember members_info = 4;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_members_info_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, this->_internal_members_info(i), target, stream);
+      InternalWriteMessage(4, this->_internal_members_info(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -543,18 +589,30 @@ size_t GetGroupInfoAck::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .chatroom.msgpb.GroupMember members_info = 2;
+  // repeated .chatroom.msgpb.GroupMember members_info = 4;
   total_size += 1UL * this->_internal_members_info_size();
   for (const auto& msg : this->members_info_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // string group_name = 1;
+  // string errmsg = 2;
+  if (this->errmsg().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_errmsg());
+  }
+
+  // string group_name = 3;
   if (this->group_name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_group_name());
+  }
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -589,8 +647,14 @@ void GetGroupInfoAck::MergeFrom(const GetGroupInfoAck& from) {
   (void) cached_has_bits;
 
   members_info_.MergeFrom(from.members_info_);
+  if (from.errmsg().size() > 0) {
+    _internal_set_errmsg(from._internal_errmsg());
+  }
   if (from.group_name().size() > 0) {
     _internal_set_group_name(from._internal_group_name());
+  }
+  if (from.success() != 0) {
+    _internal_set_success(from._internal_success());
   }
 }
 
@@ -616,7 +680,9 @@ void GetGroupInfoAck::InternalSwap(GetGroupInfoAck* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   members_info_.InternalSwap(&other->members_info_);
+  errmsg_.Swap(&other->errmsg_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   group_name_.Swap(&other->group_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(success_, other->success_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetGroupInfoAck::GetMetadata() const {
