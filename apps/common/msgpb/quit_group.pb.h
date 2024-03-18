@@ -185,22 +185,22 @@ class QuitGroup PROTOBUF_FINAL :
     kUserIdFieldNumber = 1,
     kGroupIdFieldNumber = 2,
   };
-  // int32 user_id = 1;
+  // uint32 user_id = 1;
   void clear_user_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
-  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
-  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // int32 group_id = 2;
+  // uint32 group_id = 2;
   void clear_group_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 group_id() const;
-  void set_group_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 group_id() const;
+  void set_group_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_group_id() const;
-  void _internal_set_group_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_group_id() const;
+  void _internal_set_group_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.QuitGroup)
@@ -210,8 +210,8 @@ class QuitGroup PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
-  ::PROTOBUF_NAMESPACE_ID::int32 group_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 user_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 group_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_quit_5fgroup_2eproto;
 };
@@ -226,42 +226,42 @@ class QuitGroup PROTOBUF_FINAL :
 #endif  // __GNUC__
 // QuitGroup
 
-// int32 user_id = 1;
+// uint32 user_id = 1;
 inline void QuitGroup::clear_user_id() {
-  user_id_ = 0;
+  user_id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 QuitGroup::_internal_user_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuitGroup::_internal_user_id() const {
   return user_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 QuitGroup::user_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuitGroup::user_id() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.QuitGroup.user_id)
   return _internal_user_id();
 }
-inline void QuitGroup::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void QuitGroup::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   user_id_ = value;
 }
-inline void QuitGroup::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void QuitGroup::set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_user_id(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.QuitGroup.user_id)
 }
 
-// int32 group_id = 2;
+// uint32 group_id = 2;
 inline void QuitGroup::clear_group_id() {
-  group_id_ = 0;
+  group_id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 QuitGroup::_internal_group_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuitGroup::_internal_group_id() const {
   return group_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 QuitGroup::group_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 QuitGroup::group_id() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.QuitGroup.group_id)
   return _internal_group_id();
 }
-inline void QuitGroup::_internal_set_group_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void QuitGroup::_internal_set_group_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   group_id_ = value;
 }
-inline void QuitGroup::set_group_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void QuitGroup::set_group_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_group_id(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.QuitGroup.group_id)
 }

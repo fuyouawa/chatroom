@@ -89,7 +89,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_get_5ffriends_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\025get_friends_ack.proto\022\016chatroom.msgpb\""
-  "&\n\nFriendInfo\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\""
+  "&\n\nFriendInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\""
   "b\n\rGetFriendsAck\022\017\n\007success\030\001 \001(\010\022\016\n\006err"
   "msg\030\002 \001(\t\0220\n\014friends_info\030\003 \003(\0132\032.chatro"
   "om.msgpb.FriendInfob\006proto3"
@@ -142,7 +142,7 @@ FriendInfo::FriendInfo(const FriendInfo& from)
 void FriendInfo::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_FriendInfo_get_5ffriends_5fack_2eproto.base);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  id_ = 0;
+  id_ = 0u;
 }
 
 FriendInfo::~FriendInfo() {
@@ -178,7 +178,7 @@ void FriendInfo::Clear() {
   (void) cached_has_bits;
 
   name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  id_ = 0;
+  id_ = 0u;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -190,10 +190,10 @@ const char* FriendInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // int32 id = 1;
+      // uint32 id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -234,10 +234,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 id = 1;
+  // uint32 id = 1;
   if (this->id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
   }
 
   // string name = 2;
@@ -273,10 +273,10 @@ size_t FriendInfo::ByteSizeLong() const {
         this->_internal_name());
   }
 
-  // int32 id = 1;
+  // uint32 id = 1;
   if (this->id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_id());
   }
 

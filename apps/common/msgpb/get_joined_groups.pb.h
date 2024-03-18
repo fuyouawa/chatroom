@@ -184,13 +184,13 @@ class GetJoinedGroups PROTOBUF_FINAL :
   enum : int {
     kUserIdFieldNumber = 1,
   };
-  // int32 user_id = 1;
+  // uint32 user_id = 1;
   void clear_user_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
-  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
-  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.GetJoinedGroups)
@@ -200,7 +200,7 @@ class GetJoinedGroups PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 user_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_get_5fjoined_5fgroups_2eproto;
 };
@@ -215,22 +215,22 @@ class GetJoinedGroups PROTOBUF_FINAL :
 #endif  // __GNUC__
 // GetJoinedGroups
 
-// int32 user_id = 1;
+// uint32 user_id = 1;
 inline void GetJoinedGroups::clear_user_id() {
-  user_id_ = 0;
+  user_id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GetJoinedGroups::_internal_user_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 GetJoinedGroups::_internal_user_id() const {
   return user_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GetJoinedGroups::user_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 GetJoinedGroups::user_id() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.GetJoinedGroups.user_id)
   return _internal_user_id();
 }
-inline void GetJoinedGroups::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GetJoinedGroups::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   user_id_ = value;
 }
-inline void GetJoinedGroups::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GetJoinedGroups::set_user_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_user_id(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.GetJoinedGroups.user_id)
 }

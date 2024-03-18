@@ -60,8 +60,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_send_5fmsg_5fto_5ffriend_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\030send_msg_to_friend.proto\022\016chatroom.msg"
-  "pb\"B\n\017SendMsgToFriend\022\017\n\007user_id\030\001 \001(\005\022\021"
-  "\n\tfriend_id\030\002 \001(\005\022\013\n\003msg\030\003 \001(\tb\006proto3"
+  "pb\"B\n\017SendMsgToFriend\022\017\n\007user_id\030\001 \001(\r\022\021"
+  "\n\tfriend_id\030\002 \001(\r\022\013\n\003msg\030\003 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_send_5fmsg_5fto_5ffriend_2eproto_deps[1] = {
 };
@@ -164,17 +164,17 @@ const char* SendMsgToFriend::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // int32 user_id = 1;
+      // uint32 user_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          user_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          user_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 friend_id = 2;
+      // uint32 friend_id = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          friend_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          friend_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -215,16 +215,16 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 user_id = 1;
+  // uint32 user_id = 1;
   if (this->user_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_user_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_user_id(), target);
   }
 
-  // int32 friend_id = 2;
+  // uint32 friend_id = 2;
   if (this->friend_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_friend_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_friend_id(), target);
   }
 
   // string msg = 3;
@@ -260,17 +260,17 @@ size_t SendMsgToFriend::ByteSizeLong() const {
         this->_internal_msg());
   }
 
-  // int32 user_id = 1;
+  // uint32 user_id = 1;
   if (this->user_id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_user_id());
   }
 
-  // int32 friend_id = 2;
+  // uint32 friend_id = 2;
   if (this->friend_id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_friend_id());
   }
 

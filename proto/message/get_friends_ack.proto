@@ -3,7 +3,7 @@ syntax = "proto3";
 package chatroom.msgpb;
 
 message FriendInfo {
-    int32 id = 1;
+    uint32 id = 1;
     string name = 2;
 }
 

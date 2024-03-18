@@ -14,6 +14,7 @@ ChatClient::ChatClient(boost::asio::io_service& ios, std::string_view remote_add
 }
 
 void ChatClient::Done() {
+    user_id_ = 0;
     done_ = true;
     socket_.close();
 }
@@ -24,66 +25,59 @@ void ChatClient::Start() {
 }
 
 void ChatClient::RunLoop() {
-    boost::asio::co_spawn(socket_.get_executor(), [this]()->boost::asio::awaitable<void> {
-        try
-        {
-            while (co_await AskUserIdAndPassword()) {
-                assert(user_id_);
-                co_await BasicPanel();
-            }
-        }
-        catch(const std::exception& e)
-        {
-            console::PrintError("Error occur:{}\n", e.what());
-        }
-    }, boost::asio::detached);
-
+    boost::asio::co_spawn(socket_.get_executor(), [this]{ return BasicPanel(); }, boost::asio::detached);
     boost::asio::co_spawn(socket_.get_executor(), [this]{ return ReceiveLoop(); }, boost::asio::detached);
 }
 
-boost::asio::awaitable<bool> ChatClient::AskUserIdAndPassword() {
-    auto opt = console::Options({"登录", "注册", "退出"});
-    switch (opt)
-    {
-    case 0:     // 登录
-        co_await LoginPanel();
-        co_return true;
-    case 1:     // 注册
-        co_await RegisterPanel();
-        co_return true;
-    default:
-        co_return false;
-    }
-}
-
 boost::asio::awaitable<void> ChatClient::BasicPanel() {
-    while (!done_) {
-        auto idx = console::Options({"查看个人信息", "查看好友列表", "查看群组列表", "添加好友", "创建群组", "加入群组", "退出登录"});
-        switch (idx)
-        {
-        case 0:     // 查看个人信息
-            co_await ViewPersonalInfoPanel();
-            break;
-        case 1:     // 查看好友列表
-            co_await ViewFriendsPanel();
-            break;
-        case 2:     // 查看群组列表
-            co_await ViewGroupsPanel();
-            break;
-        case 3:     // 添加好友
-            co_await AddFriendPanel();
-            break;
-        case 4:     // 创建群组
-            co_await CreateGroupPanel();
-            break;
-        case 5:     // 加入群组
-            co_await JoinGroupPanel();
-            break;
-        default:    // 退出登录
-            user_id_ = 0;
-            Done();
-            break;
+    try
+    {
+    beg:
+        do {
+            auto opt = console::Options({"登录", "注册", "退出"});
+            switch (opt)
+            {
+            case 0:     // 登录
+                co_await LoginPanel();
+                break;
+            case 1:     // 注册
+                co_await RegisterPanel();
+                break;
+            default:    // 退出
+                co_return;
+            }
         }
+        while (user_id_ == 0);
+
+        while (!done_) {
+            auto idx = console::Options({"查看好友列表", "查看群组列表", "添加好友", "创建群组", "加入群组", "退出登录"});
+            switch (idx)
+            {
+            case 0:     // 查看好友列表
+                co_await ViewFriendsPanel();
+                break;
+            case 1:     // 查看群组列表
+                co_await ViewGroupsPanel();
+                break;
+            case 2:     // 添加好友
+                co_await AddFriendPanel();
+                break;
+            case 3:     // 创建群组
+                co_await CreateGroupPanel();
+                break;
+            case 4:     // 加入群组
+                co_await JoinGroupPanel();
+                break;
+            default:    // 退出登录
+                Done();
+                break;
+            }
+        }
+        goto beg;
+    }
+    catch(const std::exception& e)
+    {
+        console::PrintError("Error occur:{}\n", e.what());
     }
 }
 

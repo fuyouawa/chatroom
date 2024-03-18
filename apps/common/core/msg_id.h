@@ -26,6 +26,12 @@ enum ID {
     kMsgSendMsgToFriendAck,
     kMsgGetMsgFromFriend,
     kMsgGetMsgFromFriendAck,
+    kMsgGetGroupInfo,
+    kMsgGetGroupInfoAck,
+    kMsgSendMsgToGroup,
+    kMsgSendMsgToGroupAck,
+    kMsgGetMsgFromGroup,
+    kMsgGetMsgFromGroupAck,
     kMsgEndFlag
 };
 bool IsValid(uint16_t msgid);

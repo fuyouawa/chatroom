@@ -233,7 +233,6 @@ void HandleJoinGroup(ChatSessionPtr session, const msgpb::JoinGroup& msg) {
     session->Send(msgid::kMsgJoinGroupAck, ack);
 }
 
-//TODO 退出自己创建群组的处理
 void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
     CHATROOM_LOG_INFO("User({}) try to quit group(id:{})", msg.user_id(), msg.group_id());
     msgpb::QuitGroupAck ack;
@@ -258,7 +257,7 @@ void HandleSendMsgToFriend(ChatSessionPtr session, const msgpb::SendMsgToFriend&
     msgpb::QuitGroupAck ack;
     try
     {
-        model::SaveFriendMsgToTmp(msg.user_id(), msg.friend_id(), msg.msg());
+        model::SaveFriendMessage(msg.user_id(), msg.friend_id(), msg.msg());
         ack.set_success(true);
         CHATROOM_LOG_INFO("User({}) send msg to friend({}) success!", msg.user_id(), msg.friend_id());
     }
@@ -277,10 +276,8 @@ void HandleGetMsgFromFriend(ChatSessionPtr session, const msgpb::GetMsgsFromFrie
     msgpb::GetMsgsFromFriendAck ack;
     try
     {
-        auto msgs_vec = model::GetFriendMsgsFromTmp(msg.user_id(), msg.friend_id());
-        for (auto &msg : msgs_vec) {
-            ack.add_msgs(std::move(msg));
-        }
+        auto msgs = model::GetFriendMessages(msg.user_id(), msg.friend_id());
+        ack.mutable_msgs()->Swap(&msgs);
         ack.set_success(true);
         CHATROOM_LOG_INFO("User({}) get msgs from friend({}) success!", msg.user_id(), msg.friend_id());
     }

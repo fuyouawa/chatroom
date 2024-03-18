@@ -3,5 +3,5 @@ syntax = "proto3";
 package chatroom.msgpb;
 
 message GetJoinedGroups {
-    int32 user_id = 1;
+    uint32 user_id = 1;
 }

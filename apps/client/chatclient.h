@@ -33,7 +33,6 @@ private:
     boost::asio::awaitable<void> LoginPanel();
     boost::asio::awaitable<void> RegisterPanel();
 
-    boost::asio::awaitable<void> ViewPersonalInfoPanel();
     boost::asio::awaitable<void> ViewFriendsPanel();
     boost::asio::awaitable<void> ViewGroupsPanel();
     boost::asio::awaitable<void> AddFriendPanel();

@@ -214,13 +214,13 @@ class FriendInfo PROTOBUF_FINAL :
   std::string* _internal_mutable_name();
   public:
 
-  // int32 id = 1;
+  // uint32 id = 1;
   void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:chatroom.msgpb.FriendInfo)
@@ -231,7 +231,7 @@ class FriendInfo PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_get_5ffriends_5fack_2eproto;
 };
@@ -430,22 +430,22 @@ class GetFriendsAck PROTOBUF_FINAL :
 #endif  // __GNUC__
 // FriendInfo
 
-// int32 id = 1;
+// uint32 id = 1;
 inline void FriendInfo::clear_id() {
-  id_ = 0;
+  id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 FriendInfo::_internal_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FriendInfo::_internal_id() const {
   return id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 FriendInfo::id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FriendInfo::id() const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.FriendInfo.id)
   return _internal_id();
 }
-inline void FriendInfo::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void FriendInfo::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   id_ = value;
 }
-inline void FriendInfo::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void FriendInfo::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_id(value);
   // @@protoc_insertion_point(field_set:chatroom.msgpb.FriendInfo.id)
 }

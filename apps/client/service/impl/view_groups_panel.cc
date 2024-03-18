@@ -74,10 +74,10 @@ boost::asio::awaitable<void> ChatClient::QuitGroup(uint32_t group_id) {
     co_await Send(msgid::kMsgQuitGroup, msg);
     auto ack = co_await Receive<msgpb::QuitGroupAck>(msgid::kMsgQuitGroupAck);
     if (ack.success()) {
-        console::Print("群组删除成功!\n");
+        console::Print("群组退出成功!\n");
     }
     else {
-        console::PrintError("群组删除失败! 原因: {}\n", ack.errmsg());
+        console::PrintError("群组退出失败! 原因: {}\n", ack.errmsg());
     }
 }
 }   // namespace chatroom
