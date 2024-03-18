@@ -16,6 +16,7 @@ public:
 
 private:
     void HandleNewSession(ChatSessionPtr session);
+    void Initialization();
 
     Acceptor acceptor_;
     std::mutex mutex_;

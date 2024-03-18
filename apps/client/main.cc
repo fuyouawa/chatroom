@@ -1,6 +1,7 @@
 #include "chatclient.h"
 #include "common/core/config.h"
 #include "tools/console.h"
+#include "common/datapb/friend_msgs_temp.pb.h"
 
 int main() {
     try {

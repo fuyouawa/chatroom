@@ -4,6 +4,7 @@
 #include "tools/ioservice_pool.h"
 #include "tools/logger.h"
 #include "common/tools/format.h"
+#include "model/user.h"
 
 namespace chatroom
 {
@@ -12,9 +13,15 @@ ChatServer::ChatServer(boost::asio::io_service& ios, uint16_t port)
 {
 }
 
+
+void ChatServer::Initialization() {
+    model::OfflineAll();
+}
+
 void ChatServer::Start() {
     boost::asio::co_spawn(acceptor_.get_executor(), [this]()->boost::asio::awaitable<void>{ 
         CHATROOM_LOG_INFO("Start accept!");
+        Initialization();
         while (true) {
             try
             {

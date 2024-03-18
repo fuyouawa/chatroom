@@ -39,8 +39,7 @@ void RemoveUser(std::initializer_list<int> users_id) {
 
 
 void OfflineAll() {
-    auto res = mysql::Update("UPDATE `User` SET online=0");
-    assert(res);
+    mysql::Update("UPDATE `User` SET online=0");
 }
 }   // namespace model
 }   // namespace chatroom

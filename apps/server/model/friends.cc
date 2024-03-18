@@ -32,10 +32,10 @@ std::vector<uint32_t> QueryFriends(uint32_t user_id) {
 }
 
 namespace {
-const size_t FriendMsgsTmpCapacity = 512;
+const size_t FriendMsgsTmpCapacity = 256;
 
 int FindFreeOrCreateFriendMsgsTmp(uint32_t user_id, uint32_t friend_id, size_t msg_size) {
-    const auto needed_size = msg_size + 16;
+    const auto needed_size = msg_size + 8;
     assert(needed_size <= FriendMsgsTmpCapacity);
     auto res = mysql::Query("SELECT id FROM `FriendsMsgsTemp` WHERE user_id = {} AND friend_id = {} AND res_size >= {}", user_id, friend_id, needed_size);
     if (res->next()) {
@@ -56,17 +56,30 @@ int FindFreeOrCreateFriendMsgsTmp(uint32_t user_id, uint32_t friend_id, size_t m
 
 
 void SaveFriendMsgToTmp(uint32_t user_id, uint32_t friend_id, std::string_view msg) {
-    auto stor_id = FindFreeOrCreateFriendMsgsTmp(user_id, friend_id, msg.size());
-    auto res = mysql::Query("SELECT msgs, res_size FROM `FriendsMsgsTemp` WHERE id = {}", stor_id);
+    std::string trans_msg;
+    for (auto &ch : msg) {
+        if (ch == '\'')
+            trans_msg += "\\'";
+        else
+            trans_msg += ch;
+    }
+    
+    auto stor_id = FindFreeOrCreateFriendMsgsTmp(user_id, friend_id, trans_msg.size());
+    auto res = mysql::Query("SELECT msgs, res_size, msg_count FROM `FriendsMsgsTemp` WHERE id = {}", stor_id);
     res->next();
     auto msgs_str = res->getString(1);
+    auto msg_count = res->getUInt(3);
+
     datapb::FriendMsgsTemp msgs_tmp;
     msgs_tmp.ParseFromString(msgs_str.asStdString());
-    msgs_tmp.add_msgs(msg.data());
-    auto res_size = res->getUInt(2);
-    assert(res_size >= msgs_tmp.ByteSizeLong());
-    res_size -= msgs_tmp.ByteSizeLong();
-    mysql::Update("UPDATE `FriendsMsgsTemp` SET `msgs`='{}', res_size={} WHERE `id`={}", msgs_tmp.SerializeAsString(), res_size, stor_id);
+    assert(msgs_tmp.msgs_size() == static_cast<int>(msg_count));
+    msgs_tmp.add_msgs(trans_msg.data());
+    assert(msgs_tmp.SerializeAsString().size() == msgs_tmp.ByteSizeLong());
+    mysql::Update("UPDATE `FriendsMsgsTemp` SET `msgs`='{}', res_size={}, msg_count={} WHERE `id`={}",
+                msgs_tmp.SerializeAsString(),
+                FriendMsgsTmpCapacity - msgs_tmp.ByteSizeLong(),
+                msg_count + 1,
+                stor_id);
 }
 
 
