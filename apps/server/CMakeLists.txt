@@ -1,4 +1,4 @@
-SET(SERVER_NAME chat-server)
+SET(SERVER_NAME chatserver)
 
 include_directories(.)
 

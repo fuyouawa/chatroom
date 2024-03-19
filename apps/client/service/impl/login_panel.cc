@@ -19,7 +19,7 @@ boost::asio::awaitable<void> ChatClient::LoginPanel() {
         if (ack.success()) {
             user_id_ = user_id;
             user_name_ = ack.user_name();
-            console::SetConsoleTitle(std::format("Chatroom App({})", user_name_));
+            console::SetConsoleTitle(std::format("name: {} --- account: {}", user_name_, user_id_));
             break;
         }
         else {

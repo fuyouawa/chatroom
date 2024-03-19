@@ -12,6 +12,7 @@
 #include "common/core/msg_id.h"
 
 namespace chatroom {
+//TODO 显示在线状态
 boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
     msgpb::GetFriends msg;
     while (true) {
@@ -31,6 +32,7 @@ boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
                     co_return;
                 }
                 auto& select_friend = ack.friends_info()[idx];
+            friend_opt_panel:
                 idx = console::Options(
                     {"发送消息", "查看对方消息", "删除好友"},
                     std::format("当前选中的好友是:{}(Enter选中, Esc回退上一级)", select_friend.name()),
@@ -42,10 +44,10 @@ boost::asio::awaitable<void> ChatClient::ViewFriendsPanel() {
                 {
                 case 0:     // 发送消息
                     co_await SendMsgToFriendPanel(select_friend.id(), select_friend.name());
-                    continue;
+                    goto friend_opt_panel;
                 case 1:     // 查看对方消息
                     co_await GetMsgFromFriendPanel(select_friend.id(), select_friend.name());
-                    continue;
+                    goto friend_opt_panel;
                 default:    // 删除好友
                     co_await RemoveFriend(select_friend.id());
                     TipBack();
@@ -79,6 +81,7 @@ boost::asio::awaitable<void> ChatClient::RemoveFriend(uint32_t friend_id) {
     }
 }
 
+// TODO 输入空格会出问题
 boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id, std::string_view friend_name) {
     console::Clear();
     msgpb::SendMsgToFriend msg;
