@@ -1,6 +1,6 @@
 #include "model/friends.h"
 #include "tools/mysql.h"
-#include "common/datapb/friend_messages.pb.h"
+#include "common/datapb/friend_message_field.pb.h"
 #include <ranges>
 #include <cassert>
 
@@ -42,7 +42,7 @@ int FindFreeOrCreateFriendMessage(uint32_t user_id, uint32_t friend_id, size_t m
         return res->getUInt(1);
     }
     else {
-        datapb::FriendMessages friend_msgs{};
+        datapb::FriendMessageField friend_msgs{};
         auto suc = mysql::Update("INSERT INTO `FriendMessages` (user_id, friend_id, msgs, res_size) VALUES ({}, {}, '{}', {})",
                                 user_id,
                                 friend_id,
@@ -69,7 +69,7 @@ void SaveFriendMessage(uint32_t user_id, uint32_t friend_id, std::string_view ms
     res->next();
     auto res_size = res->getUInt(2);
 
-    datapb::FriendMessages friend_msgs;
+    datapb::FriendMessageField friend_msgs;
     friend_msgs.ParseFromString(res->getString(1).asStdString());
     assert(kFriendMsgsCapacity - res_size == friend_msgs.ByteSizeLong());
     friend_msgs.add_msgs(trans_msg.data());
@@ -80,15 +80,11 @@ void SaveFriendMessage(uint32_t user_id, uint32_t friend_id, std::string_view ms
 }
 
 google::protobuf::RepeatedPtrField<std::string> GetFriendMessages(uint32_t user_id, uint32_t friend_id) {
-    auto res = mysql::Query("SELECT msgs, res_size FROM `FriendMessages` WHERE user_id = {} AND friend_id = {}", friend_id, user_id);
+    auto res = mysql::Query("SELECT msgs FROM `FriendMessages` WHERE user_id = {} AND friend_id = {}", friend_id, user_id);
     google::protobuf::RepeatedPtrField<std::string> total;
-    datapb::FriendMessages friend_msgs;
+    datapb::FriendMessageField friend_msgs;
     while (res->next()) {
-        auto msgs_str = res->getString(1);
-        auto res_size = res->getUInt(2);
-
-        friend_msgs.ParseFromString(msgs_str.asStdString());
-        assert(friend_msgs.ByteSizeLong() == kFriendMsgsCapacity - res_size);
+        friend_msgs.ParseFromString(res->getString(1).asStdString());
         if (friend_msgs.msgs_size() == 0) continue;
         total.MergeFrom(friend_msgs.msgs());
     }

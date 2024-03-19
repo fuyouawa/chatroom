@@ -3,6 +3,7 @@
 #include <cstdint>
 
 #include "common/datapb/group_member.pb.h"
+#include "common/datapb/group_message.pb.h"
 #include <google/protobuf/repeated_field.h>
 
 namespace chatroom {
@@ -22,5 +23,6 @@ std::string GetGroupName(uint32_t group_id);
 google::protobuf::RepeatedPtrField<datapb::GroupMember> GetGroupMembers(uint32_t group_id);
 
 void SaveGroupMessage(uint32_t user_id, uint32_t group_id, std::string_view msg);
+google::protobuf::RepeatedPtrField<datapb::GroupMessage> GetGroupMessages(uint32_t group_id);
 }
 }

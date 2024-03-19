@@ -112,13 +112,13 @@ boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id
 
 boost::asio::awaitable<void> ChatClient::GetMsgFromFriendPanel(uint32_t friend_id, std::string_view friend_name) {
     console::Clear();
+    console::Print("[与{}({})的聊天记录]\n", friend_name, friend_id);
     msgpb::GetMsgsFromFriend msg;
     msg.set_user_id(user_id_);
     msg.set_friend_id(friend_id);
     co_await Send(msgid::kMsgGetMsgFromFriend, msg);
     auto ack = co_await Receive<msgpb::GetMsgsFromFriendAck>(msgid::kMsgGetMsgFromFriendAck);
     if (ack.success()) {
-        console::Print("[与{}({})的聊天记录]\n", friend_name, friend_id);
         if (ack.msgs_size() == 0) {
             console::Print("暂无聊天记录\n");
         }

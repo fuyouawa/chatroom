@@ -14,7 +14,7 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_datapb_2fgroup_5fmessages_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_GroupMessages_datapb_2fgroup_5fmessages_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_datapb_2fgroup_5fmessage_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GroupMessage_datapb_2fgroup_5fmessage_2eproto;
 namespace chatroom {
 namespace msgpb {
 class GetMsgsFromGroupAckDefaultTypeInternal {
@@ -36,7 +36,7 @@ static void InitDefaultsscc_info_GetMsgsFromGroupAck_msgpb_2fget_5fmsgs_5ffrom_5
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_GetMsgsFromGroupAck_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_GetMsgsFromGroupAck_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto}, {
-      &scc_info_GroupMessages_datapb_2fgroup_5fmessages_2eproto.base,}};
+      &scc_info_GroupMessage_datapb_2fgroup_5fmessage_2eproto.base,}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto = nullptr;
@@ -62,20 +62,20 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n#msgpb/get_msgs_from_group_ack.proto\022\016c"
-  "hatroom.msgpb\032\033datapb/group_messages.pro"
-  "to\"d\n\023GetMsgsFromGroupAck\022\017\n\007success\030\001 \001"
-  "(\010\022\016\n\006errmsg\030\002 \001(\t\022,\n\004msgs\030\003 \003(\0132\036.chatr"
-  "oom.datapb.GroupMessagesb\006proto3"
+  "hatroom.msgpb\032\032datapb/group_message.prot"
+  "o\"c\n\023GetMsgsFromGroupAck\022\017\n\007success\030\001 \001("
+  "\010\022\016\n\006errmsg\030\002 \001(\t\022+\n\004msgs\030\003 \003(\0132\035.chatro"
+  "om.datapb.GroupMessageb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto_deps[1] = {
-  &::descriptor_table_datapb_2fgroup_5fmessages_2eproto,
+  &::descriptor_table_datapb_2fgroup_5fmessage_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto_sccs[1] = {
   &scc_info_GetMsgsFromGroupAck_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto = {
-  false, false, descriptor_table_protodef_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto, "msgpb/get_msgs_from_group_ack.proto", 192,
+  false, false, descriptor_table_protodef_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto, "msgpb/get_msgs_from_group_ack.proto", 190,
   &descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto_once, descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto_sccs, descriptor_table_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto::offsets,
   file_level_metadata_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto, 1, file_level_enum_descriptors_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto, file_level_service_descriptors_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto,
@@ -185,7 +185,7 @@ const char* GetMsgsFromGroupAck::_InternalParse(const char* ptr, ::PROTOBUF_NAME
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .chatroom.datapb.GroupMessages msgs = 3;
+      // repeated .chatroom.datapb.GroupMessage msgs = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr -= 1;
@@ -241,7 +241,7 @@ failure:
         2, this->_internal_errmsg(), target);
   }
 
-  // repeated .chatroom.datapb.GroupMessages msgs = 3;
+  // repeated .chatroom.datapb.GroupMessage msgs = 3;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_msgs_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -265,7 +265,7 @@ size_t GetMsgsFromGroupAck::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .chatroom.datapb.GroupMessages msgs = 3;
+  // repeated .chatroom.datapb.GroupMessage msgs = 3;
   total_size += 1UL * this->_internal_msgs_size();
   for (const auto& msg : this->msgs_) {
     total_size +=

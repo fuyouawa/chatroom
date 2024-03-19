@@ -9,6 +9,8 @@
 #include "common/msgpb/get_group_info_ack.pb.h"
 #include "common/msgpb/send_msg_to_group.pb.h"
 #include "common/msgpb/send_msg_to_group_ack.pb.h"
+#include "common/msgpb/get_msgs_from_group.pb.h"
+#include "common/msgpb/get_msgs_from_group_ack.pb.h"
 #include "common/core/msg_id.h"
 #include "common/core/enums.h"
 
@@ -118,7 +120,26 @@ boost::asio::awaitable<void> ChatClient::SendMsgToGroupPanel(uint32_t group_id, 
 }
 
 boost::asio::awaitable<void> ChatClient::GetMsgFromGroupPanel(uint32_t group_id, std::string_view group_name) {
-
+    console::Clear();
+    console::Print("[与{}({})的聊天记录]\n", group_name, group_id);
+    msgpb::GetMsgsFromGroup msg;
+    msg.set_group_id(group_id);
+    co_await Send(msgid::kMsgGetMsgFromGroup, msg);
+    auto ack = co_await Receive<msgpb::GetMsgsFromGroupAck>(msgid::kMsgGetMsgFromGroupAck);
+    if (ack.success()) {
+        if (ack.msgs_size() == 0) {
+            console::Print("暂无聊天记录\n");
+        }
+        else {
+            for (auto &msg : ack.msgs()) {
+                console::Print("[{}({})] -> {}\n", msg.user_name(), msg.user_id(), msg.msg());
+            }
+        }
+    }
+    else {
+        console::PrintError("消息获取失败! 原因:{}\n", ack.errmsg());
+    }
+    TipBack();
 }
 
 boost::asio::awaitable<void> ChatClient::GetGroupInfoPanel(uint32_t group_id) {

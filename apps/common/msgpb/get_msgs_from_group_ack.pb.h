@@ -32,7 +32,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include "datapb/group_messages.pb.h"
+#include "datapb/group_message.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_msgpb_2fget_5fmsgs_5ffrom_5fgroup_5fack_2eproto
@@ -187,22 +187,22 @@ class GetMsgsFromGroupAck PROTOBUF_FINAL :
     kErrmsgFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // repeated .chatroom.datapb.GroupMessages msgs = 3;
+  // repeated .chatroom.datapb.GroupMessage msgs = 3;
   int msgs_size() const;
   private:
   int _internal_msgs_size() const;
   public:
   void clear_msgs();
-  ::chatroom::datapb::GroupMessages* mutable_msgs(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessages >*
+  ::chatroom::datapb::GroupMessage* mutable_msgs(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessage >*
       mutable_msgs();
   private:
-  const ::chatroom::datapb::GroupMessages& _internal_msgs(int index) const;
-  ::chatroom::datapb::GroupMessages* _internal_add_msgs();
+  const ::chatroom::datapb::GroupMessage& _internal_msgs(int index) const;
+  ::chatroom::datapb::GroupMessage* _internal_add_msgs();
   public:
-  const ::chatroom::datapb::GroupMessages& msgs(int index) const;
-  ::chatroom::datapb::GroupMessages* add_msgs();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessages >&
+  const ::chatroom::datapb::GroupMessage& msgs(int index) const;
+  ::chatroom::datapb::GroupMessage* add_msgs();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessage >&
       msgs() const;
 
   // string errmsg = 2;
@@ -246,7 +246,7 @@ class GetMsgsFromGroupAck PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessages > msgs_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessage > msgs_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
   bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -364,37 +364,37 @@ inline void GetMsgsFromGroupAck::unsafe_arena_set_allocated_errmsg(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:chatroom.msgpb.GetMsgsFromGroupAck.errmsg)
 }
 
-// repeated .chatroom.datapb.GroupMessages msgs = 3;
+// repeated .chatroom.datapb.GroupMessage msgs = 3;
 inline int GetMsgsFromGroupAck::_internal_msgs_size() const {
   return msgs_.size();
 }
 inline int GetMsgsFromGroupAck::msgs_size() const {
   return _internal_msgs_size();
 }
-inline ::chatroom::datapb::GroupMessages* GetMsgsFromGroupAck::mutable_msgs(int index) {
+inline ::chatroom::datapb::GroupMessage* GetMsgsFromGroupAck::mutable_msgs(int index) {
   // @@protoc_insertion_point(field_mutable:chatroom.msgpb.GetMsgsFromGroupAck.msgs)
   return msgs_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessages >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessage >*
 GetMsgsFromGroupAck::mutable_msgs() {
   // @@protoc_insertion_point(field_mutable_list:chatroom.msgpb.GetMsgsFromGroupAck.msgs)
   return &msgs_;
 }
-inline const ::chatroom::datapb::GroupMessages& GetMsgsFromGroupAck::_internal_msgs(int index) const {
+inline const ::chatroom::datapb::GroupMessage& GetMsgsFromGroupAck::_internal_msgs(int index) const {
   return msgs_.Get(index);
 }
-inline const ::chatroom::datapb::GroupMessages& GetMsgsFromGroupAck::msgs(int index) const {
+inline const ::chatroom::datapb::GroupMessage& GetMsgsFromGroupAck::msgs(int index) const {
   // @@protoc_insertion_point(field_get:chatroom.msgpb.GetMsgsFromGroupAck.msgs)
   return _internal_msgs(index);
 }
-inline ::chatroom::datapb::GroupMessages* GetMsgsFromGroupAck::_internal_add_msgs() {
+inline ::chatroom::datapb::GroupMessage* GetMsgsFromGroupAck::_internal_add_msgs() {
   return msgs_.Add();
 }
-inline ::chatroom::datapb::GroupMessages* GetMsgsFromGroupAck::add_msgs() {
+inline ::chatroom::datapb::GroupMessage* GetMsgsFromGroupAck::add_msgs() {
   // @@protoc_insertion_point(field_add:chatroom.msgpb.GetMsgsFromGroupAck.msgs)
   return _internal_add_msgs();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessages >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::chatroom::datapb::GroupMessage >&
 GetMsgsFromGroupAck::msgs() const {
   // @@protoc_insertion_point(field_list:chatroom.msgpb.GetMsgsFromGroupAck.msgs)
   return msgs_;

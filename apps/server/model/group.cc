@@ -3,7 +3,7 @@
 #include "common/core/enums.h"
 #include "model/user.h"
 
-#include "common/datapb/group_messages.pb.h"
+#include "common/datapb/group_message_field.pb.h"
 
 namespace chatroom {
 namespace model {
@@ -97,7 +97,7 @@ int FindFreeOrCreateGroupMessage(uint32_t group_id, size_t msg_size) {
         return res->getUInt(1);
     }
     else {
-        datapb::GroupMessages grp_msgs{};
+        datapb::GroupMessageField grp_msgs{};
         auto suc = mysql::Update("INSERT INTO `GroupMessages` (group_id, msgs, res_size) VALUES ({}, '{}', {})",
                                 group_id,
                                 grp_msgs.SerializeAsString(),
@@ -122,7 +122,7 @@ void SaveGroupMessage(uint32_t user_id, uint32_t group_id, std::string_view msg)
     res->next();
     auto res_size = res->getUInt(2);
 
-    datapb::GroupMessages grp_msgs;
+    datapb::GroupMessageField grp_msgs;
     grp_msgs.ParseFromString(res->getString(1).asStdString());
     assert(kGroupMsgsCapacity - res_size == grp_msgs.ByteSizeLong());
     auto elem = grp_msgs.add_msgs();
@@ -132,6 +132,24 @@ void SaveGroupMessage(uint32_t user_id, uint32_t group_id, std::string_view msg)
                 grp_msgs.SerializeAsString(),
                 kGroupMsgsCapacity - grp_msgs.ByteSizeLong(),
                 stor_id);
+}
+
+
+google::protobuf::RepeatedPtrField<datapb::GroupMessage> GetGroupMessages(uint32_t group_id) {
+    auto res = mysql::Query("SELECT msgs FROM `GroupMessages` WHERE group_id = {}", group_id);
+    google::protobuf::RepeatedPtrField<datapb::GroupMessage> total;
+    datapb::GroupMessageField grp_msgs_tmp;
+    while (res->next()) {
+        grp_msgs_tmp.ParseFromString(res->getString(1).asStdString());
+        if (grp_msgs_tmp.msgs_size() == 0) continue;
+        for (auto &grp_msg : grp_msgs_tmp.msgs()) {
+            auto elem = total.Add();
+            elem->set_user_id(grp_msg.user_id());
+            elem->set_user_name(model::GetUserInfo(grp_msg.user_id()).name);
+            elem->set_msg(grp_msg.msg());
+        }
+    }
+    return total;
 }
 }
 }

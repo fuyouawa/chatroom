@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package chatroom.datapb;
+
+message GroupMessageField {
+    message Message {
+        uint32 user_id = 1;
+        string msg = 2;
+    }
+    repeated Message msgs = 1;
+}

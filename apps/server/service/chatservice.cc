@@ -19,6 +19,7 @@
 #include "common/msgpb/get_msgs_from_friend.pb.h"
 #include "common/msgpb/get_group_info.pb.h"
 #include "common/msgpb/send_msg_to_group.pb.h"
+#include "common/msgpb/get_msgs_from_group.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -33,6 +34,7 @@
 #include "common/msgpb/get_msgs_from_friend_ack.pb.h"
 #include "common/msgpb/get_group_info_ack.pb.h"
 #include "common/msgpb/send_msg_to_group_ack.pb.h"
+#include "common/msgpb/get_msgs_from_group_ack.pb.h"
 
 #include <ranges>
 
@@ -310,7 +312,7 @@ void HandleGetGroupInfo(ChatSessionPtr session, const msgpb::GetGroupInfo& msg) 
     {
         ack.set_success(false);
         ack.set_errmsg(e.what());
-        CHATROOM_LOG_ERROR("User(ip:{}) get get group({}) info faild:{}", session->client_ep(), msg.group_id(), e.what());
+        CHATROOM_LOG_ERROR("User(ip:{}) get group({}) info faild:{}", session->client_ep(), msg.group_id(), e.what());
     }
     session->Send(msgid::kMsgGetGroupInfoAck, ack);
 }
@@ -332,6 +334,26 @@ void HandleSendMsgToGroup(ChatSessionPtr session, const msgpb::SendMsgToGroup& m
         CHATROOM_LOG_ERROR("User({}) send msg to group({}) faild:{}", msg.user_id(), msg.group_id(), e.what());
     }
     session->Send(msgid::kMsgSendMsgToGroupAck, ack);
+}
+
+
+void HandleGetMsgFromGroup(ChatSessionPtr session, const msgpb::GetMsgsFromGroup& msg) {
+    CHATROOM_LOG_INFO("User(ip:{}) try to get messages from group({})", session->client_ep(), msg.group_id());
+    msgpb::GetMsgsFromGroupAck ack;
+    try
+    {
+        auto msgs = model::GetGroupMessages(msg.group_id());
+        ack.mutable_msgs()->Swap(&msgs);
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User(ip:{}) get messages from group({}) info success", session->client_ep(), msg.group_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User(ip:{}) get messages from group({}) info faild:{}", session->client_ep(), msg.group_id(), e.what());
+    }
+    session->Send(msgid::kMsgGetMsgFromGroupAck, ack);
 }
 }   // namespace
 
@@ -388,6 +410,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgSendMsgToGroup:
         HandleSendMsgToGroup(session, packet.DeserializeData<msgpb::SendMsgToGroup>());
+        break;
+    case msgid::kMsgGetMsgFromGroup:
+        HandleGetMsgFromGroup(session, packet.DeserializeData<msgpb::GetMsgsFromGroup>());
         break;
     default:
         break;
