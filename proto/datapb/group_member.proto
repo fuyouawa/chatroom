@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chatroom.datapb;
+
+message GroupMember {
+    string name = 1;
+    uint32 id = 2;
+    int32 privilege = 3;
+}

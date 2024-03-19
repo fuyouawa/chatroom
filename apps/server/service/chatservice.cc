@@ -301,14 +301,8 @@ void HandleGetGroupInfo(ChatSessionPtr session, const msgpb::GetGroupInfo& msg) 
     try
     {
         ack.set_group_name(model::GetGroupName(msg.group_id()));
-        auto members = model::GetGroupMembers(msg.group_id());
-        for (auto &mem : members) {
-            auto elem = ack.add_members_info();
-            auto info = model::GetUserInfo(mem.id);
-            elem->set_id(info.id);
-            elem->set_name(info.name);
-            elem->set_privilege(mem.privilege);
-        }
+        auto members_info = model::GetGroupMembers(msg.group_id());
+        ack.mutable_members_info()->Swap(&members_info);
         ack.set_success(true);
         CHATROOM_LOG_INFO("User(ip:{}) get group({}) info success", session->client_ep(), msg.group_id());
     }

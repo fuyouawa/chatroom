@@ -1,6 +1,7 @@
 #include "model/group.h"
 #include "tools/mysql.h"
 #include "common/core/enums.h"
+#include "model/user.h"
 
 #include "common/datapb/group_messages.pb.h"
 
@@ -72,11 +73,14 @@ std::string GetGroupName(uint32_t group_id) {
 }
 
 
-std::vector<GroupMemberBasicInfo> GetGroupMembers(uint32_t group_id) {
-    std::vector<GroupMemberBasicInfo> total;
-    auto res = mysql::Query("SELECT * FROM `GroupMember` WHERE `group_id` = {}", group_id);
+google::protobuf::RepeatedPtrField<datapb::GroupMember> GetGroupMembers(uint32_t group_id) {
+    google::protobuf::RepeatedPtrField<datapb::GroupMember> total;
+    auto res = mysql::Query("SELECT user_id, user_privilege FROM `GroupMember` WHERE `group_id` = {}", group_id);
     while (res->next()) {
-        total.push_back({res->getUInt(2), res->getInt(3)});
+        auto elem = total.Add();
+        elem->set_id(res->getUInt(1));
+        elem->set_name(model::GetUserInfo(elem->id()).name);
+        elem->set_privilege(res->getInt(2));
     }
     return total;
 }

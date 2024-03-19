@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+import "datapb/group_messages.proto";
+
+message GetMsgsFromGroupAck {
+    bool success = 1;
+    string errmsg = 2;
+    repeated chatroom.datapb.GroupMessages msgs = 3;
+}

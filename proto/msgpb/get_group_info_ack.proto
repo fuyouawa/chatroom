@@ -2,15 +2,11 @@ syntax = "proto3";
 
 package chatroom.msgpb;
 
-message GroupMember {
-    string name = 1;
-    uint32 id = 2;
-    int32 privilege = 3;
-}
+import "datapb/group_member.proto";
 
 message GetGroupInfoAck {
     bool success = 1;
     string errmsg = 2;
     string group_name = 3;
-    repeated GroupMember members_info = 4;
+    repeated chatroom.datapb.GroupMember members_info = 4;
 }
