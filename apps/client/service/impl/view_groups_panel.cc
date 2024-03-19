@@ -7,6 +7,8 @@
 #include "common/msgpb/quit_group_ack.pb.h"
 #include "common/msgpb/get_group_info.pb.h"
 #include "common/msgpb/get_group_info_ack.pb.h"
+#include "common/msgpb/send_msg_to_group.pb.h"
+#include "common/msgpb/send_msg_to_group_ack.pb.h"
 #include "common/core/msg_id.h"
 #include "common/core/enums.h"
 
@@ -33,7 +35,7 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
                 auto& select_group = ack.groups_info()[idx];
             group_opt_panel:
                 idx = console::Options(
-                    {"发送消息", "查看群聊消息", "查看群组信息", "退出群聊"},
+                    {"发送群聊消息", "查看群聊消息", "查看群组信息", "退出群聊"},
                     std::format("当前选中的群是:{}(Enter选中, Esc回退上一级)", select_group.name()),
                     0, &is_esc);
                 if (is_esc) {
@@ -41,7 +43,7 @@ boost::asio::awaitable<void> ChatClient::ViewGroupsPanel() {
                 }
                 switch (idx)
                 {
-                case 0:     // 发送消息
+                case 0:     // 发送群聊消息
                     co_await SendMsgToGroupPanel(select_group.id(), select_group.name());
                     goto group_opt_panel;
                 case 1:     // 查看群聊消息
@@ -85,7 +87,34 @@ boost::asio::awaitable<void> ChatClient::QuitGroup(uint32_t group_id) {
 }
 
 boost::asio::awaitable<void> ChatClient::SendMsgToGroupPanel(uint32_t group_id, std::string_view group_name) {
-
+    console::Clear();
+    msgpb::SendMsgToGroup msg;
+    while (true) {
+        console::Print("[在群组\"{}\"({})中发送消息]\n", group_name, group_id);
+        console::Print("->"); auto input = console::GetString();
+        if (input.empty() || input.size() > 200) {
+            console::PrintError("消息不能为空或者超过200字!\n");
+            continue;
+        }
+        msg.set_user_id(user_id_);
+        msg.set_group_id(group_id);
+        msg.set_msg(input);
+        co_await Send(msgid::kMsgSendMsgToGroup, msg);
+        auto ack = co_await Receive<msgpb::SendMsgToGroupAck>(msgid::kMsgSendMsgToGroupAck);
+        if (ack.success()) {
+            console::Print("消息发送成功!(按Enter继续, 或者Esc退出聊天)\n");
+            if (console::InputKey({Keycode::Enter, Keycode::Esc}) == Keycode::Enter) {
+                console::Clear();
+                continue;
+            }
+            break;
+        }
+        else {
+            console::PrintError("消息发送失败! 原因:{}\n", ack.errmsg());
+            TipBack();
+            break;
+        }
+    }
 }
 
 boost::asio::awaitable<void> ChatClient::GetMsgFromGroupPanel(uint32_t group_id, std::string_view group_name) {

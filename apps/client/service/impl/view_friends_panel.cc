@@ -83,7 +83,7 @@ boost::asio::awaitable<void> ChatClient::SendMsgToFriendPanel(uint32_t friend_id
     console::Clear();
     msgpb::SendMsgToFriend msg;
     while (true) {
-        console::Print("[发送消息给{}({})]\n", friend_name, friend_id);
+        console::Print("[发送消息给\"{}\"({})]\n", friend_name, friend_id);
         console::Print("->"); auto input = console::GetString();
         if (input.empty() || input.size() > 200) {
             console::PrintError("消息不能为空或者超过200字!\n");

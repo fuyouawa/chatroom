@@ -1,6 +1,6 @@
 #include "model/friends.h"
 #include "tools/mysql.h"
-#include "common/datapb/friend_msgs_temp.pb.h"
+#include "common/datapb/friend_messages.pb.h"
 #include <ranges>
 #include <cassert>
 
@@ -42,12 +42,12 @@ int FindFreeOrCreateFriendMessage(uint32_t user_id, uint32_t friend_id, size_t m
         return res->getUInt(1);
     }
     else {
-        datapb::FriendMsgsTemp tmp{};
+        datapb::FriendMessages friend_msgs{};
         auto suc = mysql::Update("INSERT INTO `FriendMessages` (user_id, friend_id, msgs, res_size) VALUES ({}, {}, '{}', {})",
                                 user_id,
                                 friend_id,
-                                tmp.SerializeAsString(),
-                                kFriendMsgsCapacity - tmp.ByteSizeLong());
+                                friend_msgs.SerializeAsString(),
+                                kFriendMsgsCapacity - friend_msgs.ByteSizeLong());
         assert(suc);
         return mysql::GetLastInsertId();
     }
@@ -67,32 +67,30 @@ void SaveFriendMessage(uint32_t user_id, uint32_t friend_id, std::string_view ms
     auto stor_id = FindFreeOrCreateFriendMessage(user_id, friend_id, trans_msg.size());
     auto res = mysql::Query("SELECT msgs, res_size FROM `FriendMessages` WHERE id = {}", stor_id);
     res->next();
-    auto msgs_str = res->getString(1);
     auto res_size = res->getUInt(2);
 
-    datapb::FriendMsgsTemp msgs_tmp;
-    msgs_tmp.ParseFromString(msgs_str.asStdString());
-    assert(kFriendMsgsCapacity - res_size == msgs_tmp.ByteSizeLong());
-    msgs_tmp.add_msgs(trans_msg.data());
-    assert(msgs_tmp.SerializeAsString().size() == msgs_tmp.ByteSizeLong());
+    datapb::FriendMessages friend_msgs;
+    friend_msgs.ParseFromString(res->getString(1).asStdString());
+    assert(kFriendMsgsCapacity - res_size == friend_msgs.ByteSizeLong());
+    friend_msgs.add_msgs(trans_msg.data());
     mysql::Update("UPDATE `FriendMessages` SET `msgs`='{}', res_size={} WHERE `id`={}",
-                msgs_tmp.SerializeAsString(),
-                kFriendMsgsCapacity - msgs_tmp.ByteSizeLong(),
+                friend_msgs.SerializeAsString(),
+                kFriendMsgsCapacity - friend_msgs.ByteSizeLong(),
                 stor_id);
 }
 
 google::protobuf::RepeatedPtrField<std::string> GetFriendMessages(uint32_t user_id, uint32_t friend_id) {
     auto res = mysql::Query("SELECT msgs, res_size FROM `FriendMessages` WHERE user_id = {} AND friend_id = {}", friend_id, user_id);
     google::protobuf::RepeatedPtrField<std::string> total;
-    datapb::FriendMsgsTemp msgs_tmp;
+    datapb::FriendMessages friend_msgs;
     while (res->next()) {
         auto msgs_str = res->getString(1);
         auto res_size = res->getUInt(2);
 
-        msgs_tmp.ParseFromString(msgs_str.asStdString());
-        assert(msgs_tmp.ByteSizeLong() == kFriendMsgsCapacity - res_size);
-        if (msgs_tmp.msgs_size() == 0) continue;
-        total.MergeFrom(msgs_tmp.msgs());
+        friend_msgs.ParseFromString(msgs_str.asStdString());
+        assert(friend_msgs.ByteSizeLong() == kFriendMsgsCapacity - res_size);
+        if (friend_msgs.msgs_size() == 0) continue;
+        total.MergeFrom(friend_msgs.msgs());
     }
     return total;
 }

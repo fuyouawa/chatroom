@@ -18,6 +18,7 @@
 #include "common/msgpb/send_msg_to_friend.pb.h"
 #include "common/msgpb/get_msgs_from_friend.pb.h"
 #include "common/msgpb/get_group_info.pb.h"
+#include "common/msgpb/send_msg_to_group.pb.h"
 
 #include "common/msgpb/register_ack.pb.h"
 #include "common/msgpb/login_ack.pb.h"
@@ -31,6 +32,7 @@
 #include "common/msgpb/send_msg_to_friend_ack.pb.h"
 #include "common/msgpb/get_msgs_from_friend_ack.pb.h"
 #include "common/msgpb/get_group_info_ack.pb.h"
+#include "common/msgpb/send_msg_to_group_ack.pb.h"
 
 #include <ranges>
 
@@ -257,7 +259,7 @@ void HandleQuitGroup(ChatSessionPtr session, const msgpb::QuitGroup& msg) {
 
 void HandleSendMsgToFriend(ChatSessionPtr session, const msgpb::SendMsgToFriend& msg) {
     CHATROOM_LOG_INFO("User({}) try to send msg to friend({}): {}", msg.user_id(), msg.friend_id(), msg.msg());
-    msgpb::QuitGroupAck ack;
+    msgpb::SendMsgToFriendAck ack;
     try
     {
         model::SaveFriendMessage(msg.user_id(), msg.friend_id(), msg.msg());
@@ -318,6 +320,25 @@ void HandleGetGroupInfo(ChatSessionPtr session, const msgpb::GetGroupInfo& msg) 
     }
     session->Send(msgid::kMsgGetGroupInfoAck, ack);
 }
+
+
+void HandleSendMsgToGroup(ChatSessionPtr session, const msgpb::SendMsgToGroup& msg) {
+    CHATROOM_LOG_INFO("User({}) try to send msg to group({}): {}", msg.user_id(), msg.group_id(), msg.msg());
+    msgpb::SendMsgToGroupAck ack;
+    try
+    {
+        model::SaveGroupMessage(msg.user_id(), msg.group_id(), msg.msg());
+        ack.set_success(true);
+        CHATROOM_LOG_INFO("User({}) send msg to group({}) success!", msg.user_id(), msg.group_id());
+    }
+    catch(const std::exception& e)
+    {
+        ack.set_success(false);
+        ack.set_errmsg(e.what());
+        CHATROOM_LOG_ERROR("User({}) send msg to group({}) faild:{}", msg.user_id(), msg.group_id(), e.what());
+    }
+    session->Send(msgid::kMsgSendMsgToGroupAck, ack);
+}
 }   // namespace
 
 
@@ -370,6 +391,9 @@ void ChatService::HandleRecvPacket(ChatSessionPtr session, const RecvPacket& pac
         break;
     case msgid::kMsgGetGroupInfo:
         HandleGetGroupInfo(session, packet.DeserializeData<msgpb::GetGroupInfo>());
+        break;
+    case msgid::kMsgSendMsgToGroup:
+        HandleSendMsgToGroup(session, packet.DeserializeData<msgpb::SendMsgToGroup>());
         break;
     default:
         break;
