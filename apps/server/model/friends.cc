@@ -65,43 +65,32 @@ void SaveFriendMessage(uint32_t user_id, uint32_t friend_id, std::string_view ms
     }
     
     auto stor_id = FindFreeOrCreateFriendMessage(user_id, friend_id, trans_msg.size());
-    auto res = mysql::Query("SELECT msgs, res_size, msg_count FROM `FriendMessages` WHERE id = {}", stor_id);
+    auto res = mysql::Query("SELECT msgs, res_size FROM `FriendMessages` WHERE id = {}", stor_id);
     res->next();
     auto msgs_str = res->getString(1);
     auto res_size = res->getUInt(2);
-    auto msg_count = res->getUInt(3);
 
     datapb::FriendMsgsTemp msgs_tmp;
     msgs_tmp.ParseFromString(msgs_str.asStdString());
-    assert(static_cast<uint>(msgs_tmp.msgs_size()) == msg_count);
     assert(kFriendMsgsCapacity - res_size == msgs_tmp.ByteSizeLong());
     msgs_tmp.add_msgs(trans_msg.data());
     assert(msgs_tmp.SerializeAsString().size() == msgs_tmp.ByteSizeLong());
-    mysql::Update("UPDATE `FriendMessages` SET `msgs`='{}', res_size={}, msg_count={} WHERE `id`={}",
+    mysql::Update("UPDATE `FriendMessages` SET `msgs`='{}', res_size={} WHERE `id`={}",
                 msgs_tmp.SerializeAsString(),
                 kFriendMsgsCapacity - msgs_tmp.ByteSizeLong(),
-                msg_count + 1,
                 stor_id);
 }
 
-
-void ClearFriendMessages(uint32_t user_id, uint32_t friend_id) {
-    auto suc = mysql::Update("DELETE FROM `FriendMessages` WHERE user_id = {} AND friend_id = {}", user_id, friend_id);
-    assert(suc);
-}
-
 google::protobuf::RepeatedPtrField<std::string> GetFriendMessages(uint32_t user_id, uint32_t friend_id) {
-    auto res = mysql::Query("SELECT msgs, res_size, msg_count FROM `FriendMessages` WHERE user_id = {} AND friend_id = {}", friend_id, user_id);
+    auto res = mysql::Query("SELECT msgs, res_size FROM `FriendMessages` WHERE user_id = {} AND friend_id = {}", friend_id, user_id);
     google::protobuf::RepeatedPtrField<std::string> total;
     datapb::FriendMsgsTemp msgs_tmp;
     while (res->next()) {
         auto msgs_str = res->getString(1);
         auto res_size = res->getUInt(2);
-        auto msg_count = res->getUInt(3);
 
         msgs_tmp.ParseFromString(msgs_str.asStdString());
         assert(msgs_tmp.ByteSizeLong() == kFriendMsgsCapacity - res_size);
-        assert(static_cast<uint>(msgs_tmp.msgs_size()) == msg_count);
         if (msgs_tmp.msgs_size() == 0) continue;
         total.MergeFrom(msgs_tmp.msgs());
     }

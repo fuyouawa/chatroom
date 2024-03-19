@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chatroom.msgpb;
+
+message SendMsgToGroup {
+    uint32 user_id = 1;
+    uint32 group_id = 2;
+    string msg = 3;
+}

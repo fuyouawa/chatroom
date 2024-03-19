@@ -4,13 +4,11 @@
 
 namespace chatroom {
 namespace model {
-int InsertGroup(uint32_t owner_user_id, std::string_view group_name) {
+int CreateGroup(uint32_t owner_user_id, std::string_view group_name) {
     auto res = mysql::Update("INSERT INTO `AllGroup`(`owner_user_id`,`name`) VALUES({},'{}')", owner_user_id, group_name);
     assert(res);
     auto group_id = mysql::GetLastInsertId();
-    auto res2 = mysql::Update("INSERT INTO `GroupMember`(`group_id`,`user_id`,`user_privilege`) VALUES({},{},{})",
-                                group_id, owner_user_id, static_cast<int>(GroupPrivilege::kMaster));
-    assert(res2);
+    JoinGroup(owner_user_id, group_id, kGroupMaster);
     return group_id;
 }
 
@@ -32,9 +30,9 @@ std::vector<uint32_t> GetJoinedGroups(uint32_t user_id) {
     return total;
 }
 
-void JoinGroup(uint32_t user_id, uint32_t group_id) {
+void JoinGroup(uint32_t user_id, uint32_t group_id, int privilege) {
     auto res = mysql::Update("INSERT INTO `GroupMember`(`group_id`,`user_id`,`user_privilege`) VALUES({},{},{})",
-                                group_id, user_id, static_cast<int>(GroupPrivilege::kMember));
+                                group_id, user_id, privilege);
     assert(res);
 }
 
@@ -79,6 +77,10 @@ std::vector<GroupMemberBasicInfo> GetGroupMembers(uint32_t group_id) {
         total.push_back({res->getUInt(2), res->getInt(3)});
     }
     return total;
+}
+
+void SaveGroupMessage(uint32_t user_id, uint32_t group_id, std::string_view msg) {
+    
 }
 }
 }

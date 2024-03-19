@@ -1,8 +1,8 @@
 #pragma once 
 
 namespace chatroom {
-enum class GroupPrivilege {
-    kMember,
-    kMaster
+enum GroupPrivilege {
+    kGroupMember,
+    kGroupMaster
 };
 } // namespace chatroom

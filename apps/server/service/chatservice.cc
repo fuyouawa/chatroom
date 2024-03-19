@@ -2,6 +2,7 @@
 #include "tools/logger.h"
 #include "model/friends.h"
 #include "model/group.h"
+#include "common/core/enums.h"
 
 #include "common/core/msg_id.h"
 
@@ -176,7 +177,7 @@ void HandleCreateGroup(ChatSessionPtr session, const msgpb::CreateGroup& msg) {
     msgpb::CreateGroupAck ack;
     try
     {
-        auto group_id = model::InsertGroup(msg.user_id(), msg.group_name());
+        auto group_id = model::CreateGroup(msg.user_id(), msg.group_name());
         ack.set_success(true);
         ack.set_group_id(group_id);
         CHATROOM_LOG_INFO("User({}) add group({}) success! return id:{}", msg.user_id(), msg.group_name(), group_id);
@@ -220,7 +221,7 @@ void HandleJoinGroup(ChatSessionPtr session, const msgpb::JoinGroup& msg) {
     msgpb::JoinGroupAck ack;
     try
     {
-        model::JoinGroup(msg.user_id(), msg.group_id());
+        model::JoinGroup(msg.user_id(), msg.group_id(), kGroupMember);
         auto info = model::QueryGroup(msg.group_id());
         ack.set_success(true);
         ack.set_group_name(info.name);

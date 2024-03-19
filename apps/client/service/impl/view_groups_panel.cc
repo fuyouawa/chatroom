@@ -107,9 +107,9 @@ boost::asio::awaitable<void> ChatClient::GetGroupInfoPanel(uint32_t group_id) {
         size_t i = 1;
         for (auto &mem : ack.members_info()) {
             std::string_view privilege_str;
-            switch (static_cast<GroupPrivilege>(mem.privilege()))
+            switch (mem.privilege())
             {
-            case GroupPrivilege::kMaster:
+            case kGroupMaster:
                 privilege_str = "群主";
                 break;
             default:
